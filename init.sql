@@ -46,6 +46,7 @@ LOCK TABLES `api` WRITE;
 /*!40000 ALTER TABLE `api` DISABLE KEYS */;
 INSERT INTO `api` VALUES (1,'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v2.0/yaml/uber.yaml','Uber');
 INSERT INTO `api` VALUES (2,'http://petstore.swagger.io/v2/swagger.json','Petstore');
+INSERT INTO `api` VALUES (3,'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v2.0/yaml/api-with-examples.yaml','Extras');
 /*!40000 ALTER TABLE `api` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

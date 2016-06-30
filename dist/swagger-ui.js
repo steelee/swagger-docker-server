@@ -51,7 +51,7 @@ this["Handlebars"]["templates"]["auth_button_operation"] = Handlebars.template({
   return buffer + "</div>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["auth_button"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<a class='authorize__btn' href=\"#\">Authorize</a>\n";
+  //return "<a class='authorize__btn' href=\"#\">Authorize</a>\n";
   },"useData":true});
 this["Handlebars"]["templates"]["auth_view"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return "            <button type=\"button\" class=\"auth__button auth_submit__button\" data-sw-translate>Authorize</button>\n";
@@ -1421,8 +1421,6 @@ SwaggerClient.prototype.build = function (mock) {
   }
 
   var self = this;
-
-  this.progress('fetching resource list: ' + this.url + '; Please wait.');
 
   var obj = {
     useJQuery: this.useJQuery,

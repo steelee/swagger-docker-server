@@ -1,6 +1,4 @@
 function gen_swagger(dist_id) {
-  console.log(dist_id);
-  document.getElementById("swagger-ui-container").innerHTML = "";
   window.swaggerUi = new SwaggerUi({
     url:dist_id ,
     dom_id: "swagger-ui-container",
@@ -30,6 +28,28 @@ function gen_swagger(dist_id) {
   });
   window.swaggerUi.load();
 }
+
+
+$(document).ready(function(){
+   $("#api_selector").submit(function(){
+      event.preventDefault();
+      var url = $("input:first").val(); 
+      var formData = {
+            'url':url
+      };      
+      $.ajax({
+         url: "api/add.php",
+         global: false,
+         type: "POST",
+         cache: false,
+         datatype: "json",
+         data: formData,
+         success: function(response){
+            console.log(response);
+         }
+   });  
+});
+});
 
 $(document).ready(function(){
    $.ajax({

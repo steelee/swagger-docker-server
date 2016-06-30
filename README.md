@@ -8,4 +8,4 @@ Start local SQL:
 sudo docker run --name sql-server -e MYSQL_ROOT_PASSWORD=123 -d mysql/mysql-server:latest
 
 Add SQL template:
-sudo docker exec -i 8fce3a9bc94a mysql -uroot -p123 < init.sql 
+sudo docker exec -i $(sudo docker ps -aqf "name=sql-server") mysql -uroot -p123 < init.sql 
