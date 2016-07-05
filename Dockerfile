@@ -21,7 +21,7 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
 ENV ALLOW_OVERRIDE **False**
 
 # Add image configuration and scripts
-ADD run.sh /run.sh
+ADD config.sh /config.sh
 RUN chmod 755 /*.sh
 
 # Configure /app folder with sample app
@@ -31,4 +31,4 @@ COPY dist/ /app
 
 EXPOSE 80
 WORKDIR /app
-CMD ["/run.sh"]
+CMD ["/config.sh"]
