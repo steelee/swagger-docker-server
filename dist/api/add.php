@@ -1,15 +1,12 @@
 <?php
 
 require_once "Spyc.php";
-$servername = "172.17.0.2";
-$username = "root";
-$password = "123";
-$database = "api";
+require_once "secrets.php";
 
 $myArray = array();
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($DB_SERVER, $DB_NAME, $DB_PASS, $DB_SELECT);
 
 // Check connection
 if ($conn->connect_error) {
@@ -18,7 +15,6 @@ if ($conn->connect_error) {
 
 $file_parts = pathinfo($_POST['url']);
 if ($file_parts['extension'] != "yaml" and $file_parts['extension'] != "json"){ 
-	echo 1;
 	exit();
 }
 

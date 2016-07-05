@@ -37,6 +37,11 @@ while : ; do
 	echo -e "${RED}-- Passwords did not match${NC}"
 	printf '\n'
 done
+/bin/cp template.php template.php.tmp
+echo '$DB_PASS = "'$pass'";?>' >> template.php
+/bin/cp template.php dist/api/secrets.php
+/bin/rm template.php
+/bin/cp template.php.tmp template.php
 /usr/bin/docker run --name sql-server -e MYSQL_ROOT_PASSWORD=${pass} -d mysql/mysql-server:latest
 printf "${ORG}-- SQL Database created and running!${NC}"
 printf '\n'
