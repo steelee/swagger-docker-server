@@ -1429,6 +1429,20 @@
   padding: 3px;
   margin: 0;
 }
+.swagger-section #local_selector {
+  display: block;
+  clear: none;
+  float: right;
+}
+.swagger-section #local_selector .input {
+  display: inline-block;
+  clear: none;
+  margin: 0 10px 0 0;
+}
+.swagger-section #local_selector input {
+  font-size: 0.9em;
+  padding: 3px;
+  margin: 0;
 .swagger-section #input_apiKey {
   width: 200px;
 }

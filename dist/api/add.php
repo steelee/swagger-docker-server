@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once "Spyc.php";
 require_once "secrets.php";
 
@@ -15,9 +15,9 @@ if ($conn->connect_error) {
 
 $file_parts = pathinfo($_POST['url']);
 if ($file_parts['extension'] != "yaml" and $file_parts['extension'] != "json"){ 
+        $_SESSION["hello"] = "Bad format!";
 	exit();
 }
-
 $curl = curl_init();
 curl_setopt_array($curl, array(
 			CURLOPT_RETURNTRANSFER => 1,
@@ -30,8 +30,9 @@ if (sizeof($result) == 0){
 	exit();
 }
 
-$sql = 'INSERT INTO api (url, name) VALUES ("' . $_POST['url'] . '","someapi")';
-echo $sql;
+$name = rtrim(basename($_POST['url'], $file_parts['extension']),'.');
+
+$sql = 'INSERT INTO api (url, name) VALUES ("' . $_POST['url'] . '", "' . $name . '");'; 
 if ($conn->query($sql) === TRUE) {
 	echo "New record created successfully";
 } else {
