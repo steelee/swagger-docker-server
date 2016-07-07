@@ -1,4 +1,11 @@
 /* Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org> */
+
+.hidden {
+  display:none;
+}
+.visible {
+  display:inline-block;
+}
 .swagger-section pre code {
   display: block;
   padding: 0.5em;
