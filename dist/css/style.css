@@ -35,6 +35,10 @@
 h1 {
   font-size: 60px;
 }
+
+div {
+word-wrap: break-word;
+}
 .navbar-default .navbar-header .navbar-brand {
   color: #a2dfee;
 }

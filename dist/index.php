@@ -1,18 +1,58 @@
-<?php session_start(); ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Swagger UI</title>
-    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-    <link href='css/typography.css' media='screen' rel='stylesheet' type='text/css' />
-    <link href='css/reset.css' media='screen' rel='stylesheet' type='text/css' />
-    <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css' />
-    <link href='css/reset.css' media='print' rel='stylesheet' type='text/css' />
-    <link href='css/print.css' media='print' rel='stylesheet' type='text/css' />
+    <title>ASAP Portal </title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="css/screen.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
+  </head>
+
+  <body class ="swagger-section">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">API Portal</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Help</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar" id="listprime">
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main swagger-ui-wrap">
+		<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="bootstrap.js"></script>
     <script src='lib/object-assign-pollyfill.js' type='text/javascript'></script>
     <script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
     <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
@@ -29,30 +69,6 @@
     <script src='lib/jsoneditor.min.js' type='text/javascript'></script>
     <script src='lib/marked.js' type='text/javascript'></script>
     <script src='lib/swagger-oauth.js' type='text/javascript'></script>
-</head>
-<body class="swagger-section">
-    <div id='header'>
-        <div class="swagger-ui-wrap">
-            <button type="Button" style="float:right" id="local">Use Local File</button>
-            <button type="Button" style="float:right; display:none;" id="remote">Use Remote Link</button>
-            <a id="logo" href="/"><img class="logo__img" alt="swagger" height="30" width="30" src="images/logo_small.png" /><span class="logo__title"></span></a>
-            <form id='api_selector' method="POST">
-                <div class='input'><input placeholder="http://example.com/api" type="text" id="api" /></div>
-                <input type="submit" value="Add API">
-            </form>
-            <div style="display:none" id="local_selector">
-                <form method="post" enctype="multipart/form-data" action="api/upload.php" id="local_selector">
-                    <div class='input'><input type="file" name="upfile" id="upfile" /></div>
-                    <input type="submit" value="Add API">
-                </form>
-            </div>
-        </div>
-    </div>
-    <div id="menu-bar" </div>
-<?php
-echo $_SESSION['hello'];
-?>
-        <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
-        <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
-</body>
+
+  </body>
 </html>
