@@ -1,8 +1,7 @@
 <?php
 
-header('Content-Type: text/plain; charset=utf-8');
+session_start();
 
-var_dump($_FILES);
 try {
 
 	// Undefined | Multiple Files | $_FILES Corruption Attack
@@ -38,7 +37,7 @@ try {
 	if (false === $ext = array_search(
 				$finfo->file($_FILES['upfile']['tmp_name']),
 				array(
-					'jpg' => 'image/jpeg',
+					'json' => 'text/plain',
 					'png' => 'image/png',
 					'gif' => 'image/gif',
 				     ),
@@ -52,7 +51,7 @@ try {
 	// On this example, obtain safe unique name from its binary data.
 	if (!move_uploaded_file(
 				$_FILES['upfile']['tmp_name'],
-				sprintf('./uploads/%s.%s',
+				sprintf('uploads/%s.%s',
 					sha1_file($_FILES['upfile']['tmp_name']),
 					$ext
 				       )
@@ -60,12 +59,13 @@ try {
 		throw new RuntimeException('Failed to move uploaded file.');
 	}
 
-	echo 'File is uploaded successfully.';
-
 } catch (RuntimeException $e) {
 
-	echo $e->getMessage();
-
+	$_SESSION['status'] = $e->getMessage();
+	header('Location: /');
+        exit();
 }
+$_SESSION['status'] = "File Uploaded!";
+header('Location: /');
 
 ?>

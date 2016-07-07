@@ -15,7 +15,6 @@ if ($conn->connect_error) {
 
 $file_parts = pathinfo($_POST['url']);
 if ($file_parts['extension'] != "yaml" and $file_parts['extension'] != "json"){ 
-        $_SESSION["hello"] = "Bad format!";
 	exit();
 }
 $curl = curl_init();
