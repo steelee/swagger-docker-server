@@ -62,8 +62,12 @@ $(document).ready(function() {
                 $("#listprime").append('<li id = "' + response[index].url + '"><a href="#">' + response[index].name + '<i class="fa fa-angle-right"></i></a></li>');
 
             });
+            $("#listprime").append('<li id = "add_api"><a href="#"><b>+</b> Add API<i class="fa fa-angle-right"></i></a></li>');
             $("ul#listprime li").on("click", function() {
                 gen_swagger(($(this).attr('id')));
+		$("li").removeClass("active");
+                $(this).addClass("active");
+>>>>>>> An alternative design using bootstrap
             });
 
         }
