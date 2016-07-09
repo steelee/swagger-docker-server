@@ -76,7 +76,6 @@ $(document).ready(function() {
                 gen_swagger(($(this).attr('id')));
 		$("li").removeClass("active");
                 $(this).addClass("active");
->>>>>>> An alternative design using bootstrap
             });
 
         }

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php session_start();?>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -40,6 +41,12 @@
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main swagger-ui-wrap">
+        <?php
+        if(isset($_SESSION['status'])){
+		echo '<div class="alert alert-info">' . $_SESSION['status'] . '</div>';	
+        	$_SESSION['status'] = null;
+	}
+	?>
 		<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
     <div id="add_api_form" class="hidden">
         <form id='api_selector' method="post" name="api_selector" class="form-inline">
