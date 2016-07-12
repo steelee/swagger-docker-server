@@ -2,6 +2,14 @@
 session_start();
 $true_name = $_FILES['upfile']['name'];
 try {
+	// You should also check filesize here. 
+	if ($_FILES['upfile']['size'] > 1000000) {
+		throw new RuntimeException('Exceeded filesize limit.');
+	}
+	
+	if ($_FILES['upfile']['size'] == 0) {
+		throw new RuntimeException('File was empty.');
+	}
 
 	// Undefined | Multiple Files | $_FILES Corruption Attack
 	// If this request falls under any of them, treat it invalid.
@@ -25,10 +33,6 @@ try {
 			throw new RuntimeException('Unknown errors.');
 	}
 
-	// You should also check filesize here. 
-	if ($_FILES['upfile']['size'] > 1000000) {
-		throw new RuntimeException('Exceeded filesize limit.');
-	}
 
 	// You should name it uniquely.
 	// DO NOT USE $_FILES['upfile']['name'] WITHOUT ANY VALIDATION !!

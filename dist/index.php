@@ -56,11 +56,8 @@
                 "text">
             </div><input type="submit" value="Add API">
         <div class="clearfix"></div>
-        <div class="form-group">
-        Or select a file from your computer:  <button id="local" type="button">Use Local File</button> 
-        </div>
         </form>
-        <div id="local_selector" style="display:none">
+        <div id="local_selector">
             <form action="api/upload.php" enctype="multipart/form-data" id=
             "local_selector" method="post" name="local_selector">
                 <div class='input'>

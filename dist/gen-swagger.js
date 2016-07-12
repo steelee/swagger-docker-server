@@ -1,6 +1,6 @@
 function gen_swagger(dist_id) {
-    if (dist_id == "add_api") {
-        add_window();
+    if (dist_id == "add_api" || dist_id=="add_auth") {
+        add_window(dist_id);
     } else {
         document.getElementById("add_api_form").className = "hidden";
         window.swaggerUi = new SwaggerUi({
@@ -23,7 +23,7 @@ function gen_swagger(dist_id) {
                 }
             },
             onFailure: function(data) {
-                log("Unable to Load SwaggerUI");
+                console.log("Unable to Load SwaggerUI");
             },
             docExpansion: "none",
             jsonEditor: false,
@@ -34,9 +34,11 @@ function gen_swagger(dist_id) {
     }
 }
 
-function add_window(){
+function add_window(form_name){
    document.getElementById("swagger-ui-container").innerHTML = "";
-   document.getElementById("add_api_form").className = "visible";
+   var forms = $('label[id*="_form"]');
+   forms.innerHTML = ""; 
+   document.getElementById(form_name.concat("_form")).className = "visible";
 }
 
 $(document).ready(function() {
@@ -59,6 +61,18 @@ $(document).ready(function() {
     });
 });
 
+
+$(document).ready(function() {
+    // add a new SwaggerClient.ApiKeyAuthorization when the api-key changes in the ui.
+    $('#input_apiKey').change(function() {
+        var name = $(this).find('input[id="api_key_name"]').val();
+        var key = $(this).find('input[id="api_key_value"]').val();
+        if ((key && key.trim()) && (name && name.trim())) {
+           swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorization(name, key, "header"));
+        }
+    })
+});
+
 $(document).ready(function() {
     $.ajax({
         url: "api/populate.php",
@@ -79,26 +93,6 @@ $(document).ready(function() {
             });
 
         }
-    });
-});
-
-$(document).ready(function() {
-    $("#local").click(function() {
-        $("#local").slideUp("fast");
-        $("#api_selector").slideUp("fast", function() {
-            $("#remote").slideDown("fast");
-            $("#local_selector").slideDown("fast");
-        });
-    });
-});
-
-$(document).ready(function() {
-    $("#remote").click(function() {
-        $("#remote").slideUp("fast");
-        $("#local_selector").slideUp("fast", function() {
-            $("#local").slideDown("fast");
-            $("#api_selector").slideDown("fast");
-        });
     });
 });
 
