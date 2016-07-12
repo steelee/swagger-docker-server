@@ -1,5 +1,24 @@
 /* Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org> */
 
+ .rule_dark_blue {
+                                height: 10px;
+                                background-color:#00274C;
+                                border: none;
+                        }
+                        
+                        .rule_bright_blue {
+                                height: 13px;
+                                background-color: #006990;
+                                border: none;
+                        }
+                        
+                        .rule_green {
+                                height: 16px;
+                                background-color: #5B873C;
+                                border: none;
+                        }
+
+
 .hidden {
   display:none;
 }
