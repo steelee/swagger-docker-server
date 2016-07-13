@@ -1,23 +1,26 @@
-function gen_swagger(dist_id) {
-    if (dist_id == "add_api" || dist_id=="add_auth") {
-        add_window(dist_id);
+/**
+ * * gen_swagger(target_url) 
+ * * 
+ * *
+ * * @method methodName
+ * * @param {String} foo Argument 1
+ * * @param {Object} config A config object
+ * * @param {String} config.name The name on the config object
+ * * @param {Function} config.callback A callback function on the config object
+ * * @param {Boolean} [extra=false] Do extra, optional work
+ * * @return {Boolean} Returns true on success
+ * 
+*/
+function gen_swagger(target_url) {
+    if (target_url == "add_api" || target_url=="add_auth") {
+        add_window(target_url);
     } else {
         document.getElementById("add_api_form").className = "hidden";
         window.swaggerUi = new SwaggerUi({
-            url: dist_id,
+            url: target_url,
             dom_id: "swagger-ui-container",
             supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
             onComplete: function(swaggerApi, swaggerUi) {
-                if (typeof initOAuth == "function") {
-                    initOAuth({
-                        clientId: "your-client-id",
-                        clientSecret: "your-client-secret-if-required",
-                        realm: "your-realms",
-                        appName: "your-app-name",
-                        scopeSeparator: ",",
-                        additionalQueryStringParams: {}
-                    });
-                }
                 if (window.SwaggerTranslator) {
                     window.SwaggerTranslator.translate();
                 }
@@ -42,6 +45,15 @@ function add_window(form_name){
 }
 
 $(document).ready(function() {
+    $("#search").keyup(function(){
+	var filter = $(this).val(); // get the value of the input, which we filter on
+	if (filter){
+    		$("#listprime").find("a:not(:contains(" + filter + "))").parent().slideUp("fast");
+    		$("#listprime").find("a:contains(" + filter + ")").parent().slideDown("fast");
+	}else{
+		$("#listprime").find("li").slideDown();
+	}
+    });
     $("#api_selector").submit(function() {
         var url = $("input:first").val();
         var formData = {
@@ -59,21 +71,6 @@ $(document).ready(function() {
             }
         });
     });
-});
-
-
-$(document).ready(function() {
-    // add a new SwaggerClient.ApiKeyAuthorization when the api-key changes in the ui.
-    $('#input_apiKey').change(function() {
-        var name = $(this).find('input[id="api_key_name"]').val();
-        var key = $(this).find('input[id="api_key_value"]').val();
-        if ((key && key.trim()) && (name && name.trim())) {
-           swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorization(name, key, "header"));
-        }
-    })
-});
-
-$(document).ready(function() {
     $.ajax({
         url: "api/populate.php",
         global: false,
@@ -81,11 +78,11 @@ $(document).ready(function() {
         cache: false,
         dataType: "json",
         success: function(response) {
+            $("#listprime").append('<li id = "add_api"><a href="#"><b>+</b> Add API<i class="fa fa-angle-right"></i></a></li>');
 	          $.each(response, function(index) {
                 $("#listprime").append('<li id = "' + response[index].url + '"><a href="#">' + response[index].name + '<i class="fa fa-angle-right"></i></a></li>');
 
             });
-            $("#listprime").append('<li id = "add_api"><a href="#"><b>+</b> Add API<i class="fa fa-angle-right"></i></a></li>');
             $("ul#listprime li").on("click", function() {
                 gen_swagger(($(this).attr('id')));
 		$("li").removeClass("active");
@@ -94,68 +91,6 @@ $(document).ready(function() {
 
         }
     });
-});
 
-$(document).ready(function() {
-    var menuSlideout = $('#menu-slideout');
-    var menuSlideoutWidth = $('#menu-slideout').width();
-    var trainingSlideout = $('#training-slideout');
-    var trainingSlideoutWidth = $('#training-slideout').width();
-    var communitySlideout = $('#community-slideout');
-    var communitySlideoutWidth = $('#community-slideout').width();
-    menuSlideout.animate({
-        left: "0px"
-    }, 1);
-    $('#menu-option').on('click', function(event) {
-        if (!menuSlideout.hasClass("open")) {
-            event.preventDefault();
-            trainingSlideout.removeClass("open");
-            communitySlideout.removeClass("open");
-            menuSlideout.addClass("open");
-            menuSlideout.animate({
-                left: "0px"
-            });
-            trainingSlideout.animate({
-                left: -trainingSlideoutWidth
-            });
-            communitySlideout.animate({
-                left: -communitySlideoutWidth
-            });
-        }
-    });
-    $('#training-option').on('click', function(event) {
-        if (!trainingSlideout.hasClass("open")) {
-            event.preventDefault();
-            menuSlideout.removeClass("open");
-            communitySlideout.removeClass("open");
-            trainingSlideout.addClass("open");
-            trainingSlideout.animate({
-                left: "0px"
-            });
-            menuSlideout.animate({
-                left: -menuSlideoutWidth
-            });
-            communitySlideout.animate({
-                left: -communitySlideoutWidth
-            });
-        }
-    });
-    $('#community-option').on('click', function(event) {
-        if (!communitySlideout.hasClass("open")) {
-            event.preventDefault();
-            menuSlideout.removeClass("open");
-            trainingSlideout.removeClass("open");
-            communitySlideout.addClass("open");
-            communitySlideout.animate({
-                left: "0px"
-            });
-            menuSlideout.animate({
-                left: -menuSlideoutWidth
-            });
-            trainingSlideout.animate({
-                left: -trainingSlideoutWidth
-            });
-        }
-    });
 });
 

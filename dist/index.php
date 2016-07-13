@@ -1,4 +1,16 @@
 <?php include 'header.htm';?>
+ <div class="col-sm-3 col-md-2 sidebar" id="menu_bar">
+	  <input type="search" value="" placeholder="Search" class="form-control" id="search"/>
+          <ul class="nav nav-sidebar" id="listprime">
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main swagger-ui-wrap">
+        <?php
+        if(isset($_SESSION['status'])){
+                echo '<div class="alert alert-info"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' . $_SESSION['status'] . '</div>';
+                $_SESSION['status'] = null;
+        }
+        ?>
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 <div id="add_api_form" class="hidden">
     <h4>Add an API through a remote link or upload a file from your computer</h4>

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.min.js"></script> 
     <link href="css/dashboard.css" rel="stylesheet">
     <link href="css/screen.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -43,14 +44,3 @@
     </nav>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar" id="listprime">
-          </ul>
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main swagger-ui-wrap">
-        <?php
-        if(isset($_SESSION['status'])){
-                echo '<div class="alert alert-info">' . $_SESSION['status'] . '</div>';
-		$_SESSION['status'] = null;
-        }
-        ?>
