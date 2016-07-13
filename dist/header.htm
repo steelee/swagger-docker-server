@@ -29,7 +29,8 @@
           </button>
 	 <a class="navbar-brand" rel="home" href="#" title="API Portal">
         <img style="max-width:100px; max-height:30px; margin-top: -7px; padding:none; "
-             src="logo.png">
+             src="logo.png" alt="logo">
+	</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-left">
@@ -50,6 +51,6 @@
         <?php
         if(isset($_SESSION['status'])){
                 echo '<div class="alert alert-info">' . $_SESSION['status'] . '</div>';
-                $_SESSION['status'] = null;
+		$_SESSION['status'] = null;
         }
         ?>
