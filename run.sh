@@ -64,8 +64,8 @@ printf '\n'
 printf "${CYN}-- Now building Web server${NC}"
 printf '\n'
 /usr/bin/docker build -t php-server .
-/usr/bin/mkdir $PWD/dist/api/uploads/
-/usr/bin/chmod 777 $PWD/dist/api/uploads/
+/bin/mkdir $PWD/dist/api/uploads/
+/bin/chmod 777 $PWD/dist/api/uploads/
 printf "${CYN}-- Web server created!${NC}"
 printf '\n'
 printf "${CYN}-- Running Web server${NC}"
