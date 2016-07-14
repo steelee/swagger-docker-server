@@ -1,8 +1,15 @@
 <?php
-
 session_start();
-
+$true_name = $_FILES['upfile']['name'];
 try {
+	// You should also check filesize here. 
+	if ($_FILES['upfile']['size'] > 1000000) {
+		throw new RuntimeException('Exceeded filesize limit.');
+	}
+	
+	if ($_FILES['upfile']['size'] == 0) {
+		throw new RuntimeException('File was empty.');
+	}
 
 	// Undefined | Multiple Files | $_FILES Corruption Attack
 	// If this request falls under any of them, treat it invalid.
@@ -26,46 +33,56 @@ try {
 			throw new RuntimeException('Unknown errors.');
 	}
 
-	// You should also check filesize here. 
-	if ($_FILES['upfile']['size'] > 1000000) {
-		throw new RuntimeException('Exceeded filesize limit.');
-	}
-
-	// DO NOT TRUST $_FILES['upfile']['mime'] VALUE !!
-	// Check MIME Type by yourself.
-	$finfo = new finfo(FILEINFO_MIME_TYPE);
-	if (false === $ext = array_search(
-				$finfo->file($_FILES['upfile']['tmp_name']),
-				array(
-					'json' => 'text/plain',
-					'png' => 'image/png',
-					'gif' => 'image/gif',
-				     ),
-				true
-				)) {
-		throw new RuntimeException('Invalid file format.');
-	}
 
 	// You should name it uniquely.
 	// DO NOT USE $_FILES['upfile']['name'] WITHOUT ANY VALIDATION !!
 	// On this example, obtain safe unique name from its binary data.
+        $signature = sha1_file($_FILES['upfile']['tmp_name']);
 	if (!move_uploaded_file(
 				$_FILES['upfile']['tmp_name'],
-				sprintf('uploads/%s.%s',
-					sha1_file($_FILES['upfile']['tmp_name']),
-					$ext
+				sprintf('uploads/%s',
+					sha1_file($_FILES['upfile']['tmp_name'])
 				       )
 			       )) {
 		throw new RuntimeException('Failed to move uploaded file.');
 	}
 
+	$file_parts = pathinfo($_FILES['upfile']['name']);
+	if ($file_parts['extension'] != "yaml" and $file_parts['extension'] != "json"){
+		throw new RuntimeException('File type not JSON or YAML');
+	}
 } catch (RuntimeException $e) {
 
 	$_SESSION['status'] = $e->getMessage();
 	header('Location: /');
-        exit();
+	exit();
 }
-$_SESSION['status'] = "File Uploaded!";
+
+
+$_SESSION['status'] = "File " . $true_name . " uploaded!";
+
+require_once "secrets.php";
+
+$myArray = array();
+
+// Create connection
+$conn = new mysqli($DB_SERVER, $DB_NAME, $DB_PASS, $DB_SELECT);
+
+// Check connection
+if ($conn->connect_error) {
+	die("Connection failed: " . $conn->connect_error);
+}
+
+$name = rtrim(basename($true_name, $file_parts['extension']),'.');
+$location = "/api/uploads/".$signature;
+$sql = 'INSERT INTO api (url, name) VALUES ("' . $location . '", "' . $name . '");';
+if ($conn->query($sql) === TRUE) {
+	echo "New record created successfully";
+} else {
+	echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+
 header('Location: /');
 
 ?>
