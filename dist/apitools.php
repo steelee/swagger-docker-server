@@ -4,7 +4,25 @@
         <div class="col-md-9">
           <h2>Group Management</h2>
           <p>Create new groups, or delete or update existing groups</p>
-	  <table class="table table-condensed table-hover">
+	  <script>
+	  $(document).ready(function(){
+	  	$.ajax({
+		url: "api/populate.php",
+		global: false,
+		type: "POST",
+		cache: false,
+		dataType: "json",
+		data: {'cmd':'group'},
+		success: function(response){
+		for(var k in response){
+			console.log(k,response[k]);
+			$('.table').find('tbody').append($('<tr>')).append($(('<td>'+response[k]["api_group"]+'</td></tr>')));
+		}
+	}  
+	});
+	});
+          </script>
+	  <table class="table table-condensed table-hover" id='group'>
     <thead>
       <tr>
         <th>Group Name</th>

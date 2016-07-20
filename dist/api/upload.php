@@ -6,7 +6,7 @@ try {
 	if ($_FILES['upfile']['size'] > 1000000) {
 		throw new RuntimeException('Exceeded filesize limit.');
 	}
-	
+
 	if ($_FILES['upfile']['size'] == 0) {
 		throw new RuntimeException('File was empty.');
 	}
@@ -37,7 +37,7 @@ try {
 	// You should name it uniquely.
 	// DO NOT USE $_FILES['upfile']['name'] WITHOUT ANY VALIDATION !!
 	// On this example, obtain safe unique name from its binary data.
-        $signature = sha1_file($_FILES['upfile']['tmp_name']);
+	$signature = sha1_file($_FILES['upfile']['tmp_name']);
 	if (!move_uploaded_file(
 				$_FILES['upfile']['tmp_name'],
 				sprintf('uploads/%s',
@@ -57,8 +57,6 @@ try {
 	header('Location: /');
 	exit();
 }
-
-
 $_SESSION['status'] = "File " . $true_name . " uploaded!";
 
 require_once "secrets.php";
@@ -73,9 +71,14 @@ if ($conn->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
 }
 
+if ($_POST['new_group']!=""){
+	$group = $_POST['new_group'];
+}else{
+	$group = $_POST['dropdown'];
+}       
 $name = rtrim(basename($true_name, $file_parts['extension']),'.');
 $location = "/api/uploads/".$signature;
-$sql = 'INSERT INTO api (url, name) VALUES ("' . $location . '", "' . $name . '");';
+$sql = 'INSERT INTO api (url, name, api_group) VALUES ("' . $location . '", "' . $name . '", "' . $group . '");';
 if ($conn->query($sql) === TRUE) {
 	echo "New record created successfully";
 } else {

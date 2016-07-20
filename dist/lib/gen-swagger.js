@@ -48,24 +48,10 @@ $(document).ready(function() {
             $("#listprime").find("li").slideDown();
         }
     });
-    $("#api_selector").submit(function() {
-        var url = $("input:first").val();
-        var formData = {
-            'url': url
-        };
-        $.ajax({
-            url: "api/add.php",
-            global: false,
-            type: "POST",
-            cache: false,
-            datatype: "json",
-            data: formData,
-            success: function(response) {
-                console.log(response);
-            }
-        });
-    });
     $.ajax({
+	data: {
+		'cmd':'list'
+	},
         url: "api/populate.php",
         global: false,
         type: "POST",
@@ -84,5 +70,11 @@ $(document).ready(function() {
             });
 
         }
+    });
+    $('#create_group_url').on("click", function(){ 
+	$('#add_group_url').removeClass("hidden");
+    });
+    $('#create_group_file').on("click", function(){ 
+	$('#add_group_file').removeClass("hidden");
     });
 });
