@@ -8,6 +8,11 @@ NC='\033[0m' # No Color
 FILE="/tmp/out.$$"
 GREP="/bin/grep"
 
+if [ "$1" == "-h" ]; then
+	echo -e "${GRN} Usage:\n Run script as root to build Docker containers for the Swagger server. \n Arguments:\n \t -k : Kill running containers and rebuild them. \n \t -b : Backup the database \n \t -i : Restore database from backup\n${NC}"
+	exit 1
+fi 
+
 echo -e "${GRN}This script will build and run the SQL and Webserver docker containers${NC}"
 # Make sure only root can run our script
 if [[ $EUID -ne 0 ]]; then
@@ -25,11 +30,41 @@ if [ "$1" == "-k" ]; then
    /usr/bin/docker rm $(/usr/bin/docker ps -a -q)
 fi
 
+if [ "$1" == "-b" ]; then
+   echo -e "${ORG}-- Now backing up SQL Container${NC}"
+   printf "${ORG}-- Enter the root password for the database${NC}: "
+   stty -echo
+   read pass
+   stty echo
+   /usr/bin/docker exec -i $(/usr/bin/docker ps -aqf "name=sql-server") mysqldump -p${pass} --databases api > $PWD/db_backup/dump.sql
+   printf "${ORG}\n-- If successful, the dump is in the db_backup/ directory\n${NC}: "
+   exit 1
+fi
+
+if [ "$1" == "-i" ]; then
+   echo -e "${ORG}-- Now restoring database backup to SQL Container${NC}"
+   echo -e "${RED}-- Warning! Database data not backed up will be lost!${NC}"
+   echo -e "${GRN}-- Continue? [Y/n]${NC}\t"
+   read choice 
+   if ! [[ $choice == "Y" ]] && ! [[ $choice == "y" ]]
+	then
+   		echo -e "${GRN}-- Aborting!${NC}"
+		exit 1
+   fi
+   printf "${ORG}-- Enter the root password for the database${NC}: "
+   stty -echo
+   read pass
+   stty echo
+   /usr/bin/docker exec -i $(/usr/bin/docker ps -aqf "name=sql-server") mysql -uroot -p${pass} < $PWD/db_backup/dump.sql
+   printf "${ORG}\n-- Process Complete\n${NC}"
+   exit 1
+fi
+
 SQL_RUN=$(sudo docker ps -aqf "name=sql-server")
 WEB_RUN=$(sudo docker ps -aqf "name=web-server")
 
 if ! [ -z "$SQL_RUN" ] || ! [ -z "$WEB_RUN" ] ; then
-    echo -e "${RED}Services are already running, or have terminated unexpectedly. Run the script again with the -k argument to re-initialize them ${NC}"
+    echo -e "${RED}Services are already running, or have terminated unexpectedly.\nRun the script again with the -k argument to re-initialize them ${NC}"
     exit 1
 fi
 
@@ -64,7 +99,8 @@ printf '\n'
 printf "${CYN}-- Now building Web server${NC}"
 printf '\n'
 /usr/bin/docker build -t php-server .
-/bin/mkdir $PWD/dist/api/uploads/
+/bin/mkdir -p $PWD/dist/api/uploads/
+/bin/mkdir -p $PWD/db_backup
 /bin/chmod 777 $PWD/dist/api/uploads/
 printf "${CYN}-- Web server created!${NC}"
 printf '\n'

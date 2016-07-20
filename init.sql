@@ -17,8 +17,3 @@ CREATE TABLE `api` (
   PRIMARY KEY (`id`),
   CONSTRAINT `group_assign` FOREIGN KEY (`group`) REFERENCES `groups` (`name`) ON DELETE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
-INSERT INTO `groups` VALUES('sample');
-INSERT INTO `groups` VALUES('mobile');
-INSERT INTO `api` VALUES (1,'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v2.0/yaml/uber.yaml','Uber', 'sample');
-INSERT INTO `api` VALUES (2,'http://petstore.swagger.io/v2/swagger.json','Petstore','mobile');

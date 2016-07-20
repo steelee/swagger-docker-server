@@ -1,2 +1,3 @@
 dist/api/secrets.php
 dist/api/uploads/
+db_backup/
