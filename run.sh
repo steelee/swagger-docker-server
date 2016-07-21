@@ -89,7 +89,8 @@ while : ; do
 	printf '\n'
 done
 /bin/cp template.php template.php.tmp
-echo '$DB_PASS = "'$pass'";?>' >> template.php
+IP=$(/usr/bin/docker inspect $(/user/bin/docker ps -aqf "name=sql-server") | grep IPAddress | tail -1 |  sed -e 's/^[ \t]*//' | cut -c 15- | sed 's/\,//g' | sed 's/\"//g')
+echo '$DB_SERVER = " '$IP '"; $DB_PASS = "'$pass'";?>' >> template.php
 /bin/cp template.php dist/api/secrets.php
 /bin/rm template.php
 /bin/mv template.php.tmp template.php
