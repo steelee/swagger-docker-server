@@ -50,7 +50,7 @@ $(document).ready(function() {
     });
     $.ajax({
 	data: {
-		'cmd':'list'
+		'cmd':'group'
 	},
         url: "api/populate.php",
         global: false,
@@ -58,6 +58,7 @@ $(document).ready(function() {
         cache: false,
         dataType: "json",
         success: function(response) {
+	    console.log(response);
             $("#listprime").append('<li id = "add_api"><a href="#"><b>+</b> Add API<i class="fa fa-angle-right"></i></a></li>');
             $.each(response, function(index) {
                 $("#listprime").append('<li id = "' + response[index].url + '"><a href="#">' + response[index].name + '<i class="fa fa-angle-right"></i></a></li>');
