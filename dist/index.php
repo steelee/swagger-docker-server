@@ -1,6 +1,6 @@
 <?php include 'header.htm';?>
 <div class="col-sm-3 col-md-2 sidebar" id="menu_bar">
-   <input type="search" value="" placeholder="Search" class="form-control" id="search"/>
+   <input type="search" value="" placeholder="  Search" class="form-control list-group" id="search"/>
    <ul class="nav nav-sidebar" id="listprime">
    </ul>
 </div>
