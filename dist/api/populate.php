@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 if ($_POST['cmd'] == 'list'){
 	$sql = "SELECT name,url FROM api";
 }else if ($_POST['cmd'] == 'group'){
-	$sql = "SELECT name,api_group,url FROM api ORDER BY api_group";
+	$sql = "SELECT name,api_group,url FROM api ORDER BY name ASC";
 }else if ($_POST['cmd'] == 'unique_group'){
 	$sql = "SELECT DISTINCT api_group FROM api";
 }else if ($_POST['cmd'] == 'group_members'){
