@@ -2,7 +2,6 @@
 session_start();
 require_once "Spyc.php";
 require_once "secrets.php";
-
 $myArray = array();
 
 try {
@@ -14,7 +13,7 @@ try {
 	if ($conn->connect_error) {
 		throw new RuntimeException('Database connection error');
 	}
-	
+
 	$file_parts = pathinfo($_POST['url']);
 	if ($file_parts['extension'] != "yaml" and $file_parts['extension'] != "json"){ 
 		throw new RuntimeException('Invalid URL');
@@ -36,7 +35,13 @@ try {
 
 	$name = rtrim(basename($_POST['url'], $file_parts['extension']),'.');
 
-	$sql = 'INSERT INTO api (url, name) VALUES ("' . $_POST['url'] . '", "' . $name . '");'; 
+	if ($_POST['new_group']!=""){
+		$group = $_POST['new_group'];
+	}else{
+		$group = $_POST['dropdown'];
+	}
+
+	$sql = 'INSERT INTO api (url, name, api_group) VALUES ("' . $_POST['url'] . '", "' . $name . '", "' . $group . '");'; 
 	if ($conn->query($sql) === TRUE) {
 		$_SESSION['status'] = "File successfully added";
 	} else {
@@ -44,10 +49,9 @@ try {
 	}
 
 } catch (RuntimeException $e) {
-
 	$_SESSION['status'] = $e->getMessage();
 	header('Location: /');
 	exit();
 }
-
+header('Location: /');
 ?>

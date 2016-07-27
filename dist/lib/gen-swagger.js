@@ -42,47 +42,63 @@ $(document).ready(function() {
     $("#search").keyup(function() {
         var filter = $(this).val(); // get the value of the input, which we filter on
         if (filter) {
-            $("#listprime").find("a:not(:contains(" + filter + "))").parent().slideUp("fast");
-            $("#listprime").find("a:contains(" + filter + ")").parent().slideDown("fast");
+	    console.log(filter);
+            $("#listprime div").find("div:not(:contains(" + filter + "))").slideUp("fast");
+            $("#listprime div").find("div:contains(" + filter + ")").slideDown("fast");
         } else {
-            $("#listprime").find("li").slideDown();
+            $("#listprime").find("div").slideDown();
         }
     });
-    $("#api_selector").submit(function() {
-        var url = $("input:first").val();
-        var formData = {
-            'url': url
-        };
-        $.ajax({
-            url: "api/add.php",
-            global: false,
-            type: "POST",
-            cache: false,
-            datatype: "json",
-            data: formData,
-            success: function(response) {
-                console.log(response);
-            }
-        });
-    });
     $.ajax({
+                       data: {'cmd':'unique_group'},
+                       url: "api/populate.php",
+                      global: false,
+                       type: "POST",
+                       cache: false,
+                       dataType: "json",
+                      success: function(response){
+                               $.each(response, function(index){
+				console.log(response[index].api_group);
+			$("#listprime").prepend('<div class = "btn list-group-item" id = "' + response[index].api_group + '">' + response[index].api_group  + '</div>');
+
+});
+}
+});
+            $("#menu_bar").prepend('<div id = "add_api" class="list-group"><a href="#"><b>+</b> Add API<i class="fa fa-angle-right"></i></a></div>');
+            $("div#add_api").on("click", function() {
+                gen_swagger(($(this).attr('id')));
+                $("li").removeClass("active");
+                $("div").removeClass("active");
+            });
+
+    $.ajax({
+	data: {
+		'cmd':'group'
+	},
         url: "api/populate.php",
         global: false,
         type: "POST",
         cache: false,
         dataType: "json",
         success: function(response) {
-            $("#listprime").append('<li id = "add_api"><a href="#"><b>+</b> Add API<i class="fa fa-angle-right"></i></a></li>');
+	    console.log(response);
             $.each(response, function(index) {
-                $("#listprime").append('<li id = "' + response[index].url + '"><a href="#">' + response[index].name + '<i class="fa fa-angle-right"></i></a></li>');
+                $("div#"+response[index].api_group).append('<div class="list-group-item" id = "' + response[index].url + '">' + response[index].name + '<i class="fa fa-angle-right"></i></div>');
 
             });
-            $("ul#listprime li").on("click", function() {
+            $("ul#listprime div div").on("click", function() {
                 gen_swagger(($(this).attr('id')));
                 $("li").removeClass("active");
+                $("div").removeClass("active");
                 $(this).addClass("active");
             });
 
         }
+    });
+    $('#create_group_url').on("click", function(){ 
+	$('#add_group_url').removeClass("hidden");
+    });
+    $('#create_group_file').on("click", function(){ 
+	$('#add_group_file').removeClass("hidden");
     });
 });
