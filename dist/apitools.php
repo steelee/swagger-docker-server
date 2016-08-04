@@ -5,7 +5,7 @@
             <h2>Group Management</h2>
             <p>Create new groups, or delete or update existing groups</p>
             <script>
-                $(document).ready(function() {
+                $(window).load(function() {
                     $.ajax({
                         url: "api/populate.php",
                         global: false,
@@ -31,11 +31,9 @@
                         },
                         success: function(data) {
                                 for (var n in data) {
-                                    console.log("Appending " + data[n]["name"] + " to " + data[n]["api_group"]);
                                     $('#' + data[n]["api_group"]).find(".dropdown-menu").append('<li><a href="#">' + data[n]["name"] + '</a></li>');
                                 }
                             }
-                            //$('.table').find('tbody').append('<tr><td>'+response[k]["api_group"]+'</td></tr>');
                     });
                 });
             </script>

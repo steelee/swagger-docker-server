@@ -37,6 +37,7 @@ if [ "$1" == "-b" ]; then
    read pass
    stty echo
    /usr/bin/docker exec -i $(/usr/bin/docker ps -aqf "name=sql-server") mysqldump -p${pass} --databases api > $PWD/db_backup/dump.sql
+   cp $PWD/dist/api/uploads/* $PWD/db_backup/uploads/
    printf "${ORG}\n-- If successful, the dump is in the db_backup/ directory\n${NC}: "
    exit 1
 fi
@@ -56,6 +57,7 @@ if [ "$1" == "-i" ]; then
    read pass
    stty echo
    /usr/bin/docker exec -i $(/usr/bin/docker ps -aqf "name=sql-server") mysql -uroot -p${pass} < $PWD/db_backup/dump.sql
+   cp $PWD/db_backup/uploads/* $PWD/dist/api/uploads/
    printf "${ORG}\n-- Process Complete\n${NC}"
    exit 1
 fi
@@ -102,6 +104,7 @@ echo '$DB_SERVER = "'$IP'"; $DB_PASS = "'$pass'";?>' >> template.php
 /usr/bin/docker build -t php-server .
 /bin/mkdir -p $PWD/dist/api/uploads/
 /bin/mkdir -p $PWD/db_backup
+/bin/mkdir -p $PWD/db_backup/uploads
 /bin/chmod 777 $PWD/dist/api/uploads/
 printf "${CYN}-- Web server created!${NC}"
 printf '\n'
