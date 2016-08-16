@@ -60,7 +60,6 @@ $(document).ready(function() {
         dataType: "json",
         success: function(response) {
             $.each(response, function(index) {
-                console.log(response[index].api_group);
                 $("#listprime").prepend('<div class = "btn list-group-item" id = "' + response[index].api_group + '">' + response[index].api_group + '</div>');
 
             });
@@ -83,7 +82,6 @@ $(document).ready(function() {
         cache: false,
         dataType: "json",
         success: function(response) {
-            console.log(response);
             $.each(response, function(index) {
                 $("div#" + response[index].api_group).append('<div class="list-group-item" id = "' + response[index].url + '">' + response[index].name + '<i class="fa fa-angle-right"></i></div>');
 
@@ -96,6 +94,10 @@ $(document).ready(function() {
             });
 
         }
+    });
+
+    $("#swaggerhub-list div").on("click", function(){
+        console.log("OK");
     });
     $('#create_group_url').on("click", function() {
         $('#add_group_url').removeClass("hidden");

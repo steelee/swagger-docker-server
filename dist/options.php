@@ -1,7 +1,7 @@
 <?php include "header.htm"?>
 <script src="lib/cookies.js"></script> 
 <div class="container">
-<h4>SwaggerHub Configuration</h4>
+<h3>SwaggerHub Configuration</h3>
 <p>Current saved data:</p>
 <ul id="info">
 <script>
@@ -10,7 +10,7 @@ $("#info").append('<li> Key : ' + getCookie("swaggercookie_key") + '</li>');
 </script>
 </ul>
 <form id="swaggerhub">
-<h5>Update SwaggerHub Information:</h5>
+<h4>Update SwaggerHub Information:</h4>
 <div class="form-group row">
   <label for="example-url-input" class="col-xs-2 col-form-label">URL</label>
   <div class="col-xs-10">
@@ -25,6 +25,8 @@ $("#info").append('<li> Key : ' + getCookie("swaggercookie_key") + '</li>');
 </div>
  <button type="submit" class="btn btn-default" id="submit" >Submit</button>
 </form>
+ <h4>Delete existing data:</h4>
+ <button type="button" class="btn btn-default" id="clear" >Clear Credientials</button>
 </div>
 
 <?php include "footer.htm"?>
