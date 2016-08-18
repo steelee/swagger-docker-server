@@ -31,6 +31,36 @@ function gen_swagger(target_url) {
     }
 }
 
+function gen_swaggerhub(target_id){
+	data = JSON.parse(target_id);
+	target = data["properties"][0]["url"] + "/swagger.yaml";
+	makeCorsRequest(target,getCookie("swaggercookie_key"),function(val){
+	if (typeof val != "undefined"){
+	console.log(val);
+	val = "/api/" + val;
+        window.swaggerUi = new SwaggerUi({
+            url: val,
+            dom_id: "swagger-ui-container",
+            supportHeaderParams: true,
+            supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch', 'options'],
+            onComplete: function(swaggerApi, swaggerUi) {
+                if (window.SwaggerTranslator) {
+                    window.SwaggerTranslator.translate();
+                }
+            },
+            onFailure: function(data) {
+                console.log("Unable to Load SwaggerUI");
+            },
+            docExpansion: "none",
+            jsonEditor: false,
+            defaultModelRendering: 'schema',
+            showRequestHeaders: true
+        });
+        window.swaggerUi.load();
+	}
+	});
+}
+
 function add_window(form_name) {
     document.getElementById("swagger-ui-container").innerHTML = "";
     var forms = $('label[id*="_form"]');

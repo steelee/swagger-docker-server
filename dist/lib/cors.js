@@ -16,19 +16,30 @@ function createCORSRequest(method, url) {
 }
 
 // Make the actual CORS request.
-function makeCorsRequest(callback) {
-  // This is a sample server that supports CORS.
-  var url = getCookie("swaggercookie_url");
-
+function makeCorsRequest(url, key, callback) {
   var xhr = createCORSRequest('GET', url);
   if (!xhr) {
     console.log('CORS not supported');
     return;
   }
-  xhr.setRequestHeader('Authorization', getCookie("swaggercookie_key"));
+  xhr.setRequestHeader('Authorization', key);
+  xhr.setRequestHeader('Accept', "application/json");
   // Response handlers.
   xhr.onload = function() {
-    var text = JSON.parse(xhr.responseText);
+    try {
+    	var text = JSON.parse(xhr.responseText);
+    }catch(e){
+	$.ajax({
+		url: "api/create.php",
+		global: "false",
+		type: "POST",
+		cache: "false",
+		data: {"data" : xhr.responseText},
+		success: function(response){
+			callback(response);
+		}
+	});
+    }
     callback(text);
   };
 
