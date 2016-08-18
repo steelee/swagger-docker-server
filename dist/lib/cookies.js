@@ -36,3 +36,13 @@ $(function() {
     $("#swaggerhub").append('<div class="alert alert-info"><strong>Updated!</strong></div>');
   });
 });
+
+$(function() {
+  $('#clear').on("click", function(e) {
+   e.preventDefault();
+   eraseCookie("swaggercookie_url");
+   eraseCookie("swaggercookie_key");
+   $("#clear").remove()
+   $("#swaggerhub").append('<div class="alert alert-info"><strong>Cleared!</strong></div>');
+  });
+});
