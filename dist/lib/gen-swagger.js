@@ -96,9 +96,6 @@ $(document).ready(function() {
         }
     });
 
-    $("#swaggerhub-list div").on("click", function(){
-        console.log("OK");
-    });
     $('#create_group_url').on("click", function() {
         $('#add_group_url').removeClass("hidden");
     });
