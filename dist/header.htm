@@ -11,14 +11,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.min.js"></script> 
+    <script src="lib/cookies.js"></script>
+    <script src="lib/cors.js"></script>
     <link href="css/dashboard.css" rel="stylesheet">
     <link href="css/screen.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
   </head>
-
+  
   <body class ="swagger-section">
-
     <nav class="navbar navbar-inverse navbar-fixed-top" style="">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -34,11 +35,15 @@
 	</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-left">
+          <ul class="nav navbar-nav navbar-left" id="top-menu">
             <li><a href="apitools.php"><span class="glyphicon glyphicon-tasks"></span> API Configuration</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-comment"></span> Community Info</a></li>
+	     <script>
+		if (getCookie("swaggercookie_url")){
+			$("#top-menu").append('<li><a href="swaggerhub.php"><span class="glyphicon glyphicon-comment"></span> SwaggerHub</a></li>');
+		}
+             </script>
             <li><a href="learn.php"><span class="glyphicon glyphicon-book"></span> Training Options</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>
+            <li><a href="options.php"><span class="glyphicon glyphicon-briefcase"></span> Settings</a></li>
           </ul>
         </div>
       </div>

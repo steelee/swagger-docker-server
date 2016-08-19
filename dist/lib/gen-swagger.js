@@ -31,6 +31,35 @@ function gen_swagger(target_url) {
     }
 }
 
+function gen_swaggerhub(target_id) {
+    data = JSON.parse(target_id);
+    target = data["properties"][0]["url"] + "/swagger.yaml";
+    makeCorsRequest(target, getCookie("swaggercookie_key"), function(val) {
+        if (typeof val != "undefined") {
+            val = "/api/" + val;
+            window.swaggerUi = new SwaggerUi({
+                url: val,
+                dom_id: "swagger-ui-container",
+                supportHeaderParams: true,
+                supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch', 'options'],
+                onComplete: function(swaggerApi, swaggerUi) {
+                    if (window.SwaggerTranslator) {
+                        window.SwaggerTranslator.translate();
+                    }
+                },
+                onFailure: function(data) {
+                    console.log("Unable to Load SwaggerUI");
+                },
+                docExpansion: "none",
+                jsonEditor: false,
+                defaultModelRendering: 'schema',
+                showRequestHeaders: true
+            });
+            window.swaggerUi.load();
+        }
+    });
+}
+
 function add_window(form_name) {
     document.getElementById("swagger-ui-container").innerHTML = "";
     var forms = $('label[id*="_form"]');
@@ -60,7 +89,6 @@ $(document).ready(function() {
         dataType: "json",
         success: function(response) {
             $.each(response, function(index) {
-                console.log(response[index].api_group);
                 $("#listprime").prepend('<div class = "btn list-group-item" id = "' + response[index].api_group + '">' + response[index].api_group + '</div>');
 
             });
@@ -83,7 +111,6 @@ $(document).ready(function() {
         cache: false,
         dataType: "json",
         success: function(response) {
-            console.log(response);
             $.each(response, function(index) {
                 $("div#" + response[index].api_group).append('<div class="list-group-item" id = "' + response[index].url + '">' + response[index].name + '<i class="fa fa-angle-right"></i></div>');
 
@@ -97,6 +124,7 @@ $(document).ready(function() {
 
         }
     });
+
     $('#create_group_url').on("click", function() {
         $('#add_group_url').removeClass("hidden");
     });
