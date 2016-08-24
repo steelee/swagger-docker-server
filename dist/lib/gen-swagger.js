@@ -29,7 +29,22 @@ function gen_swagger(target_url) {
         });
         window.swaggerUi.load();
     }
+	$("#options-menu").empty();
+	$("#options-menu").append('<div class = "btn-group"><button type = "button" data = "" id = "overview" class = "btn btn-default">Overview</button><button type = "button" data = "" id = "performance" class = "btn btn-default">Performance</button><button type = "button" id = "feedback" data = "" class = "btn btn-default">Feedback</button></div>');
+	$("#performance").on("click", function(){
+		collect_metrics($(this).attr("data"));
+	});
+	$("#overview").on("click", function(){
+		gen_swagger($(this).attr("data"));
+	});
 }
+
+$('#swagger-ui-container').bind('DOMSubtreeModified', function(){
+		$('#performance').attr("data",window.swaggerUi.api['host']);
+		$('#overview').attr("data",window.swaggerUi.api['url']);
+});
+
+
 
 function gen_swaggerhub(target_id) {
     data = JSON.parse(target_id);
@@ -45,6 +60,7 @@ function gen_swaggerhub(target_id) {
                 onComplete: function(swaggerApi, swaggerUi) {
                     if (window.SwaggerTranslator) {
                         window.SwaggerTranslator.translate();
+
                     }
                 },
                 onFailure: function(data) {
@@ -77,6 +93,9 @@ $(document).ready(function() {
         } else {
             $("#listprime").find("div").slideDown();
         }
+    });
+    $('#options-menu .btn-group').click(function() {
+    	alert("Something was clicked"); // test - not working
     });
     $.ajax({
         data: {
