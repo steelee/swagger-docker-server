@@ -38,11 +38,20 @@ $(function() {
 });
 
 $(function() {
+  $('#apigee').on("submit",function(e) {
+    e.preventDefault();
+    createCookie("apigee_key",document.getElementById("base64").value,30);
+    createCookie("apigee_url",document.getElementById("target").value,30);
+    $("#submit").remove()
+    $("#apigee").append('<div class="alert alert-info"><strong>Updated!</strong></div>');
+  });
+});
+
+$(function() {
   $('#clear').on("click", function(e) {
    e.preventDefault();
    eraseCookie("swaggercookie_url");
    eraseCookie("swaggercookie_key");
-   $("#clear").remove()
-   $("#swaggerhub").append('<div class="alert alert-info"><strong>Cleared!</strong></div>');
+   eraseCookie("apigee_key");
   });
 });
