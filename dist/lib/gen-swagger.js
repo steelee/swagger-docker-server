@@ -57,6 +57,16 @@ function toggler(divId) {
     $("#" + divId).toggle();
 }
 
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
 function gen_swaggerhub(target_id) {
     data = JSON.parse(target_id);
     target = data["properties"][0]["url"] + "/swagger.yaml";
@@ -94,11 +104,59 @@ function add_window(form_name) {
     document.getElementById(form_name.concat("_form")).className = "visible";
 }
 
+// Code attributed to Stack Overflow user Adil Malik
+// https://stackoverflow.com/questions/1090948/change-url-parameters/10997390#10997390
+
+function updateURLParameter(url, param, paramVal)
+{
+    var TheAnchor = null;
+    var newAdditionalURL = "";
+    var tempArray = url.split("?");
+    var baseURL = tempArray[0];
+    var additionalURL = tempArray[1];
+    var temp = "";
+
+    if (additionalURL) 
+    {
+        var tmpAnchor = additionalURL.split("#");
+        var TheParams = tmpAnchor[0];
+            TheAnchor = tmpAnchor[1];
+        if(TheAnchor)
+            additionalURL = TheParams;
+
+        tempArray = additionalURL.split("&");
+
+        for (i=0; i<tempArray.length; i++)
+        {
+            if(tempArray[i].split('=')[0] != param)
+            {
+                newAdditionalURL += temp + tempArray[i];
+                temp = "&";
+            }
+        }        
+    }
+    else
+    {
+        var tmpAnchor = baseURL.split("#");
+        var TheParams = tmpAnchor[0];
+            TheAnchor  = tmpAnchor[1];
+
+        if(TheParams)
+            baseURL = TheParams;
+    }
+
+    if(TheAnchor)
+        paramVal += "#" + TheAnchor;
+
+    var rows_txt = temp + "" + param + "=" + paramVal;
+    return baseURL + "?" + newAdditionalURL + rows_txt;
+}
+
 $(document).ready(function() {
+    var target_API = getParameterByName('api');
     $("#search").keyup(function() {
         var filter = $(this).val(); // get the value of the input, which we filter on
         if (filter) {
-            console.log(filter);
             $("#listprime div").find("div:not(:contains(" + filter + "))").slideUp("fast");
             $("#listprime div").find("div:contains(" + filter + ")").slideDown("fast");
         } else {
@@ -130,7 +188,6 @@ $(document).ready(function() {
         $("li").removeClass("active");
         $("div").removeClass("active");
     });
-
     $.ajax({
         data: {
             'cmd': 'group'
@@ -146,12 +203,17 @@ $(document).ready(function() {
 
             });
             $("ul#listprime div div").on("click", function() {
+    		var newURL = updateURLParameter(window.location.href, 'api', ($(this).text()));
+    		window.history.replaceState( {} , 'title', newURL );
                 gen_swagger(($(this).attr('id')));
                 $("li").removeClass("active");
                 $("div").removeClass("active");
                 $(this).addClass("active");
             });
 
+    	    if (target_API != null){
+	        $('ul#listprime div div:contains("'+target_API+'")').trigger("click");
+            }
         }
     });
 
