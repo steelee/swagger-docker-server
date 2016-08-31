@@ -32,18 +32,22 @@ function gen_swagger(target_url) {
     $("#options-menu").empty();
     $("#options-menu").append('<div class = "btn-group"><button type = "button" data = "" id = "overview" class = "btn btn-default active">Overview</button><button type = "button" data = "" id = "performance" class = "btn btn-default">Performance</button><button type = "button" id = "feedback" data = "" class = "btn btn-default">Feedback</button></div>');
     $("#performance").on("click", function() {
-        collect_metrics($(this).attr("data"));
         $("#overview").removeClass("active");
         $("#feedback").removeClass("active");
+        $($(this)).addClass("active");
+        collect_metrics($(this).attr("data"));
     });
     $("#overview").on("click", function() {
         $("#feedback").removeClass("active");
         $("#performance").removeClass("active");
+        $($(this)).addClass("active");
         gen_swagger($(this).attr("data"));
     });
     $("#feedback").on("click", function() {
         $("#overview").removeClass("active");
         $("#performance").removeClass("active");
+        $($(this)).addClass("active");
+        api_feedback($(this).attr("data"));
     });
 
 }
