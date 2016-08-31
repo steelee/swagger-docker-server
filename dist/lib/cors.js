@@ -29,20 +29,20 @@ function makeCorsRequest(url, key, method, callback) {
         try {
             var text = JSON.parse(xhr.responseText);
         } catch (e) {
-	    if (method == "swaggerhub"){
-          	  $.ajax({
-                	url: "api/create.php",
-                	global: "false",
-                	type: "POST",
-                	cache: "false",
-                	data: {
-                    	"data": xhr.responseText
-                	},
-                	success: function(response) {
-                    		callback(response);
-               		}
-            	 });
-	    }
+            if (method == "swaggerhub") {
+                $.ajax({
+                    url: "api/create.php",
+                    global: "false",
+                    type: "POST",
+                    cache: "false",
+                    data: {
+                        "data": xhr.responseText
+                    },
+                    success: function(response) {
+                        callback(response);
+                    }
+                });
+            }
         }
         callback(text);
     };

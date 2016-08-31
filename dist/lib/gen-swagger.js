@@ -29,28 +29,28 @@ function gen_swagger(target_url) {
         });
         window.swaggerUi.load();
     }
-	$("#options-menu").empty();
-	$("#options-menu").append('<div class = "btn-group"><button type = "button" data = "" id = "overview" class = "btn btn-default active">Overview</button><button type = "button" data = "" id = "performance" class = "btn btn-default">Performance</button><button type = "button" id = "feedback" data = "" class = "btn btn-default">Feedback</button></div>');
-	$("#performance").on("click", function(){
-		collect_metrics($(this).attr("data"));
-                $("#overview").removeClass("active");
-                $("#feedback").removeClass("active");
-	});
-	$("#overview").on("click", function(){
-                $("#feedback").removeClass("active");
-                $("#performance").removeClass("active");
-		gen_swagger($(this).attr("data"));
-	});
-	$("#feedback").on("click", function(){
-                $("#overview").removeClass("active");
-                $("#performance").removeClass("active");
-	});
-	
+    $("#options-menu").empty();
+    $("#options-menu").append('<div class = "btn-group"><button type = "button" data = "" id = "overview" class = "btn btn-default active">Overview</button><button type = "button" data = "" id = "performance" class = "btn btn-default">Performance</button><button type = "button" id = "feedback" data = "" class = "btn btn-default">Feedback</button></div>');
+    $("#performance").on("click", function() {
+        collect_metrics($(this).attr("data"));
+        $("#overview").removeClass("active");
+        $("#feedback").removeClass("active");
+    });
+    $("#overview").on("click", function() {
+        $("#feedback").removeClass("active");
+        $("#performance").removeClass("active");
+        gen_swagger($(this).attr("data"));
+    });
+    $("#feedback").on("click", function() {
+        $("#overview").removeClass("active");
+        $("#performance").removeClass("active");
+    });
+
 }
 
-$('#swagger-ui-container').bind('DOMSubtreeModified', function(){
-		$('#performance').attr("data",window.swaggerUi.api['host']);
-		$('#overview').attr("data",window.swaggerUi.api['url']);
+$('#swagger-ui-container').bind('DOMSubtreeModified', function() {
+    $('#performance').attr("data", window.swaggerUi.api['host']);
+    $('#overview').attr("data", window.swaggerUi.api['url']);
 });
 
 function toggler(divId) {
@@ -107,8 +107,7 @@ function add_window(form_name) {
 // Code attributed to Stack Overflow user Adil Malik
 // https://stackoverflow.com/questions/1090948/change-url-parameters/10997390#10997390
 
-function updateURLParameter(url, param, paramVal)
-{
+function updateURLParameter(url, param, paramVal) {
     var TheAnchor = null;
     var newAdditionalURL = "";
     var tempArray = url.split("?");
@@ -116,36 +115,31 @@ function updateURLParameter(url, param, paramVal)
     var additionalURL = tempArray[1];
     var temp = "";
 
-    if (additionalURL) 
-    {
+    if (additionalURL) {
         var tmpAnchor = additionalURL.split("#");
         var TheParams = tmpAnchor[0];
-            TheAnchor = tmpAnchor[1];
-        if(TheAnchor)
+        TheAnchor = tmpAnchor[1];
+        if (TheAnchor)
             additionalURL = TheParams;
 
         tempArray = additionalURL.split("&");
 
-        for (i=0; i<tempArray.length; i++)
-        {
-            if(tempArray[i].split('=')[0] != param)
-            {
+        for (i = 0; i < tempArray.length; i++) {
+            if (tempArray[i].split('=')[0] != param) {
                 newAdditionalURL += temp + tempArray[i];
                 temp = "&";
             }
-        }        
-    }
-    else
-    {
+        }
+    } else {
         var tmpAnchor = baseURL.split("#");
         var TheParams = tmpAnchor[0];
-            TheAnchor  = tmpAnchor[1];
+        TheAnchor = tmpAnchor[1];
 
-        if(TheParams)
+        if (TheParams)
             baseURL = TheParams;
     }
 
-    if(TheAnchor)
+    if (TheAnchor)
         paramVal += "#" + TheAnchor;
 
     var rows_txt = temp + "" + param + "=" + paramVal;
@@ -164,7 +158,7 @@ $(document).ready(function() {
         }
     });
     $('#options-menu .btn-group').click(function() {
-    	alert("Something was clicked"); // test - not working
+        alert("Something was clicked"); // test - not working
     });
     $.ajax({
         data: {
@@ -203,16 +197,16 @@ $(document).ready(function() {
 
             });
             $("ul#listprime div div").on("click", function() {
-    		var newURL = updateURLParameter(window.location.href, 'api', ($(this).text()));
-    		window.history.replaceState( {} , 'title', newURL );
+                var newURL = updateURLParameter(window.location.href, 'api', ($(this).text()));
+                window.history.replaceState({}, 'title', newURL);
                 gen_swagger(($(this).attr('id')));
                 $("li").removeClass("active");
                 $("div").removeClass("active");
                 $(this).addClass("active");
             });
 
-    	    if (target_API != null){
-	        $('ul#listprime div div:contains("'+target_API+'")').trigger("click");
+            if (target_API != null) {
+                $('ul#listprime div div:contains("' + target_API + '")').trigger("click");
             }
         }
     });
