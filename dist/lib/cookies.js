@@ -27,6 +27,23 @@ function eraseCookie(name) {
     createCookie(name,"",-1);
 }
 
+function apigee_date_range(){
+    var start = new Date();
+    var yyyy = start.getFullYear();
+    var mm = start.getMonth();
+    var dd = start.getDate();
+    var past = mm+'/'+dd+'/'+yyyy;
+    
+    var end = new Date();
+    var yyyy = end.getFullYear();
+    var mm = end.getMonth()+1;
+    var dd = end.getDate();
+    var current = mm+'/'+dd+'/'+yyyy;
+
+    var timestring = "?select=avg(total_response_time)&timeRange="+past+"%2000:00~"+current+"%2000:00&timeUnit=day";
+    return timestring;
+}
+
 $(function() {
   $('#swaggerhub').on("submit",function(e) {
     e.preventDefault();
@@ -41,7 +58,8 @@ $(function() {
   $('#apigee').on("submit",function(e) {
     e.preventDefault();
     createCookie("apigee_key",document.getElementById("base64").value,30);
-    createCookie("apigee_url",document.getElementById("target").value,30);
+    var dateTime = apigee_date_range();
+    createCookie("apigee_url",document.getElementById("target").value+dateTime,30);
     $("#submit").remove()
     $("#apigee").append('<div class="alert alert-info"><strong>Updated!</strong></div>');
   });
@@ -49,9 +67,10 @@ $(function() {
 
 $(function() {
   $('#clear').on("click", function(e) {
-   e.preventDefault();
    eraseCookie("swaggercookie_url");
    eraseCookie("swaggercookie_key");
    eraseCookie("apigee_key");
+   eraseCookie("apigee_url");
+   location.reload();
   });
 });

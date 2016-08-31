@@ -16,7 +16,7 @@ function createCORSRequest(method, url) {
 }
 
 // Make the actual CORS request.
-function makeCorsRequest(url, key, callback) {
+function makeCorsRequest(url, key, method, callback) {
     var xhr = createCORSRequest('GET', url);
     if (!xhr) {
         console.log('CORS not supported');
@@ -29,18 +29,20 @@ function makeCorsRequest(url, key, callback) {
         try {
             var text = JSON.parse(xhr.responseText);
         } catch (e) {
-            $.ajax({
-                url: "api/create.php",
-                global: "false",
-                type: "POST",
-                cache: "false",
-                data: {
-                    "data": xhr.responseText
-                },
-                success: function(response) {
-                    callback(response);
-                }
-            });
+	    if (method == "swaggerhub"){
+          	  $.ajax({
+                	url: "api/create.php",
+                	global: "false",
+                	type: "POST",
+                	cache: "false",
+                	data: {
+                    	"data": xhr.responseText
+                	},
+                	success: function(response) {
+                    		callback(response);
+               		}
+            	 });
+	    }
         }
         callback(text);
     };

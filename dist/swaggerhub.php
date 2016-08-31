@@ -3,7 +3,7 @@
     <h4>SwaggerHub APIs</h4>
     <script>
         values = {};
-        makeCorsRequest(getCookie("swaggercookie_url"), getCookie("swaggercookie_key"), function(val) {
+        makeCorsRequest(getCookie("swaggercookie_url"), getCookie("swaggercookie_key"), "swaggerhub", function(val) {
             for (var count = 0; count < Object.keys(val['apis']).length; count++) {
                 var private_item = val['apis'][count]["properties"].length - 1;
                 $("#swaggerhub-list").append('<div class="list-group-item" id = "' + val['apis'][count]["name"] + '_' + val['apis'][count]["properties"][private_item]["value"] + '">' + val['apis'][count]["name"] + '<i class="fa fa-angle-right"></i></div>');

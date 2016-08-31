@@ -70,7 +70,7 @@ function getParameterByName(name, url) {
 function gen_swaggerhub(target_id) {
     data = JSON.parse(target_id);
     target = data["properties"][0]["url"] + "/swagger.yaml";
-    makeCorsRequest(target, getCookie("swaggercookie_key"), function(val) {
+    makeCorsRequest(target, getCookie("swaggercookie_key"), "swaggerhub", function(val) {
         if (typeof val != "undefined") {
             val = "/api/" + val;
             window.swaggerUi = new SwaggerUi({
