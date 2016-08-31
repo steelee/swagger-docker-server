@@ -29,12 +29,48 @@ function gen_swagger(target_url) {
         });
         window.swaggerUi.load();
     }
+    $("#options-menu").empty();
+    $("#options-menu").append('<div class = "btn-group"><button type = "button" data = "" id = "overview" class = "btn btn-default active">Overview</button><button type = "button" data = "" id = "performance" class = "btn btn-default">Performance</button><button type = "button" id = "feedback" data = "" class = "btn btn-default">Feedback</button></div>');
+    $("#performance").on("click", function() {
+        collect_metrics($(this).attr("data"));
+        $("#overview").removeClass("active");
+        $("#feedback").removeClass("active");
+    });
+    $("#overview").on("click", function() {
+        $("#feedback").removeClass("active");
+        $("#performance").removeClass("active");
+        gen_swagger($(this).attr("data"));
+    });
+    $("#feedback").on("click", function() {
+        $("#overview").removeClass("active");
+        $("#performance").removeClass("active");
+    });
+
+}
+
+$('#swagger-ui-container').bind('DOMSubtreeModified', function() {
+    $('#performance').attr("data", window.swaggerUi.api['host']);
+    $('#overview').attr("data", window.swaggerUi.api['url']);
+});
+
+function toggler(divId) {
+    $("#" + divId).toggle();
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
 function gen_swaggerhub(target_id) {
     data = JSON.parse(target_id);
     target = data["properties"][0]["url"] + "/swagger.yaml";
-    makeCorsRequest(target, getCookie("swaggercookie_key"), function(val) {
+    makeCorsRequest(target, getCookie("swaggercookie_key"), "swaggerhub", function(val) {
         if (typeof val != "undefined") {
             val = "/api/" + val;
             window.swaggerUi = new SwaggerUi({
@@ -45,6 +81,7 @@ function gen_swaggerhub(target_id) {
                 onComplete: function(swaggerApi, swaggerUi) {
                     if (window.SwaggerTranslator) {
                         window.SwaggerTranslator.translate();
+
                     }
                 },
                 onFailure: function(data) {
@@ -67,16 +104,61 @@ function add_window(form_name) {
     document.getElementById(form_name.concat("_form")).className = "visible";
 }
 
+// Code attributed to Stack Overflow user Adil Malik
+// https://stackoverflow.com/questions/1090948/change-url-parameters/10997390#10997390
+
+function updateURLParameter(url, param, paramVal) {
+    var TheAnchor = null;
+    var newAdditionalURL = "";
+    var tempArray = url.split("?");
+    var baseURL = tempArray[0];
+    var additionalURL = tempArray[1];
+    var temp = "";
+
+    if (additionalURL) {
+        var tmpAnchor = additionalURL.split("#");
+        var TheParams = tmpAnchor[0];
+        TheAnchor = tmpAnchor[1];
+        if (TheAnchor)
+            additionalURL = TheParams;
+
+        tempArray = additionalURL.split("&");
+
+        for (i = 0; i < tempArray.length; i++) {
+            if (tempArray[i].split('=')[0] != param) {
+                newAdditionalURL += temp + tempArray[i];
+                temp = "&";
+            }
+        }
+    } else {
+        var tmpAnchor = baseURL.split("#");
+        var TheParams = tmpAnchor[0];
+        TheAnchor = tmpAnchor[1];
+
+        if (TheParams)
+            baseURL = TheParams;
+    }
+
+    if (TheAnchor)
+        paramVal += "#" + TheAnchor;
+
+    var rows_txt = temp + "" + param + "=" + paramVal;
+    return baseURL + "?" + newAdditionalURL + rows_txt;
+}
+
 $(document).ready(function() {
+    var target_API = getParameterByName('api');
     $("#search").keyup(function() {
         var filter = $(this).val(); // get the value of the input, which we filter on
         if (filter) {
-            console.log(filter);
             $("#listprime div").find("div:not(:contains(" + filter + "))").slideUp("fast");
             $("#listprime div").find("div:contains(" + filter + ")").slideDown("fast");
         } else {
             $("#listprime").find("div").slideDown();
         }
+    });
+    $('#options-menu .btn-group').click(function() {
+        alert("Something was clicked"); // test - not working
     });
     $.ajax({
         data: {
@@ -100,7 +182,6 @@ $(document).ready(function() {
         $("li").removeClass("active");
         $("div").removeClass("active");
     });
-
     $.ajax({
         data: {
             'cmd': 'group'
@@ -116,12 +197,17 @@ $(document).ready(function() {
 
             });
             $("ul#listprime div div").on("click", function() {
+                var newURL = updateURLParameter(window.location.href, 'api', ($(this).text()));
+                window.history.replaceState({}, 'title', newURL);
                 gen_swagger(($(this).attr('id')));
                 $("li").removeClass("active");
                 $("div").removeClass("active");
                 $(this).addClass("active");
             });
 
+            if (target_API != null) {
+                $('ul#listprime div div:contains("' + target_API + '")').trigger("click");
+            }
         }
     });
 

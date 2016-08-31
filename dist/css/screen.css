@@ -1483,3 +1483,7 @@
   outline-color: #cc0000;
   background-color: #f2dede;
 }
+.graph_container {
+  width: 90%; 
+  height: 30em; 
+}
