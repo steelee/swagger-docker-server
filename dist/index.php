@@ -48,11 +48,11 @@
             for(var k in response){
       $('#dropdown_owner')
       .append($("<option></option>")
-                .attr("value",response[k]["contact"])
+                .attr("value",response[k]["contact"]+":"+response[k]["owner"])
                 .text(response[k]["owner"]+ " (" +response[k]["contact"]+")")); 
       $('#dropdown_owner_file')
       .append($("<option></option>")
-                .attr("value",response[k]["contact"])
+                .attr("value",response[k]["contact"]+":"+response[k]["owner"])
                 .text(response[k]["owner"]+ " (" +response[k]["contact"]+")")); 
 		}
 	}
@@ -86,8 +86,8 @@
          <label class="control-label requiredField">
          Owner 
          </label>
-         <select id="dropdown_owner" name="dropdown_owner">
-            <option value="none">No Owner</option> 
+         <select id="dropdown_owner" name="dropdown_owner" required>
+            <option value="">Owner Required</option> 
          </select>
 	<a href="#" id="create_group_url_owner"<b>+</b> Create New Owner</a>
       </div>   
@@ -135,8 +135,8 @@
          <label class="control-label requiredField">
          Owner 
          </label>
-         <select id="dropdown_owner_file" name="dropdown_owner">
-            <option value="none">No Owner</option> 
+         <select id="dropdown_owner_file" name="dropdown_owner" required>
+            <option value="">Owner Required</option> 
          </select>
 	<a href="#" id="create_group_file_owner"<b>+</b> Create New Owner</a>
       </div>   
