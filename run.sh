@@ -13,7 +13,8 @@ if [ "$1" == "-h" ]; then
 	exit 1
 fi 
 
-echo -e "${GRN}This script will build and run the SQL and Webserver docker containers${NC}"
+echo -e "${GRN}This script will build and run the SQL and Webserver docker containers\n"
+echo -e "${GRN}Run with argument -h for full help text${NC}"
 # Make sure only root can run our script
 if [[ $EUID -ne 0 ]]; then
    echo -e "${RED}This script must be run as root${NC}"

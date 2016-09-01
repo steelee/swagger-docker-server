@@ -221,4 +221,10 @@ $(document).ready(function() {
     $('#create_group_file').on("click", function() {
         $('#add_group_file').removeClass("hidden");
     });
+    $('#create_group_url_owner').on("click", function() {
+        $('#add_group_url_owner').removeClass("hidden");
+    });
+    $('#create_group_file_owner').on("click", function() {
+        $('#add_group_file_owner').removeClass("hidden");
+    });
 });
