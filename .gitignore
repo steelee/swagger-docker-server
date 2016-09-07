@@ -3,5 +3,6 @@ dist/api/uploads/
 dist/learn.php
 db_backup/
 *.png
+*.jpg
 *.log
 *.swp
