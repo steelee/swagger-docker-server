@@ -34,10 +34,29 @@
       .append($("<option></option>")
                 .attr("value",response[k]["api_group"])
                 .text(response[k]["api_group"])); 
-      
             }
       }  
       });
+        $.ajax({
+            url: "api/populate.php",
+            global: false,
+            type: "POST",
+            cache: false,
+            dataType: "json",
+            data: {'cmd':'owners'},
+            success: function(response){
+            for(var k in response){
+      $('#dropdown_owner')
+      .append($("<option></option>")
+                .attr("value",response[k]["contact"]+":"+response[k]["owner"])
+                .text(response[k]["owner"]+ " (" +response[k]["contact"]+")")); 
+      $('#dropdown_owner_file')
+      .append($("<option></option>")
+                .attr("value",response[k]["contact"]+":"+response[k]["owner"])
+                .text(response[k]["owner"]+ " (" +response[k]["contact"]+")")); 
+		}
+	}
+	});
       });
    </script>
    <h4>Add an API through a remote link or upload a file from your computer</h4>
@@ -62,6 +81,25 @@
          New Group Name 
          </label>
          <input class="form-control" id="new_group" name="new_group" placeholder="Group" type="text"/>
+	</div>
+      <div class="form-group">
+         <label class="control-label requiredField">
+         Owner 
+         </label>
+         <select id="dropdown_owner" name="dropdown_owner" required>
+            <option value="">Owner Required</option> 
+         </select>
+	<a href="#" id="create_group_url_owner"<b>+</b> Create New Owner</a>
+      </div>   
+      <div class="form-group hidden" id="add_group_url_owner">
+         <label class="control-label">
+         New Owner Name 
+         </label>
+         <input class="form-control" id="new_owner_name" name="new_owner_name" placeholder="Owner name" type="text"/>
+         <label class="control-label">
+         New Owner Email 
+         </label>
+         <input class="form-control" id="new_owner_email" name="new_owner_email" placeholder="Owner email" type="email"/>
 	</div>
       <div class="form-group">
          <div>
@@ -93,6 +131,25 @@
          </label>
          <input class="form-control" id="new_group" name="new_group" placeholder="Group" type="text"/>
 	</div>
+      <div class="form-group">
+         <label class="control-label requiredField">
+         Owner 
+         </label>
+         <select id="dropdown_owner_file" name="dropdown_owner" required>
+            <option value="">Owner Required</option> 
+         </select>
+	<a href="#" id="create_group_file_owner"<b>+</b> Create New Owner</a>
+      </div>   
+      <div class="form-group hidden" id="add_group_file_owner">
+         <label class="control-label">
+         New Owner Name 
+         </label>
+         <input class="form-control" id="new_owner_name" name="new_owner_name" placeholder="Owner name" type="text"/>
+         <label class="control-label">
+         New Owner Email 
+         </label>
+         <input class="form-control" id="new_owner_email" name="new_owner_email" placeholder="Owner email" type="email"/>
+      </div>
       <div class="form-group">
          <div>
             <button class="btn btn-primary " name="submit" type="submit">

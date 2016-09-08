@@ -161,9 +161,6 @@ $(document).ready(function() {
             $("#listprime").find("div").slideDown();
         }
     });
-    $('#options-menu .btn-group').click(function() {
-        alert("Something was clicked"); // test - not working
-    });
     $.ajax({
         data: {
             'cmd': 'unique_group'
