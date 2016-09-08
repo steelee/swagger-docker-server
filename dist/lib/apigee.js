@@ -32,7 +32,6 @@ function collect_metrics(target_url) {
                         var item = [];
                         item[0] = subarray;
                         item[1] = set[subarray]["value"];
-                        console.log(item);
                         arr.push(item);
                     }
                     $("#swagger-ui-container").append('<div id="graph_container" class="graph_container"></div>');
