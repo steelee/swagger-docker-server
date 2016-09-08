@@ -175,7 +175,6 @@ $(document).ready(function() {
         dataType: "json",
         success: function(response) {
             $.each(response, function(index) {
-                //$("#listprime").prepend('<div class = "btn list-group-item" id = "' + response[index].api_group + '">' + response[index].api_group + '</div>');
                 $("#listprime").prepend('<li><ul class="nav nav-pills nav-stacked collapse in" id="' + response[index].api_group + '"><li data-toggle="collapse" data-parent="#' + response[index].api_group + '" href="#' + response[index].api_group  +'_target"><a class="nav-sub-container">' + response[index].api_group + ' <div class="caret-container"><span class="caret arrow"></span></div></a></li><ul class="nav nav-pills nav-stacked collapse " id="'+ response[index].api_group  +'_target"></ul></ul>');
             });
         }
@@ -197,7 +196,6 @@ $(document).ready(function() {
         dataType: "json",
         success: function(response) {
             $.each(response, function(index) {
-                //$("div#" + response[index].api_group).append('<div class="list-group-item" id = "' + response[index].url + '">' + response[index].name + '<i class="fa fa-angle-right"></i></div>');
                 $("ul#" + response[index].api_group + " ul").append('<div class="list-group-item" id="' + response[index].url  + '">' + response[index].name + '</div>');
 
             });
@@ -211,7 +209,7 @@ $(document).ready(function() {
             });
 
             if (target_API != null) {
-                $('ul#listprime div div:contains("' + target_API + '")').trigger("click");
+                $('ul#listprime li ul div:contains("' + target_API + '")').trigger("click");
             }
         }
     });
