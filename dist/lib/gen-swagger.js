@@ -217,4 +217,16 @@ $(document).ready(function() {
     $('#create_group_file').on("click", function() {
         $('#add_group_file').removeClass("hidden");
     });
+$('#create_group_url_owner').on("click", function() {
+          $('#add_group_url_owner').removeClass("hidden");
+ 	$('#dropdown_owner').removeAttr('required');
+ $('#new_owner_name').prop('required',true);
+ 	$('#new_owner_email').prop('required',true);
+      });
+      $('#create_group_file_owner').on("click", function() {
+          $('#add_group_file_owner').removeClass("hidden");
+ 	$('#dropdown_owner_file').removeAttr('required');
+ 	$('#new_owner_name').prop('required',true);
+ 	$('#new_owner_email').prop('required',true);
+      });
 });
