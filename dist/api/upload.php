@@ -86,7 +86,7 @@ if($_POST['new_owner_name']!=''){
 
 $name = rtrim(basename($true_name, $file_parts['extension']),'.');
 $location = "/api/uploads/".$signature;
-$sql = 'INSERT INTO api (url, name, api_group, contact, owner) VALUES ("' . $_POST['url'] . '", "' . $name . '", "' . $group . '", "' . $owner[0] . '", "' . $owner[1] . '");';
+$sql = 'INSERT INTO api (url, name, api_group, contact, owner) VALUES ("' . $location . '", "' . $name . '", "' . $group . '", "' . $owner[0] . '", "' . $owner[1] . '");';
 if ($conn->query($sql) === TRUE) {
 	echo "New record created successfully";
 } else {

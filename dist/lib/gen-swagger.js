@@ -196,7 +196,7 @@ $(document).ready(function() {
                 $("ul#" + response[index].api_group + " ul").append('<div class="list-group-item" id="' + response[index].url  + '">' + response[index].name + '</div>');
 
             });
-            $("ul#listprime li ul div").on("click", function() {
+            $("ul#listprime li ul ul div").on("click", function() {
                 var newURL = updateURLParameter(window.location.href, 'api', ($(this).text()));
                 window.history.replaceState({}, 'title', newURL);
                 gen_swagger(($(this).attr('id')));

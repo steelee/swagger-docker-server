@@ -21,7 +21,7 @@ if ($_POST['cmd'] == 'list'){
 }else if ($_POST['cmd'] == 'group_members'){
 	$sql ='SELECT name FROM api WHERE api_group = "'.$_POST['name']. '"';
 }else if ($_POST['cmd'] == 'owners'){
-	$sql ='SELECT owner, contact FROM api';
+	$sql ='SELECT DISTINCT owner, contact FROM api';
 }
 $result = $conn->query($sql);
 while($row = $result->fetch_array(MYSQL_ASSOC)) {
