@@ -46,8 +46,8 @@ function gen_swagger(target_url) {
     $("#feedback").on("click", function() {
         $("#overview").removeClass("active");
         $("#performance").removeClass("active");
+        api_feedback(document.getElementsByClassName("active")[0].innerHTML);
         $($(this)).addClass("active");
-        api_feedback($(this).attr("data"));
     });
 
 }
@@ -194,7 +194,6 @@ $(document).ready(function() {
         success: function(response) {
             $.each(response, function(index) {
                 $("ul#" + response[index].api_group + " ul").append('<div class="list-group-item" id="' + response[index].url  + '">' + response[index].name + '</div>');
-
             });
             $("ul#listprime li ul ul div").on("click", function() {
                 var newURL = updateURLParameter(window.location.href, 'api', ($(this).text()));
@@ -217,16 +216,16 @@ $(document).ready(function() {
     $('#create_group_file').on("click", function() {
         $('#add_group_file').removeClass("hidden");
     });
-$('#create_group_url_owner').on("click", function() {
-          $('#add_group_url_owner').removeClass("hidden");
- 	$('#dropdown_owner').removeAttr('required');
- $('#new_owner_name').prop('required',true);
- 	$('#new_owner_email').prop('required',true);
-      });
-      $('#create_group_file_owner').on("click", function() {
-          $('#add_group_file_owner').removeClass("hidden");
- 	$('#dropdown_owner_file').removeAttr('required');
- 	$('#new_owner_name').prop('required',true);
- 	$('#new_owner_email').prop('required',true);
-      });
+    $('#create_group_url_owner').on("click", function() {
+        $('#add_group_url_owner').removeClass("hidden");
+	$('#dropdown_owner').removeAttr('required');
+	$('#new_owner_name').prop('required',true);
+	$('#new_owner_email').prop('required',true);
+    });
+    $('#create_group_file_owner').on("click", function() {
+        $('#add_group_file_owner').removeClass("hidden");
+	$('#dropdown_owner_file').removeAttr('required');
+	$('#new_owner_name').prop('required',true);
+	$('#new_owner_email').prop('required',true);
+    });
 });

@@ -11,10 +11,8 @@ if ($_POST['cmd'] == "rating"){
 	$sql = "SELECT name,rating FROM api";
 }
 $result = $conn->query($sql);
-
 while($row = $result->fetch_array(MYSQL_ASSOC)) {
 	$myArray[] = $row;
 }
-
 echo json_encode($myArray);
 ?>

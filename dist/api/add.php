@@ -39,7 +39,7 @@ try {
 		$group = $_POST['new_group'];
 	}else{
 		$group = $_POST['dropdown'];
-	}
+	} 
 	if($_POST['new_owner_name']!=''){
 		$owner[0] = $_POST['new_owner_email'];
 		$owner[1] = $_POST['new_owner_name'];

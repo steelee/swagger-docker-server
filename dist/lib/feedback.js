@@ -15,4 +15,3 @@ function api_feedback(target){
         }
     });
 }
-

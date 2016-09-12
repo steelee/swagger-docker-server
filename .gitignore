@@ -4,4 +4,6 @@ dist/learn.php
 db_backup/
 *.jpg
 *.png
+*.jpg
 *.log
+*.swp
