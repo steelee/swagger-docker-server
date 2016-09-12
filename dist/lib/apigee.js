@@ -20,6 +20,7 @@ function collect_metrics(target_url) {
                 axisLabel: 'Response time (milliseconds)',
             }]
         };
+	$('#swagger-ui-container').prepend($('<img>',{id:'loading',src:'images/load.gif'}))
         makeCorsRequest(target, key, "apigee", function(val) {
             var results = val["environments"][0]["dimensions"];
             for (var count = 0; count < results.length; count++) {
@@ -34,6 +35,7 @@ function collect_metrics(target_url) {
                         item[1] = set[subarray]["value"];
                         arr.push(item);
                     }
+		    $('#loading').remove();
                     $("#swagger-ui-container").append('<div id="graph_container" class="graph_container"></div>');
                     $.plot($("#graph_container"), [arr], options);
                 }
