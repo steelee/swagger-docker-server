@@ -11,6 +11,7 @@ function api_feedback(target){
         dataType: "json",
         success: function(response) {
     		document.getElementById("swagger-ui-container").innerHTML = "";
+		console.log(response);
         }
     });
 }

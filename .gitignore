@@ -2,6 +2,7 @@ dist/api/secrets.php
 dist/api/uploads/
 dist/learn.php
 db_backup/
+*.jpg
 *.png
 *.jpg
 *.log

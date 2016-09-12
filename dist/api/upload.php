@@ -76,6 +76,14 @@ if ($_POST['new_group']!=""){
 }else{
 	$group = $_POST['dropdown'];
 }       
+
+if($_POST['new_owner_name']!=''){
+	$owner[0] = $_POST['new_owner_email'];
+	$owner[1] = $_POST['new_owner_name'];
+}else{
+	$owner = explode(":",$_POST['dropdown_owner']);
+}
+
 $name = rtrim(basename($true_name, $file_parts['extension']),'.');
 $location = "/api/uploads/".$signature;
 
@@ -86,9 +94,7 @@ if($_POST['new_owner_name']!=''){
 	$owner = explode(":",$_POST['dropdown_owner']);
 }
 
-$sql = 'INSERT INTO api (url, name, api_group) VALUES ("' . $location . '", "' . $name . '", "' . $group . '");';
-$sql = 'INSERT INTO api (url, name, api_group, contact, owner) VALUES ("' . $_POST['url'] . '", "' . $name . '", "' . $group . '", "' . $owner[0] . '", "' . $owner[1] . '");';
-
+$sql = 'INSERT INTO api (url, name, api_group, contact, owner) VALUES ("' . $location . '", "' . $name . '", "' . $group . '", "' . $owner[0] . '", "' . $owner[1] . '");';
 if ($conn->query($sql) === TRUE) {
 	echo "New record created successfully";
 } else {

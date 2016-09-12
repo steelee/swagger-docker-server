@@ -46,7 +46,6 @@ try {
 	}else{
 		$owner = explode(":",$_POST['dropdown_owner']);
 	}
-
 	$sql = 'INSERT INTO api (url, name, api_group, contact, owner) VALUES ("' . $_POST['url'] . '", "' . $name . '", "' . $group . '", "' . $owner[0] . '", "' . $owner[1] . '");'; 
 	if ($conn->query($sql) === TRUE) {
 		$_SESSION['status'] = "File successfully added";
