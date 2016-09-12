@@ -55,6 +55,7 @@ function gen_swagger(target_url) {
 $('#swagger-ui-container').bind('DOMSubtreeModified', function() {
     $('#performance').attr("data", window.swaggerUi.api['host']);
     $('#overview').attr("data", window.swaggerUi.api['url']);
+    $('#feedback').attr("data", getParameterByName('api'));
 });
 
 function toggler(divId) {

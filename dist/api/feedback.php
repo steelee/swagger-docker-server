@@ -8,7 +8,7 @@ if ($conn->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
 }
 if ($_POST['cmd'] == "rating"){
-	$sql = "SELECT name,rating FROM api";
+	$sql = "SELECT name, rating FROM api WHERE name LIKE '%".$_POST['api']."%'";
 }
 $result = $conn->query($sql);
 
