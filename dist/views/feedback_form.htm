@@ -1,0 +1,58 @@
+ <form class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-md-12 title" for="title" style=
+            "padding-top:4vh; padding-bottom: 4vh"></label>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="name">Name:</label>
+            <div class="col-md-9">
+                <input class="form-control" id="name" placeholder=
+                "Please enter your name." type="name"> 
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="email">Email:</label>
+            <div class="col-md-9">
+                <input class="form-control" id="email" placeholder=
+                "Please enter your email address." required="" type="email"> 
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for=
+            "comments">Comments:</label>
+            <div class="col-md-9">
+                <textarea class="form-control" id="comments" placeholder=
+                "Please enter your comments." rows="10"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="rating" style=
+            "padding-top: 1.3vh">Please rate this API<br>
+            (click the stars):</label>
+            <div class="col-md-9">
+                <div class="stars">
+                    <form action="">
+                        <input class="star star-5" id="star-5" name="star"
+                        type="radio"> <label class="star star-5" for=
+                        "star-5"></label> <input class="star star-4" id=
+                        "star-4" name="star" type="radio"> <label class=
+                        "star star-4" for="star-4"></label> <input class=
+                        "star star-3" id="star-3" name="star" type="radio">
+                        <label class="star star-3" for="star-3"></label>
+                        <input class="star star-2" id="star-2" name="star"
+                        type="radio"> <label class="star star-2" for=
+                        "star-2"></label> <input class="star star-1" id=
+                        "star-1" name="star" type="radio"> <label class=
+                        "star star-1" for="star-1"></label> Current Rating: ' +
+                        response[0]['rating'] + '
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-9">
+                <button class="btn btn-success" style="margin-bottom: 5vh"
+                type="submit">Submit a Review</button>
+            </div>
+        </div>
+    </form>

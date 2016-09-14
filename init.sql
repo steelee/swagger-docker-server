@@ -17,13 +17,13 @@ CREATE TABLE `api` (
 DROP TABLE IF EXISTS `feedback`;
 
 CREATE TABLE `feedback` (
-	`fb_id`    INT(11)            NOT NULL AUTO_INCREMENT,
-	`api_id`   INT(11)
-	`name`     VARCHAR (255)      NOT NULL,
-	`email`    VARCHAR (100)      NOT NULL,
-	`comments` VARCHAR (2000)     NOT NULL,
-	`rating`   INT(5) DEFAULT 0   NOT NULL,
-	`date`     DATE               NOT NULL,
+	`fb_id`     INT(11)            NOT NULL AUTO_INCREMENT,
+	`api_id`    INT(11),
+	`name`      VARCHAR (255)      NOT NULL,
+	`email`     VARCHAR (100)      NOT NULL,
+	`comments`  VARCHAR (2000)     NOT NULL,
+	`rating`    INT(5) DEFAULT 0   NOT NULL,
+	`timestamp` INT                NOT NULL,
 	PRIMARY KEY (`fb_id`),
 	FOREIGN KEY (`api_id`) REFERENCES api(`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;

@@ -1,4 +1,4 @@
-<?php include 'header.htm';?>
+<?php include 'views/header.htm';?>
 <div class="col-sm-3 col-md-2 sidebar" id="menu_bar">
    <input type="search" value="" placeholder="  Search" class="form-control list-group" id="search"/>
    <ul class="nav nav-pills nav-stacked sidebar-text" id="listprime">
@@ -159,4 +159,4 @@
       </div>
    </form>
 </div>
-<?php include 'footer.htm';?>
+<?php include 'views/footer.htm';?>
