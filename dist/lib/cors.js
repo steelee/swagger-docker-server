@@ -31,7 +31,7 @@ function makeCorsRequest(url, key, method, callback) {
         } catch (e) {
             if (method == "swaggerhub") {
                 $.ajax({
-                    url: "api/create.php",
+                    url: "/api/create.php",
                     global: "false",
                     type: "POST",
                     cache: "false",

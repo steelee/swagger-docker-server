@@ -1,57 +1,3 @@
-/**
- * Contains helper functions for the entire page and various jQuery triggers
- * gen_swagger(target_url) renders the swagger-ui given a remote or local path
- * add_window(form_name) adds the specified form (by ID) to the main container
- * jQuery functionality to implement search bar and window functionality
- */
-function gen_swagger(target_url) {
-    if (target_url == "add_api" || target_url == "add_auth") {
-        add_window(target_url);
-    } else {
-        document.getElementById("add_api_form").className = "hidden";
-        window.swaggerUi = new SwaggerUi({
-            url: target_url,
-            dom_id: "swagger-ui-container",
-            supportHeaderParams: true,
-            supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch', 'options'],
-            onComplete: function(swaggerApi, swaggerUi) {
-                if (window.SwaggerTranslator) {
-                    window.SwaggerTranslator.translate();
-                }
-            },
-            onFailure: function(data) {
-                console.log("Unable to Load SwaggerUI");
-            },
-            docExpansion: "none",
-            jsonEditor: false,
-            defaultModelRendering: 'schema',
-            showRequestHeaders: true
-        });
-        window.swaggerUi.load();
-    }
-    $("#options-menu").empty();
-    $("#options-menu").append('<div class = "btn-group"><button type = "button" data = "" id = "overview" class = "btn btn-default active">Overview</button><button type = "button" data = "" id = "performance" class = "btn btn-default">Performance</button><button type = "button" id = "feedback" data = "" class = "btn btn-default">Feedback</button></div>');
-    $("#performance").on("click", function() {
-        $("#overview").removeClass("active");
-        $("#feedback").removeClass("active");
-        $($(this)).addClass("active");
-        collect_metrics($(this).attr("data"));
-    });
-    $("#overview").on("click", function() {
-        $("#feedback").removeClass("active");
-        $("#performance").removeClass("active");
-        $($(this)).addClass("active");
-        gen_swagger($(this).attr("data"));
-    });
-    $("#feedback").on("click", function() {
-        $("#overview").removeClass("active");
-        $("#performance").removeClass("active");
-        api_feedback(document.getElementsByClassName("active")[0].innerHTML);
-        $($(this)).addClass("active");
-    });
-
-}
-
 $('#swagger-ui-container').bind('DOMSubtreeModified', function() {
     $('#performance').attr("data", window.swaggerUi.api['host']);
     $('#overview').attr("data", window.swaggerUi.api['url']);
@@ -166,7 +112,7 @@ $(document).ready(function() {
         data: {
             'cmd': 'unique_group'
         },
-        url: "api/populate.php",
+        url: "/api/populate.php",
         global: false,
         type: "POST",
         cache: false,
@@ -179,7 +125,9 @@ $(document).ready(function() {
     });
     $("#menu_bar").prepend('<div id = "add_api" class="list-group"><a href="#"><b>+</b> Add API<i class="fa fa-angle-right"></i></a></div>');
     $("div#add_api").on("click", function() {
-        gen_swagger(($(this).attr('id')));
+	var url = SwaggerWindow($(this).attr('id'));
+	url.gen_swagger(url.target_URL);
+        //gen_swagger(($(this).attr('id')));
         $("li").removeClass("active");
         $("div").removeClass("active");
     });
@@ -187,7 +135,7 @@ $(document).ready(function() {
         data: {
             'cmd': 'group'
         },
-        url: "api/populate.php",
+        url: "/api/populate.php",
         global: false,
         type: "POST",
         cache: false,
@@ -199,7 +147,9 @@ $(document).ready(function() {
             $("ul#listprime li ul ul div").on("click", function() {
                 var newURL = updateURLParameter(window.location.href, 'api', ($(this).text()));
                 window.history.replaceState({}, 'title', newURL);
-                gen_swagger(($(this).attr('id')));
+		var url = SwaggerWindow($(this).attr('id'));
+		url.gen_swagger(url.target_URL);
+                //gen_swagger(($(this).attr('id')));
                 $("li").removeClass("active");
                 $("div").removeClass("active");
                 $(this).addClass("active");

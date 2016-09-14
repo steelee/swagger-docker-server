@@ -7,7 +7,7 @@
             <script>
                 $(window).load(function() {
                     $.ajax({
-                        url: "api/populate.php",
+                        url: "/api/populate.php",
                         global: false,
                         type: "POST",
                         cache: false,
@@ -22,7 +22,7 @@
                         }
                     });
                     $.ajax({
-                        url: "api/populate.php",
+                        url: "/api/populate.php",
                         global: false,
                         type: "POST",
                         dataType: "json",
