@@ -121,17 +121,7 @@ $(document).ready(function() {
             $.each(response, function(index) {
                 $("#listprime").prepend('<li><ul class="nav nav-pills nav-stacked collapse in" id="' + response[index].api_group + '"><li data-toggle="collapse" data-parent="#' + response[index].api_group + '" href="#' + response[index].api_group  +'_target"><a class="nav-sub-container">' + response[index].api_group + ' <div class="caret-container"><span class="caret arrow"></span></div></a></li><ul class="nav nav-pills nav-stacked collapse " id="'+ response[index].api_group  +'_target"></ul></ul>');
             });
-        }
-    });
-    $("#menu_bar").prepend('<div id = "add_api" class="list-group"><a href="#"><b>+</b> Add API<i class="fa fa-angle-right"></i></a></div>');
-    $("div#add_api").on("click", function() {
-	var url = SwaggerWindow($(this).attr('id'));
-	url.gen_swagger(url.target_URL);
-        //gen_swagger(($(this).attr('id')));
-        $("li").removeClass("active");
-        $("div").removeClass("active");
-    });
-    $.ajax({
+	  $.ajax({
         data: {
             'cmd': 'group'
         },
@@ -147,9 +137,8 @@ $(document).ready(function() {
             $("ul#listprime li ul ul div").on("click", function() {
                 var newURL = updateURLParameter(window.location.href, 'api', ($(this).text()));
                 window.history.replaceState({}, 'title', newURL);
-		var url = SwaggerWindow($(this).attr('id'));
-		url.gen_swagger(url.target_URL);
-                //gen_swagger(($(this).attr('id')));
+                var url = SwaggerWindow($(this).attr('id'), $(this).text());
+                url.gen_swagger(url.target_URL);
                 $("li").removeClass("active");
                 $("div").removeClass("active");
                 $(this).addClass("active");
@@ -159,6 +148,16 @@ $(document).ready(function() {
                 $('ul#listprime li ul div:contains("' + target_API + '")').trigger("click");
             }
         }
+    });
+
+        }
+    });
+    $("#menu_bar").prepend('<div id = "add_api" class="list-group-item"><a href="#"><b>+</b> Add API<i class="fa fa-angle-right"></i></a></div>');
+    $("div#add_api").on("click", function() {
+	var url = SwaggerWindow($(this).attr('id'), null);
+	url.gen_swagger(url.target_URL);
+        $("li").removeClass("active");
+        $("div").removeClass("active");
     });
 
     $('#create_group_url').on("click", function() {

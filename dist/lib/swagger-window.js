@@ -1,10 +1,12 @@
-var SwaggerWindow = function(target_URL) {
+var SwaggerWindow = function(target_URL, name) {
 
     return {
         target_URL: target_URL,
+	name: name,
         gen_swagger: function(target_URL) {
             if (target_URL == "add_api" || target_URL == "add_auth") {
                 this.add_window(target_URL);
+                $("#supplement").empty();
             } else {
                 document.getElementById("add_api_form").className = "hidden";
                 window.swaggerUi = new SwaggerUi({
@@ -26,9 +28,11 @@ var SwaggerWindow = function(target_URL) {
                     showRequestHeaders: true
                 });
                 window.swaggerUi.load();
-                console.log("Class Executed!");
-                $("#options-menu").empty();
-                $("#options-menu").append('<div class = "btn-group"><button type = "button" data = "" id = "overview" class = "btn btn-default active">Overview</button><button type = "button" data = "" id = "performance" class = "btn btn-default">Performance</button><button type = "button" id = "feedback" data = "" class = "btn btn-default">Feedback</button></div>');
+                //$("#supplement").empty();
+                $("#supplement").empty();
+                //$("#supplement").append('<div class = "btn-group"><button type = "button" data = "" id = "overview" class = "btn btn-default active">Overview</button><button type = "button" data = "" id = "performance" class = "btn btn-default">Performance</button><button type = "button" id = "feedback" data = "" class = "btn btn-default">Feedback</button></div>');
+                var owner_element = this.gen_owner(name)
+                $("#supplement").append('<div class = "btn-group"><button type = "button" data = "" id = "overview" class = "btn btn-default active">Overview</button><button type = "button" data = "" id = "performance" class = "btn btn-default">Performance</button><button type = "button" id = "feedback" data = "" class = "btn btn-default">Feedback</button></div>');
                 class_def = this;
                 $("#performance").on("click", function() {
                     $("#overview").removeClass("active");
@@ -51,6 +55,10 @@ var SwaggerWindow = function(target_URL) {
 
             }
         },
+	
+	gen_owner: function(target) {
+	    console.log(target);
+	},
 
         add_window: function(form_name) {
             document.getElementById("swagger-ui-container").innerHTML = "";
