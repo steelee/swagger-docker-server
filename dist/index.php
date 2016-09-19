@@ -13,9 +13,12 @@
            $_SESSION['status'] = null;
    }
    ?>
+<div id="owners-box">
+</div>
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 <div id="add_api_form" class="hidden">
    <script>
+      $('#swagger-ui-container').prepend($('<img>',{id:'loading',src:'images/load.gif'}))
       $(document).ready(function(){
             $.ajax({
             url: "/api/populate.php",

@@ -7,6 +7,7 @@ var SwaggerWindow = function(target_URL, name) {
             if (target_URL == "add_api" || target_URL == "add_auth") {
                 this.add_window(target_URL);
                 $("#supplement").empty();
+                $("#owners-box").empty();
             } else {
                 document.getElementById("add_api_form").className = "hidden";
                 window.swaggerUi = new SwaggerUi({
@@ -28,13 +29,14 @@ var SwaggerWindow = function(target_URL, name) {
                     showRequestHeaders: true
                 });
                 window.swaggerUi.load();
-                //$("#supplement").empty();
                 $("#supplement").empty();
+                $("#owners-box").empty();
                 //$("#supplement").append('<div class = "btn-group"><button type = "button" data = "" id = "overview" class = "btn btn-default active">Overview</button><button type = "button" data = "" id = "performance" class = "btn btn-default">Performance</button><button type = "button" id = "feedback" data = "" class = "btn btn-default">Feedback</button></div>');
-                var owner_element = this.gen_owner(name)
-                $("#supplement").append('<div class = "btn-group"><button type = "button" data = "" id = "overview" class = "btn btn-default active">Overview</button><button type = "button" data = "" id = "performance" class = "btn btn-default">Performance</button><button type = "button" id = "feedback" data = "" class = "btn btn-default">Feedback</button></div>');
+                $("#owners-box").append('<div class="panel panel-primary"><div class="panel-heading">Asset Information</div><div class="panel-body">Panel Content</div></div>');
+                $("#supplement").append('<div class="panel panel-default"> <div class="panel-heading">Statistics</div> <div class="panel-body">Panel Content</div> </div>');
                 class_def = this;
-                $("#performance").on("click", function() {
+		$("body #container-fluid").append('<div><ul class="nav nav-pills nav-stacked"> <li>jedan</li> <li>dva</li> <li>tri</li> <li>cetriri</li> <li>pet</li> </ul></div>');
+                /*$("#performance").on("click", function() {
                     $("#overview").removeClass("active");
                     $("#feedback").removeClass("active");
                     $($(this)).addClass("active");
@@ -52,6 +54,7 @@ var SwaggerWindow = function(target_URL, name) {
                     api_feedback(document.getElementsByClassName("active")[0].innerHTML);
                     $($(this)).addClass("active");
                 });
+*/
 
             }
         },

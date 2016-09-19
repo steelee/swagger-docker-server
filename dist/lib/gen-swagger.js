@@ -1,9 +1,9 @@
-$('#swagger-ui-container').bind('DOMSubtreeModified', function() {
+/*$('#swagger-ui-container').bind('DOMSubtreeModified', function() {
     $('#performance').attr("data", window.swaggerUi.api['host']);
     $('#overview').attr("data", window.swaggerUi.api['url']);
     $('#feedback').attr("data", getParameterByName('api'));
 });
-
+*/
 function toggler(divId) {
     $("#" + divId).toggle();
 }
@@ -146,13 +146,15 @@ $(document).ready(function() {
 
             if (target_API != null) {
                 $('ul#listprime li ul div:contains("' + target_API + '")').trigger("click");
-            }
+            } else {
+		$("#swagger-ui-container").load("views/graphs.htm");
+		}
         }
     });
 
         }
     });
-    $("#menu_bar").prepend('<div id = "add_api" class="list-group-item"><a href="#"><b>+</b> Add API<i class="fa fa-angle-right"></i></a></div>');
+    $("#menu_bar").prepend('<div id = "add_api" class="list-group-item"><a href="#"><b>+</b> Add API</a></div>');
     $("div#add_api").on("click", function() {
 	var url = SwaggerWindow($(this).attr('id'), null);
 	url.gen_swagger(url.target_URL);
