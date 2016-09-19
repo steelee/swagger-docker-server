@@ -97,6 +97,12 @@ function updateURLParameter(url, param, paramVal) {
     return baseURL + "?" + newAdditionalURL + rows_txt;
 }
 
+$('#swagger-ui-container').bind('DOMSubtreeModified', function() {
+       if(getParameterByName('api')){
+           $('#button-stats').attr('data', window.swaggerUi.api['host']);
+       }
+});
+
 $(document).ready(function() {
     var target_API = getParameterByName('api');
     $("#search").keyup(function() {
@@ -145,7 +151,7 @@ $(document).ready(function() {
             });
 
             if (target_API != null) {
-                $('ul#listprime li ul div:contains("' + target_API + '")').trigger("click");
+                console.log($('ul#listprime li ul div:contains("' + target_API + '")').trigger("click"));
             } else {
 		$("#swagger-ui-container").load("views/graphs.htm");
 		}

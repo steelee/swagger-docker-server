@@ -1,6 +1,7 @@
 <?php include 'views/header.htm';?>
 <div class="col-sm-3 col-md-2 sidebar" id="menu_bar">
    <input type="search" value="" placeholder="  Search" class="form-control list-group" id="search"/>
+   <h3>Inventory</h3>
    <ul class="nav nav-pills nav-stacked sidebar-text" id="listprime">
    </ul>
 </div>
@@ -14,6 +15,8 @@
    }
    ?>
 <div id="owners-box">
+</div>
+<div id="dialog">
 </div>
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 <div id="add_api_form" class="hidden">

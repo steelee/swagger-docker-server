@@ -31,30 +31,15 @@ var SwaggerWindow = function(target_URL, name) {
                 window.swaggerUi.load();
                 $("#supplement").empty();
                 $("#owners-box").empty();
-                //$("#supplement").append('<div class = "btn-group"><button type = "button" data = "" id = "overview" class = "btn btn-default active">Overview</button><button type = "button" data = "" id = "performance" class = "btn btn-default">Performance</button><button type = "button" id = "feedback" data = "" class = "btn btn-default">Feedback</button></div>');
-                $("#owners-box").append('<div class="panel panel-primary"><div class="panel-heading">Asset Information</div><div class="panel-body">Panel Content</div></div>');
-                $("#supplement").append('<div class="panel panel-default"> <div class="panel-heading">Statistics</div> <div class="panel-body">Panel Content</div> </div>');
+		$("#owners-box").append('<div class="panel panel-primary"><div class="panel-heading">Asset Information</div><div class="panel-body"><b>Status: Operational<br>Asset Owner: Aaron Shaver<br>Technical Owner: Aaron Shaver </div></div>');
+               console.log(window.swaggerUi.api['info'])
+                $("#owners-box").append('<div class="panel panel-default"> <div class="panel-heading">Statistics</div> <div class="panel-body"><button type="button" id="button-stats" class="btn btn-info">Average Response time: 35ms</button><button type="button-error" id="' + window.swaggerUi.api['url']  +'" class="btn btn-info">Average Error count: 12 errors per day</button><button type="button-rating" id="' + window.swaggerUi.api['url']  +'" class="btn btn-info">Rating: ★★★☆☆ (4 ratings)</button> </div>');
                 class_def = this;
 		$("body #container-fluid").append('<div><ul class="nav nav-pills nav-stacked"> <li>jedan</li> <li>dva</li> <li>tri</li> <li>cetriri</li> <li>pet</li> </ul></div>');
-                /*$("#performance").on("click", function() {
-                    $("#overview").removeClass("active");
-                    $("#feedback").removeClass("active");
-                    $($(this)).addClass("active");
-                    collect_metrics($(this).attr("data"));
-                });
-                $("#overview").on("click", function() {
-                    $("#feedback").removeClass("active");
-                    $("#performance").removeClass("active");
-                    $($(this)).addClass("active");
-                    class_def.gen_swagger($(this).attr("data"));
-                });
-                $("#feedback").on("click", function() {
-                    $("#overview").removeClass("active");
-                    $("#performance").removeClass("active");
-                    api_feedback(document.getElementsByClassName("active")[0].innerHTML);
-                    $($(this)).addClass("active");
-                });
-*/
+		$("button").on("click", function() {
+                   console.log($(this).attr("type"));
+                     collect_metrics($(this).attr("data"));
+                 });
 
             }
         },
