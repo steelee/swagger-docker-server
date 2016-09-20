@@ -1,5 +1,4 @@
 function collect_metrics(target_url) {
-    document.getElementById("swagger-ui-container").innerHTML = "";
     if (!getCookie("apigee_key")) {
         $("#swagger-ui-container").append('<div class="alert alert-warning"><strong>Failure</strong> No Apigee key set, go to the <a href="options.php">settings page</a> to set one.</div>');
 
@@ -20,6 +19,8 @@ function collect_metrics(target_url) {
                 axisLabel: 'Response time (milliseconds)',
             }]
         };
+	$('#dialog').empty();
+	$('#swagger-ui-container').prepend($('<img>',{id:'loading',src:'images/load.gif'}))
         makeCorsRequest(target, key, "apigee", function(val) {
             var results = val["environments"][0]["dimensions"];
             for (var count = 0; count < results.length; count++) {
@@ -34,8 +35,13 @@ function collect_metrics(target_url) {
                         item[1] = set[subarray]["value"];
                         arr.push(item);
                     }
-                    $("#swagger-ui-container").append('<div id="graph_container" class="graph_container"></div>');
+		    $('#loading').remove();
+	            $("#dialog").append('<a class="close" id="close"><h1>x</h1></a>');
+                    $("#dialog").append('<div id="graph_container" class="graph_container"></div>');
                     $.plot($("#graph_container"), [arr], options);
+		    $('#close h1').on("click", function() {
+                       $('#dialog').empty();
+                    });
                 }
             }
         });

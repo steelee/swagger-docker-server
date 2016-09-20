@@ -19756,7 +19756,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
     handleOauth2Login: function (auth) {
         var host = window.location;
         var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        var defaultRedirectUrl = host.protocol + '//' + host.host + pathname + '/o2c.html';
+        var defaultRedirectUrl = host.protocol + '//' + host.host + pathname + '/views/o2c.html';
         var redirectUrl = window.oAuthRedirectUrl || defaultRedirectUrl;
         var url = null;
         var scopes = _.map(auth.get('scopes'), function (scope) {

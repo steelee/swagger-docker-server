@@ -11,12 +11,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.min.js"></script> 
-    <script src="lib/cookies.js"></script>
-    <script src="lib/cors.js"></script>
-    <link href="css/dashboard.css" rel="stylesheet">
-    <link href="css/screen.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="/lib/cookies.js"></script>
+    <script src="/lib/cookies.js"></script>
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <link href="/css/screen.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
   </head>
   
   <body class ="swagger-section">
@@ -29,21 +30,21 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-	 <a class="navbar-brand" rel="home" href="index.php" title="API Portal">
+	 <a class="navbar-brand" rel="home" href="/index.php" title="API Portal">
         <img style="max-width:100px; max-height:30px; margin-top: -7px; padding:none; "
-             src="images/logo.png" alt="logo">
+             src="/images/logo.png" alt="logo">
 	</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-left" id="top-menu">
-            <li><a href="apitools.php"><span class="glyphicon glyphicon-tasks"></span> API Configuration</a></li>
+            <li><a href="/views/apitools.php"><span class="glyphicon glyphicon-tasks"></span> Domain Configuration</a></li>
 	     <script>
 		if (getCookie("swaggercookie_url")){
-			$("#top-menu").append('<li><a href="swaggerhub.php"><span class="glyphicon glyphicon-comment"></span> SwaggerHub</a></li>');
+			$("#top-menu").append('<li><a href="/views/swaggerhub.php"><span class="glyphicon glyphicon-comment"></span> SwaggerHub</a></li>');
 		}
              </script>
-            <li><a href="learn.php"><span class="glyphicon glyphicon-book"></span> Training Options</a></li>
-            <li><a href="options.php"><span class="glyphicon glyphicon-briefcase"></span> Settings</a></li>
+            <li><a href="/views/learn.php"><span class="glyphicon glyphicon-book"></span> Training Options</a></li>
+            <li><a href="/views/options.php"><span class="glyphicon glyphicon-briefcase"></span> Settings</a></li>
           </ul>
         </div>
       </div>

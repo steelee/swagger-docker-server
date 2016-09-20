@@ -1,62 +1,9 @@
-/**
- * Contains helper functions for the entire page and various jQuery triggers
- * gen_swagger(target_url) renders the swagger-ui given a remote or local path
- * add_window(form_name) adds the specified form (by ID) to the main container
- * jQuery functionality to implement search bar and window functionality
- */
-function gen_swagger(target_url) {
-    if (target_url == "add_api" || target_url == "add_auth") {
-        add_window(target_url);
-    } else {
-        document.getElementById("add_api_form").className = "hidden";
-        window.swaggerUi = new SwaggerUi({
-            url: target_url,
-            dom_id: "swagger-ui-container",
-            supportHeaderParams: true,
-            supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch', 'options'],
-            onComplete: function(swaggerApi, swaggerUi) {
-                if (window.SwaggerTranslator) {
-                    window.SwaggerTranslator.translate();
-                }
-            },
-            onFailure: function(data) {
-                console.log("Unable to Load SwaggerUI");
-            },
-            docExpansion: "none",
-            jsonEditor: false,
-            defaultModelRendering: 'schema',
-            showRequestHeaders: true
-        });
-        window.swaggerUi.load();
-    }
-    $("#options-menu").empty();
-    $("#options-menu").append('<div class = "btn-group"><button type = "button" data = "" id = "overview" class = "btn btn-default active">Overview</button><button type = "button" data = "" id = "performance" class = "btn btn-default">Performance</button><button type = "button" id = "feedback" data = "" class = "btn btn-default">Feedback</button></div>');
-    $("#performance").on("click", function() {
-        $("#overview").removeClass("active");
-        $("#feedback").removeClass("active");
-        $($(this)).addClass("active");
-        collect_metrics($(this).attr("data"));
-    });
-    $("#overview").on("click", function() {
-        $("#feedback").removeClass("active");
-        $("#performance").removeClass("active");
-        $($(this)).addClass("active");
-        gen_swagger($(this).attr("data"));
-    });
-    $("#feedback").on("click", function() {
-        $("#overview").removeClass("active");
-        $("#performance").removeClass("active");
-        api_feedback(document.getElementsByClassName("active")[0].innerHTML);
-        $($(this)).addClass("active");
-    });
-
-}
-
-$('#swagger-ui-container').bind('DOMSubtreeModified', function() {
+/*$('#swagger-ui-container').bind('DOMSubtreeModified', function() {
     $('#performance').attr("data", window.swaggerUi.api['host']);
     $('#overview').attr("data", window.swaggerUi.api['url']);
+    $('#feedback').attr("data", getParameterByName('api'));
 });
-
+*/
 function toggler(divId) {
     $("#" + divId).toggle();
 }
@@ -150,6 +97,12 @@ function updateURLParameter(url, param, paramVal) {
     return baseURL + "?" + newAdditionalURL + rows_txt;
 }
 
+$('#swagger-ui-container').bind('DOMSubtreeModified', function() {
+       if(getParameterByName('api')){
+           $('#button-stats').attr('data', window.swaggerUi.api['host']);
+       }
+});
+
 $(document).ready(function() {
     var target_API = getParameterByName('api');
     $("#search").keyup(function() {
@@ -165,7 +118,7 @@ $(document).ready(function() {
         data: {
             'cmd': 'unique_group'
         },
-        url: "api/populate.php",
+        url: "/api/populate.php",
         global: false,
         type: "POST",
         cache: false,
@@ -174,19 +127,11 @@ $(document).ready(function() {
             $.each(response, function(index) {
                 $("#listprime").prepend('<li><ul class="nav nav-pills nav-stacked collapse in" id="' + response[index].api_group + '"><li data-toggle="collapse" data-parent="#' + response[index].api_group + '" href="#' + response[index].api_group  +'_target"><a class="nav-sub-container">' + response[index].api_group + ' <div class="caret-container"><span class="caret arrow"></span></div></a></li><ul class="nav nav-pills nav-stacked collapse " id="'+ response[index].api_group  +'_target"></ul></ul>');
             });
-        }
-    });
-    $("#menu_bar").prepend('<div id = "add_api" class="list-group"><a href="#"><b>+</b> Add API<i class="fa fa-angle-right"></i></a></div>');
-    $("div#add_api").on("click", function() {
-        gen_swagger(($(this).attr('id')));
-        $("li").removeClass("active");
-        $("div").removeClass("active");
-    });
-    $.ajax({
+	  $.ajax({
         data: {
             'cmd': 'group'
         },
-        url: "api/populate.php",
+        url: "/api/populate.php",
         global: false,
         type: "POST",
         cache: false,
@@ -198,16 +143,29 @@ $(document).ready(function() {
             $("ul#listprime li ul ul div").on("click", function() {
                 var newURL = updateURLParameter(window.location.href, 'api', ($(this).text()));
                 window.history.replaceState({}, 'title', newURL);
-                gen_swagger(($(this).attr('id')));
+                var url = SwaggerWindow($(this).attr('id'), $(this).text());
+                url.gen_swagger(url.target_URL);
                 $("li").removeClass("active");
                 $("div").removeClass("active");
                 $(this).addClass("active");
             });
 
             if (target_API != null) {
-                $('ul#listprime li ul div:contains("' + target_API + '")').trigger("click");
-            }
+                console.log($('ul#listprime li ul div:contains("' + target_API + '")').trigger("click"));
+            } else {
+		$("#swagger-ui-container").load("views/graphs.htm");
+		}
         }
+    });
+
+        }
+    });
+    $("#menu_bar").prepend('<div id = "add_api" class="list-group-item"><a href="#"><b>+</b> Add API</a></div>');
+    $("div#add_api").on("click", function() {
+	var url = SwaggerWindow($(this).attr('id'), null);
+	url.gen_swagger(url.target_URL);
+        $("li").removeClass("active");
+        $("div").removeClass("active");
     });
 
     $('#create_group_url').on("click", function() {

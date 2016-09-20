@@ -1,10 +1,11 @@
-<?php include 'header.htm';?>
+<?php include 'views/header.htm';?>
 <div class="col-sm-3 col-md-2 sidebar" id="menu_bar">
    <input type="search" value="" placeholder="  Search" class="form-control list-group" id="search"/>
+   <h3>Inventory</h3>
    <ul class="nav nav-pills nav-stacked sidebar-text" id="listprime">
    </ul>
 </div>
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2" id="options-menu">
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2" id="owner-info">
 </div>
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main swagger-ui-wrap">
 <?php
@@ -13,12 +14,17 @@
            $_SESSION['status'] = null;
    }
    ?>
+<div id="owners-box">
+</div>
+<div id="dialog">
+</div>
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 <div id="add_api_form" class="hidden">
    <script>
+      $('#swagger-ui-container').prepend($('<img>',{id:'loading',src:'images/load.gif'}))
       $(document).ready(function(){
             $.ajax({
-            url: "api/populate.php",
+            url: "/api/populate.php",
             global: false,
             type: "POST",
             cache: false,
@@ -38,7 +44,7 @@
       }  
       });
         $.ajax({
-            url: "api/populate.php",
+            url: "/api/populate.php",
             global: false,
             type: "POST",
             cache: false,
@@ -159,4 +165,4 @@
       </div>
    </form>
 </div>
-<?php include 'footer.htm';?>
+<?php include 'views/footer.htm';?>
