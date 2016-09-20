@@ -2,8 +2,8 @@
 <div class="container" style="padding-top:50px">
     <div class="row">
         <div class="col-md-9">
-            <h2>Group Management</h2>
-            <p>Create new groups, or delete or update existing groups</p>
+            <h2>Domain Management</h2>
+            <p>Create new domains, or delete or update existing domains</p>
             <script>
                 $(window).load(function() {
                     $.ajax({
@@ -40,7 +40,7 @@
             <table class="table table-condensed table-hover" id='group'>
                 <thead>
                     <tr>
-                        <th>Group Name</th>
+                        <th>Domain Name</th>
                         <th>Expand</th>
                     </tr>
                 </thead>

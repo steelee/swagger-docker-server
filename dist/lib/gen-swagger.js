@@ -160,8 +160,7 @@ $(document).ready(function() {
 
         }
     });
-    $("#menu_bar").prepend('<div id = "add_api" class="list-group-item"><a href="#"><b>+</b> Add API</a></div>');
-    $("div#add_api").on("click", function() {
+    $("#add_api").on("click", function() {
 	var url = SwaggerWindow($(this).attr('id'), null);
 	url.gen_swagger(url.target_URL);
         $("li").removeClass("active");

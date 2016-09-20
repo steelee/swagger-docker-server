@@ -4,7 +4,8 @@ var SwaggerWindow = function(target_URL, name) {
         target_URL: target_URL,
 	name: name,
         gen_swagger: function(target_URL) {
-            if (target_URL == "add_api" || target_URL == "add_auth") {
+	    console.log(target_URL);
+            if (target_URL == "add_api") {
                 this.add_window(target_URL);
                 $("#supplement").empty();
                 $("#owners-box").empty();
