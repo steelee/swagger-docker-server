@@ -77,7 +77,15 @@
                     });
 	$( "#change" ).on("click", function() {
 	var api = $("#fuzzOptionsList").val();
+	if ( $("#new_group_entry").val() != undefined){
+	var group = $("#new_group_entry").val();
+	}else if ( $("#fuzzOptionsTarget").val() == undefined) {
+		$("#supplement").empty();	
+	        $("#supplement").append('<div class="alert alert-warning"><strong>Complete!</strong></div>');    
+		return;	
+	}else{
 	var group = $("#fuzzOptionsTarget").val();
+	}
 	 $.ajax({
                         url: "/api/update.php",
                         global: false,
@@ -96,6 +104,11 @@
 	});
 
 });
+	$("#new_group_button").on("click",function(){
+		$('#new_target').slideUp();
+		$('#new_entry').append('<input type="text" id="new_group_entry" class="fuzzMagicBox" placeholder="New Domain Name" />');
+		
+	});
                 });
             </script>
             <table class="table table-condensed table-hover" id='group'>
@@ -125,6 +138,7 @@
     </ul>
   </div>
 <h3>To group:</h3>
+<div id = "new_target">
 <select id="fuzzOptionsTarget">
 </select>
 <div id="fuzzSearchTarget">
@@ -136,7 +150,12 @@
     <span class="fuzzSearchIcon"></span>
     <ul id="fuzzResults">
     </ul>
+<button type="button" class="btn btn-info" id="new_group_button" >Create New Group</button>
   </div>
 </div>
+</div>
+<div id="new_entry">
+</div>
+<br>
 <button type="button" class="btn btn-success" id="change">Confirm</button>
 <?php include "footer.htm";?>

@@ -5,9 +5,13 @@ function collect_metrics(target_url) {
     } else if (target_url.indexOf("apigee") == -1) {
         $("#swagger-ui-container").append('<div class="alert alert-warning"><strong>Failure</strong> Not an Apigee API, no analytics available</div>');
     } else {
+	$('#dialog').empty();
+ 	$("#dialog").dialog("open");
+	$('#dialog').prepend($('<img>',{id:'loading',src:'images/load.gif'}))
         var key = "Basic " + getCookie("apigee_key");
         var target = getCookie("apigee_url");
         var options = {
+	    colors: "#FF0000",
             axisLabels: {
                 show: true
             },
@@ -19,8 +23,6 @@ function collect_metrics(target_url) {
                 axisLabel: 'Response time (milliseconds)',
             }]
         };
-	$('#dialog').empty();
-	$('#swagger-ui-container').prepend($('<img>',{id:'loading',src:'images/load.gif'}))
         makeCorsRequest(target, key, "apigee", function(val) {
             var results = val["environments"][0]["dimensions"];
             for (var count = 0; count < results.length; count++) {
@@ -35,13 +37,9 @@ function collect_metrics(target_url) {
                         item[1] = set[subarray]["value"];
                         arr.push(item);
                     }
-		    $('#loading').remove();
-	            $("#dialog").append('<a class="close" id="close"><h1>x</h1></a>');
+		    $('#dialog').empty();
                     $("#dialog").append('<div id="graph_container" class="graph_container"></div>');
                     $.plot($("#graph_container"), [arr], options);
-		    $('#close h1').on("click", function() {
-                       $('#dialog').empty();
-                    });
                 }
             }
         });

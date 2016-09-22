@@ -16,10 +16,9 @@
    ?>
 <div id="owners-box">
 </div>
-<div id="dialog">
-  <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
-</div>
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+<div id="dialog" style="background-color:#E3DEDD">
+</div>
 <div id="add_api_form" class="hidden">
    <script>
       $('#swagger-ui-container').prepend($('<img>',{id:'loading',src:'images/load.gif'}))
