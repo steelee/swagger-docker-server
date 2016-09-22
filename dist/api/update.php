@@ -16,6 +16,17 @@ if ($_POST['name'] == 'update_group_name'){
 	$oldvalue = $_POST['pk'];
 	$newvalue = $_POST['value'];
 	$sql = 'UPDATE api SET api_group = "' . $newvalue . '" WHERE api_group = "'. $oldvalue . '";';
+	$status = "Update complete!";
+}else if ($_POST['name'] == 'delete_group'){
+	$group = $_POST['group'];
+	$sql = 'UPDATE api SET api_group = "No_Group" WHERE api_group = "' . $group . '";';
+	$status = $group; 
+}else if ($_POST['name'] == 'update_group_member'){
+	$group = $_POST['group'];
+	$api = $_POST['api'];
+	$sql = 'UPDATE api SET api_group = "' . $group . '" WHERE name = "' . $api . '";';
+	$status = $api . " reassigned to " . $group; 
 }
 $result = $conn->query($sql);
+echo json_encode($status);
 ?>

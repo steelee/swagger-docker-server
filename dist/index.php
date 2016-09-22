@@ -17,6 +17,7 @@
 <div id="owners-box">
 </div>
 <div id="dialog">
+  <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
 </div>
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 <div id="add_api_form" class="hidden">

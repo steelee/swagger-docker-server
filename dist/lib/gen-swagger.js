@@ -104,6 +104,9 @@ $('#swagger-ui-container').bind('DOMSubtreeModified', function() {
 });
 
 $(document).ready(function() {
+	  $( function() {
+    $( "#dialog" ).dialog();
+  } );
     var target_API = getParameterByName('api');
     $("#search").keyup(function() {
         var filter = $(this).val(); // get the value of the input, which we filter on

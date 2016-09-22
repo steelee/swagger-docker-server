@@ -35,7 +35,7 @@ var SwaggerWindow = function(target_URL, name) {
                 $("#owners-box").append('<div class="panel panel-default"> <div class="panel-heading">Statistics</div> <div class="panel-body"><button type="button" id="button-stats" class="btn btn-info">Average Response time: 35ms</button><button type="button-error" id="' + window.swaggerUi.api['url']  +'" class="btn btn-info">Average Error count: 12 errors per day</button><button type="button-rating" id="' + window.swaggerUi.api['url']  +'" class="btn btn-info">Rating: ★★★☆☆ (4 ratings)</button> </div>');
                 class_def = this;
 		$("body #container-fluid").append('<div><ul class="nav nav-pills nav-stacked"> <li>jedan</li> <li>dva</li> <li>tri</li> <li>cetriri</li> <li>pet</li> </ul></div>');
-		$("button").on("click", function() {
+		$(".btn-info").on("click", function() {
                      collect_metrics($(this).attr("data"));
                  });
 

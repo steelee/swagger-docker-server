@@ -1,6 +1,6 @@
 function collect_metrics(target_url) {
     if (!getCookie("apigee_key")) {
-        $("#swagger-ui-container").append('<div class="alert alert-warning"><strong>Failure</strong> No Apigee key set, go to the <a href="options.php">settings page</a> to set one.</div>');
+        $("#swagger-ui-container").append('<div class="alert alert-warning"><strong>Failure</strong> No Apigee key set, go to the <a href="/views/options.php">settings page</a> to set one.</div>');
 
     } else if (target_url.indexOf("apigee") == -1) {
         $("#swagger-ui-container").append('<div class="alert alert-warning"><strong>Failure</strong> Not an Apigee API, no analytics available</div>');
