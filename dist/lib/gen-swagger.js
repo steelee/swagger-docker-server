@@ -128,8 +128,11 @@ $("#dialog").dialog({
         dataType: "json",
         success: function(response) {
             $.each(response, function(index) {
+		if (response[index].api_group != "No_Group"){
                 $("#listprime").prepend('<li class="data-dropdown"><ul class="nav nav-pills nav-stacked collapse in" id="' + response[index].api_group + '"><li data-toggle="collapse" data-parent="#' + response[index].api_group + '" href="#' + response[index].api_group  +'_target"><a class="nav-sub-container">' + response[index].api_group + ' <div class="caret-container"><span class="caret arrow"></span></div></a></li><ul class="nav nav-pills nav-stacked collapse " id="'+ response[index].api_group  +'_target"></ul></ul>');
+		}
             });
+		$("#menu_bar").append('<h3>Unassigned</h3><ul class="nav nav-pills nav-stacked" id="no_domain"></ul><button type="button" class="btn btn-secondary"><span class="glyphicon glyphicon-plus"></span> Add Domain</button>');	
 	  $.ajax({
         data: {
             'cmd': 'group'
@@ -141,9 +144,13 @@ $("#dialog").dialog({
         dataType: "json",
         success: function(response) {
             $.each(response, function(index) {
+		if (response[index].api_group != "No_Group"){
                 $("ul#" + response[index].api_group + " ul").append('<div class="list-group-item" id="' + response[index].url  + '">' + response[index].name + '</div>');
+		}else{
+                	$("#no_domain").append('<div class="list-group-item" id="' + response[index].url  + '">' + response[index].name + '</div>');
+		}
             });
-            $("ul#listprime li ul ul div").on("click", function() {
+            $("ul#listprime li ul ul div, #no_domain div").on("click", function() {
                 var newURL = updateURLParameter(window.location.href, 'api', ($(this).text()));
                 window.history.replaceState({}, 'title', newURL);
                 var url = SwaggerWindow($(this).attr('id'), $(this).text());
@@ -155,6 +162,7 @@ $("#dialog").dialog({
 
             if (target_API != null) {
                 $('ul#listprime li ul div:contains("' + target_API + '")').trigger("click");
+                $('#no_domain div:contains("' + target_API + '")').trigger("click");
             } else {
 		$("#swagger-ui-container").load("views/graphs.htm");
 		}
