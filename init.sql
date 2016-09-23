@@ -4,11 +4,13 @@ USE `api`;
 DROP TABLE IF EXISTS `api`;
 
 CREATE TABLE `api` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(32) NOT NULL AUTO_INCREMENT,
   `url` VARCHAR(2084) DEFAULT NULL,
   `name` VARCHAR(64) DEFAULT NULL,
   `rating` int(5) DEFAULT 3,
+  `num_rating` int(5) DEFAULT 1,
   `owner` VARCHAR(64) DEFAULT NULL,
+  `status` VARCHAR(64) DEFAULT NULL,
   `contact` VARCHAR(64) DEFAULT NULL,
   `api_group` VARCHAR(64) DEFAULT NULL,
   PRIMARY KEY (`id`)

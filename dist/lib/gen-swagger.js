@@ -104,12 +104,15 @@ $('#swagger-ui-container').bind('DOMSubtreeModified', function() {
 });
 
 $(document).ready(function() {
+$("#dialog").dialog({
+    autoOpen : false, modal : true, show : "blind", hide : "blind","width":750,
+  });
     var target_API = getParameterByName('api');
     $("#search").keyup(function() {
         var filter = $(this).val(); // get the value of the input, which we filter on
         if (filter) {
-            $("#listprime div").find("div:not(:contains(" + filter + "))").slideUp("fast");
-            $("#listprime div").find("div:contains(" + filter + ")").slideDown("fast");
+            $("#listprime li ul").find("div:not(:contains(" + filter + "))").slideUp("fast");
+            $("#listprime li ul").find("div:contains(" + filter + ")").slideDown("fast");
         } else {
             $("#listprime").find("div").slideDown();
         }
@@ -125,8 +128,11 @@ $(document).ready(function() {
         dataType: "json",
         success: function(response) {
             $.each(response, function(index) {
-                $("#listprime").prepend('<li><ul class="nav nav-pills nav-stacked collapse in" id="' + response[index].api_group + '"><li data-toggle="collapse" data-parent="#' + response[index].api_group + '" href="#' + response[index].api_group  +'_target"><a class="nav-sub-container">' + response[index].api_group + ' <div class="caret-container"><span class="caret arrow"></span></div></a></li><ul class="nav nav-pills nav-stacked collapse " id="'+ response[index].api_group  +'_target"></ul></ul>');
+		if (response[index].api_group != "No_Group"){
+                $("#listprime").prepend('<li class="data-dropdown"><ul class="nav nav-pills nav-stacked collapse in" id="' + response[index].api_group + '"><li data-toggle="collapse" data-parent="#' + response[index].api_group + '" href="#' + response[index].api_group  +'_target"><a class="nav-sub-container">' + response[index].api_group + ' <div class="caret-container"><span class="caret arrow"></span></div></a></li><ul class="nav nav-pills nav-stacked collapse " id="'+ response[index].api_group  +'_target"></ul></ul>');
+		}
             });
+		$("#menu_bar").append('<h3>Unassigned</h3><ul class="nav nav-pills nav-stacked" id="no_domain"></ul><button type="button" class="btn btn-secondary"><span class="glyphicon glyphicon-plus"></span> Add Domain</button>');	
 	  $.ajax({
         data: {
             'cmd': 'group'
@@ -138,9 +144,13 @@ $(document).ready(function() {
         dataType: "json",
         success: function(response) {
             $.each(response, function(index) {
+		if (response[index].api_group != "No_Group"){
                 $("ul#" + response[index].api_group + " ul").append('<div class="list-group-item" id="' + response[index].url  + '">' + response[index].name + '</div>');
+		}else{
+                	$("#no_domain").append('<div class="list-group-item" id="' + response[index].url  + '">' + response[index].name + '</div>');
+		}
             });
-            $("ul#listprime li ul ul div").on("click", function() {
+            $("ul#listprime li ul ul div, #no_domain div").on("click", function() {
                 var newURL = updateURLParameter(window.location.href, 'api', ($(this).text()));
                 window.history.replaceState({}, 'title', newURL);
                 var url = SwaggerWindow($(this).attr('id'), $(this).text());
@@ -151,7 +161,8 @@ $(document).ready(function() {
             });
 
             if (target_API != null) {
-                console.log($('ul#listprime li ul div:contains("' + target_API + '")').trigger("click"));
+                $('ul#listprime li ul div:contains("' + target_API + '")').trigger("click");
+                $('#no_domain div:contains("' + target_API + '")').trigger("click");
             } else {
 		$("#swagger-ui-container").load("views/graphs.htm");
 		}
@@ -160,30 +171,9 @@ $(document).ready(function() {
 
         }
     });
-    $("#menu_bar").prepend('<div id = "add_api" class="list-group-item"><a href="#"><b>+</b> Add API</a></div>');
-    $("div#add_api").on("click", function() {
+    $("#add_api").on("click", function() {
 	var url = SwaggerWindow($(this).attr('id'), null);
 	url.gen_swagger(url.target_URL);
-        $("li").removeClass("active");
-        $("div").removeClass("active");
     });
 
-    $('#create_group_url').on("click", function() {
-        $('#add_group_url').removeClass("hidden");
-    });
-    $('#create_group_file').on("click", function() {
-        $('#add_group_file').removeClass("hidden");
-    });
-    $('#create_group_url_owner').on("click", function() {
-        $('#add_group_url_owner').removeClass("hidden");
-	$('#dropdown_owner').removeAttr('required');
-	$('#new_owner_name').prop('required',true);
-	$('#new_owner_email').prop('required',true);
-    });
-    $('#create_group_file_owner').on("click", function() {
-        $('#add_group_file_owner').removeClass("hidden");
-	$('#dropdown_owner_file').removeAttr('required');
-	$('#new_owner_name').prop('required',true);
-	$('#new_owner_email').prop('required',true);
-    });
 });

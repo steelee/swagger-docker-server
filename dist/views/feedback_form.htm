@@ -1,4 +1,5 @@
- <form class="form-horizontal">
+ <form class="form-horizontal" id="feedback">
+	<h2></h2>
         <div class="form-group">
             <label class="control-label col-md-12 title" for="title" style=
             "padding-top:4vh; padding-bottom: 4vh"></label>
@@ -7,14 +8,14 @@
             <label class="control-label col-md-2" for="name">Name:</label>
             <div class="col-md-9">
                 <input class="form-control" id="name" placeholder=
-                "Please enter your name." type="name"> 
+                "Please enter your name." type="name" required> 
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2" for="email">Email:</label>
             <div class="col-md-9">
                 <input class="form-control" id="email" placeholder=
-                "Please enter your email address." required="" type="email"> 
+                "Please enter your email address." required type="email"> 
             </div>
         </div>
         <div class="form-group">
@@ -22,7 +23,7 @@
             "comments">Comments:</label>
             <div class="col-md-9">
                 <textarea class="form-control" id="comments" placeholder=
-                "Please enter your comments." rows="10"></textarea>
+                "Please enter your comments." rows="10" required></textarea>
             </div>
         </div>
         <div class="form-group">
@@ -31,7 +32,6 @@
             (click the stars):</label>
             <div class="col-md-9">
                 <div class="stars">
-                    <form action="">
                         <input class="star star-5" id="star-5" name="star"
                         type="radio"> <label class="star star-5" for=
                         "star-5"></label> <input class="star star-4" id=
@@ -43,9 +43,7 @@
                         type="radio"> <label class="star star-2" for=
                         "star-2"></label> <input class="star star-1" id=
                         "star-1" name="star" type="radio"> <label class=
-                        "star star-1" for="star-1"></label> Current Rating: ' +
-                        response[0]['rating'] + '
-                    </form>
+                        "star star-1" for="star-1"></label> 
                 </div>
             </div>
         </div>
@@ -56,3 +54,10 @@
             </div>
         </div>
     </form>
+<script>
+$("#feedback").submit(function(event) {
+console.log("ready");
+event.preventDefault();
+$("#dialog").dialog("close");
+ });
+</script>
