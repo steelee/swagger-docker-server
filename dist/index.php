@@ -1,7 +1,7 @@
 <?php include 'views/header.htm';?>
 <div class="col-sm-3 col-md-2 sidebar" id="menu_bar">
    <input type="search" value="" placeholder="  Search" class="form-control list-group" id="search"/>
-   <h3>Inventory</h3>
+   <h3>API Marketplace</h3>
    <ul class="nav nav-pills nav-stacked sidebar-text" id="listprime">
    </ul>
 </div>

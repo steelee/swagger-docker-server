@@ -6,8 +6,9 @@ var SwaggerWindow = function(target_URL, name) {
         gen_swagger: function(target_URL) {
                 $("#supplement").empty();
                 $("#owners-box").empty();
+		if ( $("#dialog").dialog("isOpen")){
 		$("#dialog").dialog("empty");
-		$("#dialog").dialog("close");
+		}
             if (target_URL == "add_api") {
                 this.add_window(target_URL);
             } else {

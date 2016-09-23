@@ -39,7 +39,7 @@ domain.dropdown();
     <ul id="fuzzResults">
     </ul>
   </div>
-<h3>To group:</h3>
+<h3>To Domain:</h3>
 <div id = "new_target">
 <select id="fuzzOptionsTarget">
 </select>
