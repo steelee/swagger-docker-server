@@ -7,7 +7,7 @@ var SwaggerWindow = function(target_URL, name) {
                 $("#supplement").empty();
                 $("#owners-box").empty();
 		if ( $("#dialog").dialog("isOpen")){
-		$("#dialog").dialog("empty");
+		$("#dialog").dialog("close");
 		}
             if (target_URL == "add_api") {
                 this.add_window(target_URL);
@@ -46,7 +46,7 @@ var SwaggerWindow = function(target_URL, name) {
                 console.log(response);
 
 		$("#owners-box").append('<div class="panel panel-primary"><div class="panel-heading">Asset Information</div><div class="panel-body"><b>Status: ' + response[0]["status"] + '<br>Asset Owner: ' + response[0]['owner'] + '<br>Technical Owner: Aaron Shaver </div></div>');
-                $("#owners-box").append('<div class="panel panel-default"> <div class="panel-heading">Statistics</div> <div class="panel-body"><button type="button" id="button-stats" class="btn btn-info">Average Response time: 35ms</button><button type="button-error" id="' + window.swaggerUi.api['url']  +'" class="btn btn-info">Average Error count: 12 errors per day</button><button type="button" id="button-rating" class="btn btn-info"> Rating: ' + "★".repeat(response[0]["rating"]) + "☆".repeat(5 - response[0]["rating"]) + ' ( ' + response[0]['num_rating'] + ' ratings)</button> </div>');
+                $("#owners-box").append('<div class="panel panel-default"> <div class="panel-heading">Statistics</div> <div class="panel-body"><button type="button" id="button-stats" data="' + window.swaggerUi.api['host'] + '" class="btn btn-info">Average Response time: 35ms</button><button type="button-error" id="' + window.swaggerUi.api['url']  +'" class="btn btn-info">Average Error count: 12 errors per day</button><button type="button" id="button-rating" class="btn btn-info"> Rating: ' + "★".repeat(response[0]["rating"]) + "☆".repeat(5 - response[0]["rating"]) + ' ( ' + response[0]['num_rating'] + ' ratings)</button> </div>');
 		$('#button-rating').data('key', response);
 		$("#button-stats").on("click", function() {
                      collect_metrics($(this).attr("data"));
