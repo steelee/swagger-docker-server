@@ -3,7 +3,6 @@ session_start();
 require_once "Spyc.php";
 require_once "secrets.php";
 $myArray = array();
-
 try {
 
 	// Create connection

@@ -49,6 +49,7 @@
     <script src="https://rawgit.com/zeusdeux/fuzzy-dropdown/master/dist/fuzzy-dropdown.min.js" type="text/javascript"></script>
     <script src='/lib/jquery.flot.axislabels.js' type='text/javascript'></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mockjax/1.6.2/jquery.mockjax.js"></script>
     <script src="tests.js"></script>
 </body>
 
