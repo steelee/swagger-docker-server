@@ -67,11 +67,11 @@ var SwaggerWindow = function(target_URL, name) {
         add_window: function(form_name) {
 	    try {
             document.getElementById("swagger-ui-container").innerHTML = "";
-	    $("#swagger-ui-container").load("views/addapi.htm");
+	    $("#swagger-ui-container").load("/views/addapi.htm");
 	}
 	catch(err) {
             $(".container").empty() 
-	    $(".container").load("addapi.htm");
+	    $(".container").load("/views/addapi.htm");
         }
 	}
     };

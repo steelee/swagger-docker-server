@@ -1,4 +1,5 @@
 QUnit.config.reorder = false;
+QUnit.module("Remote URL Swagger file operations", function() {
 QUnit.test('File upload via remote url', function(assert) {
     var done_fetch = assert.async();
     $.ajax({
@@ -74,4 +75,4 @@ QUnit.test('Confirm file deleted', function(assert) {
         }
     });
 });
-
+});

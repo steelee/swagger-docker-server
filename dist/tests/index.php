@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>My Tests</title>
+    <title>Swagger Docker Server Tests</title>
     <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.0.1.css">
     <script src="https://code.jquery.com/qunit/qunit-2.0.1.js"></script>
 </head>
