@@ -5,13 +5,13 @@ function collect_metrics(target_url) {
     } else if (target_url.indexOf("apigee") == -1) {
         $("#swagger-ui-container").append('<div class="alert alert-warning"><strong>Failure</strong> Not an Apigee API, no analytics available</div>');
     } else {
-	$('#dialog').empty();
- 	$("#dialog").dialog("open");
-	$('#dialog').prepend($('<img>',{id:'loading',src:'images/load.gif'}))
+        $('#dialog').empty();
+        $("#dialog").dialog("open");
+        $('#dialog').prepend($('<img>',{id:'loading',src:'images/load.gif'}))
         var key = "Basic " + getCookie("apigee_key");
         var target = getCookie("apigee_url");
         var options = {
-	    colors: "#FF0000",
+            colors: "#FF0000",
             axisLabels: {
                 show: true
             },
@@ -37,7 +37,7 @@ function collect_metrics(target_url) {
                         item[1] = set[subarray]["value"];
                         arr.push(item);
                     }
-		    $('#dialog').empty();
+                    $('#dialog').empty();
                     $("#dialog").append('<div id="graph_container" class="graph_container"></div>');
                     $.plot($("#graph_container"), [arr], options);
                 }
