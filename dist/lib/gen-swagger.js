@@ -132,6 +132,26 @@ $(document).ready(function() {
             });
             $("#menu_bar").append('<h3>Unassigned</h3><ul class="nav nav-pills nav-stacked" id="no_domain"></ul><button type="button" class="btn btn-secondary"><span class="glyphicon glyphicon-plus"></span> Add Domain</button>');
             $.ajax({
+                url: "https://api.github.com/repos/steelee/swagger-docker-server/tags",
+                global: false,
+                type: "GET",
+                cache: false,
+                dataType: "json",
+                success: function(git) {
+                    $.ajax({
+                        url: git[0]["commit"].url,
+                        global: false,
+                        type: "GET",
+                        cache: false,
+                        dataType: "json",
+                        success: function(tag) {
+                            $("#menu_bar").append('<div style="position:absolute;bottom:5%"><h3>Prod</h3><a target="_blank" href="' + tag.html_url + '">' + git[0].name + '</a></div>');
+                        }
+
+                    });
+                }
+            });
+            $.ajax({
                 data: {
                     'cmd': 'group'
                 },
