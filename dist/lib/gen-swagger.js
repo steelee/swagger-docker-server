@@ -98,6 +98,7 @@ $('#swagger-ui-container').bind('DOMSubtreeModified', function() {
 });
 
 $(document).ready(function() {
+    $.getScript("/config.js", function(){
     $("#dialog").dialog({
         autoOpen: false,
         modal: true,
@@ -138,17 +139,23 @@ $(document).ready(function() {
                 cache: false,
                 dataType: "json",
                 success: function(git) {
-                    $.ajax({
-                        url: git[0]["commit"].url,
-                        global: false,
-                        type: "GET",
-                        cache: false,
-                        dataType: "json",
-                        success: function(tag) {
-                            $("#menu_bar").append('<div style="position:absolute;bottom:5%"><h3>DEV</h3><a target="_blank" href="' + tag.html_url + '">' + git[0].name + '</a></div>');
-                        }
+                    for (var key in git) {
+                        if (git.hasOwnProperty(key)) {
+                            if (git[key]["name"].indexOf(config.env) != -1) {
+                                $.ajax({
+                                    url: git[key]["commit"].url,
+                                    global: false,
+                                    type: "GET",
+                                    cache: false,
+                                    dataType: "json",
+                                    success: function(tag) {
+                                        $("#menu_bar").append('<div style="position:absolute;bottom:5%"><h3>' + config.env.toUpperCase() + '</h3><a target="_blank" href="' + tag.html_url + '">' + git[key].name + '</a></div>');
+                                    }
 
-                    });
+                                });
+                            }
+                        }
+                    }
                 }
             });
             $.ajax({
@@ -194,4 +201,5 @@ $(document).ready(function() {
         url.gen_swagger(url.target_URL);
     });
 
+});
 });

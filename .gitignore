@@ -1,6 +1,7 @@
 dist/api/secrets.php
 dist/api/uploads/
 dist/learn.php
+dist/config.js
 db_backup/
 *.patch
 *.jpg
