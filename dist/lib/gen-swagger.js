@@ -145,7 +145,7 @@ $(document).ready(function() {
                         cache: false,
                         dataType: "json",
                         success: function(tag) {
-                            $("#menu_bar").append('<div style="position:absolute;bottom:5%"><h3>Prod</h3><a target="_blank" href="' + tag.html_url + '">' + git[0].name + '</a></div>');
+                            $("#menu_bar").append('<div style="position:absolute;bottom:5%"><h3>DEV</h3><a target="_blank" href="' + tag.html_url + '">' + git[0].name + '</a></div>');
                         }
 
                     });

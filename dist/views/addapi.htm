@@ -1,58 +1,17 @@
  <h4>Add an API through a remote link or upload a file from your computer</h4>
-   <form id='api_selector' method="post" name="api_selector" action="/api/add.php">
-      <div class="form-group ">
-         <label class="control-label requiredField">
-         URL
-         </label>
-         <input class="form-control" required id="url" name="url" placeholder="http://example.com/file.yaml" type="text"/>
-      </div>
-      <div class="form-group">
-         <label class="control-label requiredField">
-         Group 
-         </label>
-         <select id="dropdown_url" name="dropdown">
-         </select>
-	<a href="#" id="create_group_url"<b>+</b> Create New Group</a>
-      </div>   
-      <div class="form-group hidden" id="add_group_url">
-         <label class="control-label">
-         New Group Name 
-         </label>
-         <input class="form-control" id="new_group" name="new_group" placeholder="Group" type="text"/>
-	</div>
-      <div class="form-group">
-         <label class="control-label requiredField">
-         Owner 
-         </label>
-         <select id="dropdown_owner" name="dropdown_owner" required>
-            <option value="">Owner Required</option> 
-         </select>
-	<a href="#" id="create_group_url_owner"<b>+</b> Create New Owner</a>
-      </div>   
-      <div class="form-group hidden" id="add_group_url_owner">
-         <label class="control-label">
-         New Owner Name 
-         </label>
-         <input class="form-control" id="new_owner_name" name="new_owner_name" placeholder="Owner name" type="text"/>
-         <label class="control-label">
-         New Owner Email 
-         </label>
-         <input class="form-control" id="new_owner_email" name="new_owner_email" placeholder="Owner email" type="email"/>
-	</div>
-      <div class="form-group">
-         <div>
-            <button class="btn btn-primary " name="submit" type="submit">
-            Submit Link
-            </button>
-         </div>
-      </div>
-   </form>
-   <form action="/api/upload.php" enctype="multipart/form-data" id= "local_selector" method="post" name="local_selector">
+ <hr>
+   <form enctype="multipart/form-data" id= "local_selector" method="post" name="local_selector">
       <div class="form-group">
          <label class="control-label requiredField">
          File 
          </label>
-         <input id="upfile" name="upfile" required type="file">
+         <input id="upfile" name="upfile" type="file">
+      </div>
+	  <div class="form-group ">
+         <label class="control-label requiredField">
+         URL
+         </label>
+         <input class="form-control" id="url" name="url" placeholder="http://example.com/file.yaml" type="text"/>
       </div>
       <div class="form-group">
          <label class="control-label requiredField">
@@ -87,16 +46,23 @@
          </label>
          <input class="form-control" id="new_owner_email" name="new_owner_email" placeholder="Owner email" type="email"/>
       </div>
-      <div class="form-group">
-         <div>
-            <button class="btn btn-primary " name="submit" type="submit">
+	<div class="form-group">
+            <button class="btn btn-primary" name="submit" type="submit" onclick="submitlink();return true">
+            Submit Link
+            </button>
+            <button class="btn btn-primary" name="submit" type="submit" onclick="submitfile();return true">
             Submit File
             </button>
-         </div>
       </div>
    </form>
 </div>
 <script>
+function submitlink(){
+	document.local_selector.action = '/api/add.php';
+}
+function submitfile(){
+	document.local_selector.action = '/api/upload.php';
+}
             $.ajax({
             url: "/api/populate.php",
             global: false,
