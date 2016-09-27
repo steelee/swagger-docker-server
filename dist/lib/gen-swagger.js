@@ -142,20 +142,22 @@ $(document).ready(function() {
                     for (var key in git) {
                         if (git.hasOwnProperty(key)) {
                             if (git[key]["name"].indexOf(config.env) != -1) {
+				var curr_key = git[key];
+				break;
+                            	}
+                        }
+                    }
                                 $.ajax({
-                                    url: git[key]["commit"].url,
+                                    url: curr_key["commit"].url,
                                     global: false,
                                     type: "GET",
                                     cache: false,
                                     dataType: "json",
                                     success: function(tag) {
-                                        $("#menu_bar").append('<div style="position:absolute;bottom:5%"><h3>' + config.env.toUpperCase() + '</h3><a target="_blank" href="' + tag.html_url + '">' + git[key].name + '</a></div>');
+                                        $("#menu_bar").append('<div style="position:absolute;bottom:5%"><h3>' + config.env.toUpperCase() + '</h3><a target="_blank" href="' + tag.html_url + '">' + curr_key["name"] + '</a></div>');
                                     }
 
                                 });
-                            }
-                        }
-                    }
                 }
             });
             $.ajax({
