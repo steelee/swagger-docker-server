@@ -136,6 +136,7 @@ $(document).ready(function() {
                     url: "https://api.github.com/repos/steelee/swagger-docker-server/tags",
                     global: false,
                     type: "GET",
+		    username: config.github,
                     cache: false,
                     dataType: "json",
                     success: function(git) {
@@ -150,6 +151,7 @@ $(document).ready(function() {
                         $.ajax({
                             url: curr_key["commit"].url,
                             global: false,
+			    username: config.github,
                             type: "GET",
                             cache: false,
                             dataType: "json",
