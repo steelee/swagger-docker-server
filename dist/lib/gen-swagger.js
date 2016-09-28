@@ -106,6 +106,7 @@ $(document).ready(function() {
             hide: "blind",
             "width": 750,
         });
+	$("#top-menu").append('<li><a target="_blank" href="'+ config.learnpage  +'"><span class="glyphicon glyphicon-book"></span> API University</a></li>');
         var target_API = getParameterByName('api');
         $("#search").keyup(function() {
             var filter = $(this).val(); // get the value of the input, which we filter on
@@ -133,8 +134,9 @@ $(document).ready(function() {
                 });
                 $("#menu_bar").append('<h3>Unassigned</h3><ul class="nav nav-pills nav-stacked" id="no_domain"></ul><button type="button" class="btn btn-secondary"><span class="glyphicon glyphicon-plus"></span> Add Domain</button>');
                 $.ajax({
-                    url: "https://api.github.com/repos/steelee/swagger-docker-server/tags",
+                    url: config.tags,
                     global: false,
+		    username: config.github,
                     type: "GET",
                     cache: false,
                     dataType: "json",
@@ -150,6 +152,7 @@ $(document).ready(function() {
                         $.ajax({
                             url: curr_key["commit"].url,
                             global: false,
+			    username: config.github,
                             type: "GET",
                             cache: false,
                             dataType: "json",
