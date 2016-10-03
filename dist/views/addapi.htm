@@ -26,7 +26,7 @@
         <label class="control-label">
          New Group Name 
          </label>
-        <input class="form-control" id="new_group" name="new_group" placeholder="Group" type="text" />
+        <input class="form-control" pattern="[^\s$]{0,}" title="No spaces allowed"  id="new_group" name="new_group" placeholder="Group" type="text" />
     </div>
     <div class="form-group">
         <label class="control-label requiredField">
@@ -120,17 +120,6 @@
     });
     $('#create_group_file').on("click", function() {
         $('#add_group_file').removeClass("hidden");
-    });
-    $('#create_group_url_owner').on("click", function() {
-        $('#add_group_url_owner').removeClass("hidden");
-        $('#dropdown_owner').removeAttr('required');
-        $('#new_owner_name').prop('required', true);
-        $('#new_owner_email').prop('required', true);
-    });
-    $('#create_group_file_owner').on("click", function() {
-        $('#add_group_file_owner').removeClass("hidden");
-        $('#dropdown_owner_file').removeAttr('required');
-        $('#new_owner_name').prop('required', true);
-        $('#new_owner_email').prop('required', true);
+        $('#new_group').prop('required', true);
     });
 </script>
