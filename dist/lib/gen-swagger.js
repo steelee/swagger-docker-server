@@ -136,7 +136,6 @@ $(document).ready(function() {
                 $.ajax({
                     url: config.tags,
                     global: false,
-		    username: config.github,
                     type: "GET",
                     cache: false,
                     dataType: "json",
@@ -152,10 +151,10 @@ $(document).ready(function() {
                         $.ajax({
                             url: curr_key["commit"].url,
                             global: false,
-			    username: config.github,
                             type: "GET",
                             cache: false,
                             dataType: "json",
+			    beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Basic ' + config.github); },
                             success: function(tag) {
                                 $("#menu_bar").append('<div style="position:absolute;bottom:5%"><h3>' + config.env.toUpperCase() + '</h3><a target="_blank" href="' + tag.html_url + '">' + curr_key["name"] + '</a></div>');
                             }
@@ -172,6 +171,7 @@ $(document).ready(function() {
                     type: "POST",
                     cache: false,
                     dataType: "json",
+		    beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Basic ' + config.github); },
                     success: function(response) {
                         $.each(response, function(index) {
                             if (response[index].api_group != "No_Group") {
@@ -201,7 +201,7 @@ $(document).ready(function() {
 
             }
         });
-        $("#add_api").on("click", function() {
+        $("#add_api").unbind('click').bind("click", function() {
             var url = SwaggerWindow($(this).attr('id'), null);
             url.gen_swagger(url.target_URL);
         });

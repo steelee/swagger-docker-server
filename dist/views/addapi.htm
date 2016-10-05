@@ -76,10 +76,6 @@
         },
         success: function(response) {
             for (var k in response) {
-                $('#dropdown_url')
-                    .append($("<option></option>")
-                        .attr("value", response[k]["api_group"])
-                        .text(response[k]["api_group"]));
                 $('#dropdown_file')
                     .append($("<option></option>")
                         .attr("value", response[k]["api_group"])
@@ -98,10 +94,6 @@
         },
         success: function(response) {
             for (var k in response) {
-                $('#dropdown_owner')
-                    .append($("<option></option>")
-                        .attr("value", response[k]["contact"] + ":" + response[k]["owner"])
-                        .text(response[k]["owner"] + " (" + response[k]["contact"] + ")"));
                 $('#dropdown_owner_file')
                     .append($("<option></option>")
                         .attr("value", response[k]["contact"] + ":" + response[k]["owner"])
@@ -115,11 +107,14 @@
             });
         }
     });
-    $('#create_group_url').on("click", function() {
-        $('#add_group_url').removeClass("hidden");
-    });
     $('#create_group_file').on("click", function() {
         $('#add_group_file').removeClass("hidden");
         $('#new_group').prop('required', true);
+    });
+    $('#create_group_file_owner').on("click", function() {
+        $('#add_group_file_owner').removeClass("hidden");
+        $('#new_owner_name').prop('required', true);
+        $('#new_owner_email').prop('required', true);
+        $('#dropdown_owner_file').prop('required', false);
     });
 </script>

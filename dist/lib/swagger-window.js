@@ -32,6 +32,7 @@ var SwaggerWindow = function(target_URL, name) {
                     showRequestHeaders: true
                 });
                 window.swaggerUi.load();
+		our_class = this;
                 $.ajax({
                     data: {
                         'cmd': 'metadata',
@@ -43,16 +44,15 @@ var SwaggerWindow = function(target_URL, name) {
                     cache: false,
                     dataType: "json",
                     success: function(response) {
-                        console.log(response);
-
+			var rating = Math.round(response[1]["rating"] / response[2]['rating']);
                         $("#owners-box").append('<div class="panel panel-primary"><div class="panel-heading">Asset Information</div><div class="panel-body"><b>Status: ' + response[0]["status"] + '<br>Asset Owner: ' + response[0]['owner'] + '<br>Technical Owner: Aaron Shaver </div></div>');
-                        $("#owners-box").append('<div class="panel panel-default"> <div class="panel-heading">Statistics</div> <div class="panel-body"><button type="button" id="button-stats" data="' + window.swaggerUi.api['host'] + '" class="btn btn-info">Average Response time: 35ms</button><button type="button-error" id="' + window.swaggerUi.api['url'] + '" class="btn btn-info">Average Error count: 12 errors per day</button><button type="button" id="button-rating" class="btn btn-info"> Rating: ' + "★".repeat(response[0]["rating"]) + "☆".repeat(5 - response[0]["rating"]) + ' ( ' + response[0]['num_rating'] + ' ratings)</button> </div>');
+                        $("#owners-box").append('<div class="panel panel-default"> <div class="panel-heading">Statistics</div> <div class="panel-body"><button type="button" id="button-stats" data="' + window.swaggerUi.api['host'] + '" class="btn btn-info">Average Response time: 35ms</button><button type="button-error" id="' + window.swaggerUi.api['url'] + '" class="btn btn-info">Average Error count: 12 errors per day</button><button type="button" id="button-rating" class="btn btn-info"> Rating: ' + "★".repeat(rating) + "☆".repeat(5 - rating) + ' ( ' + response[2]['rating'] + ' ratings)</button> </div>');
                         $('#button-rating').data('key', response);
                         $("#button-stats").on("click", function() {
                             collect_metrics($(this).attr("data"));
                         });
                         $("#button-rating").on("click", function() {
-                            feedback_form($(this).data('key'));
+                            feedback_form(our_class.name,$(this).data('key'));
                         });
                     }
                 });
