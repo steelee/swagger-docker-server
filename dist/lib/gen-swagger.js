@@ -139,6 +139,7 @@ $(document).ready(function() {
                     type: "GET",
                     cache: false,
                     dataType: "json",
+		    beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Basic ' + config.github); },
                     success: function(git) {
                         for (var key in git) {
                             if (git.hasOwnProperty(key)) {
