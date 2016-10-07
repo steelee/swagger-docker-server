@@ -73,21 +73,6 @@ var DomainTools = function() {
             },
 
             dropdown: function() {
-
-                $('#fuzzOptionsList').fuzzyDropdown({
-                    mainContainer: '#fuzzSearch',
-                    arrowUpClass: 'fuzzArrowUp',
-                    selectedClass: 'selected',
-                    enableBrowserDefaultScroll: true
-                });
-                $('#fuzzOptionsTarget').fuzzyDropdown({
-                    mainContainer: '#fuzzSearchTarget',
-                    arrowUpClass: 'fuzzArrowUp',
-                    selectedClass: 'selected',
-                    enableBrowserDefaultScroll: true
-                });
-
-
                 $("#change").on("click", function() {
                     var api = $("#fuzzOptionsList").val();
                     if ($("#new_group_entry").val() != undefined) {
