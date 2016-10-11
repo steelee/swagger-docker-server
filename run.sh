@@ -3,6 +3,7 @@ GRN='\033[0;32m'
 ORG='\033[0;33m'
 CYN='\033[0;36m'
 GRY='\033[0;37m'
+MGT='\033[0;95m'
 NC='\033[0m' # No Color
 
 FILE="/tmp/out.$$"
@@ -22,6 +23,11 @@ if [[ $EUID -ne 0 ]]; then
 fi
 if [ ! -f /usr/bin/docker ]; then
     echo -e "${RED}Docker is not installed! See https://docs.docker.com/engine/installation/ for installation information.${NC}"
+    exit 1
+fi
+
+if [ ! -f /usr/bin/node ]; then
+    echo -e "${RED}NodeJS is not installed! Please install some variant of NodeJS to /usr/bin/node${NC}"
     exit 1
 fi
 
@@ -99,6 +105,8 @@ printf '\n'
 /bin/cp template.php template.php.tmp
 IP=$(/usr/bin/docker inspect $(/usr/bin/docker ps -aqf "name=sql-server") | grep IPAddress | tail -1 |  sed -e 's/^[ \t]*//' | cut -c 15- | sed 's/\,//g' | sed 's/\"//g')
 echo '$DB_SERVER = "'$IP'"; $DB_PASS = "'$pass'";?>' >> template.php
+echo 'config.dbserver = "'$IP'"; config.dbpass = "'$pass'";' >> template.js
+echo 'module.exports = config' >> template.js
 /bin/cp template.php dist/api/secrets.php
 /bin/rm template.php
 /bin/mv template.php.tmp template.php
@@ -113,6 +121,12 @@ printf "${CYN}-- Running Web server${NC}"
 printf '\n'
 /usr/bin/docker run --name web-server -d -v $PWD/dist/:/app -p 80:80 php-server 
 printf "${CYN}-- Web server is running!${NC}"
+printf '\n'
+printf "${MGT}-- Now building Node API server${NC}"
+/usr/bin/npm install
+/bin/mv node_modules/ node_app/
+printf '\n'
+printf "${MGT}-- Node API server running!${NC}"
 printf '\n'
 printf "${GRY}-- Importing database${NC}"
 printf '\n'

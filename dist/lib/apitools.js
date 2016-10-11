@@ -102,11 +102,6 @@ var DomainTools = function() {
                     });
 
                 });
-
-                $("#new_group_button").on("click", function() {
-                    $('#new_target').slideUp();
-                    $('#new_entry').append('<input type="text" id="new_group_entry" class="fuzzMagicBox" placeholder="New Domain Name" />');
-                });
             }
         };
 };

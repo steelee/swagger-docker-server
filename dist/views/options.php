@@ -1,4 +1,3 @@
-<?php include "header.htm"?>
 <div class="container">
 <h3>SwaggerHub Configuration</h3>
 <p>Current saved data:</p>
@@ -65,5 +64,3 @@ if(getCookie("apigee_key")) {
  <h4>Delete existing data:</h4>
  <button type="button" class="btn btn-default" id="clear" >Clear Credientials</button>
 </div>
-
-<?php include "footer.htm"?>

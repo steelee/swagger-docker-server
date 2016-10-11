@@ -3,6 +3,7 @@ dist/api/uploads/
 dist/learn.php
 dist/config.js
 db_backup/
+node_modules/
 *.patch
 *.jpg
 *.png

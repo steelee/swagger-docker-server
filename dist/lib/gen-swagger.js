@@ -1,3 +1,12 @@
+var menuBar = function(){
+	return {
+		spawn_cred: function(){
+			$("#owners-box").empty();
+			$("#swagger-ui-container").load('/views/options.php');
+		}
+	};
+};
+
 function toggler(divId) {
     $("#" + divId).toggle();
 }
@@ -99,6 +108,7 @@ $('#swagger-ui-container').bind('DOMSubtreeModified', function() {
 
 $(document).ready(function() {
     $.getScript("/config.js", function() {
+	console.log(typeof(config));
         $("#dialog").dialog({
             autoOpen: false,
             modal: true,
