@@ -10,11 +10,11 @@ FILE="/tmp/out.$$"
 GREP="/bin/grep"
 
 if [ "$1" == "-h" ]; then
-	echo -e "${GRN} Usage:\n Run script as root to build Docker containers for the Swagger server. \n Arguments:\n \t -k : Kill running containers and rebuild them. \n \t -b : Backup the database \n \t -i : Restore database from backup\n${NC}"
+	echo -e "${GRN} Usage:\n Run script as root to build Docker containers for the Swagger server. \n Arguments:\n \t -k : Kill running containers and rebuild them. \n \t -b : Backup the database \n \t -i : Restore database from backup\n \t -c : Clean up old containers to reclaim space${NC}"
 	exit 1
 fi 
 
-echo -e "${GRN}This script will build and run the SQL and Webserver docker containers\n"
+echo -e "${GRN}This script will build and run the SQL, Webserver, and portal API docker containers\n"
 echo -e "${GRN}Run with argument -h for full help text${NC}"
 # Make sure only root can run our script
 if [[ $EUID -ne 0 ]]; then
@@ -35,6 +35,14 @@ if [ "$1" == "-k" ]; then
    echo -e "${GRN}-- (-k) Rebuilding containers${NC}"
    /usr/bin/docker stop $(/usr/bin/docker ps -a -q)
    /usr/bin/docker rm $(/usr/bin/docker ps -a -q)
+fi
+
+if [ "$1" == "-c" ]; then
+   echo -e "${MGT}-- Removing unused containers${NC}"
+   /usr/bin/docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm
+   /usr/bin/docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
+   echo -e "${MGT}-- Unused containers removed!${NC}"
+   exit 1
 fi
 
 if [ "$1" == "-b" ]; then
@@ -103,13 +111,15 @@ printf '\n'
 printf "${CYN}-- Now building Web server${NC}"
 printf '\n'
 /bin/cp template.php template.php.tmp
+/bin/cp template.js template.js.tmp
 IP=$(/usr/bin/docker inspect $(/usr/bin/docker ps -aqf "name=sql-server") | grep IPAddress | tail -1 |  sed -e 's/^[ \t]*//' | cut -c 15- | sed 's/\,//g' | sed 's/\"//g')
 echo '$DB_SERVER = "'$IP'"; $DB_PASS = "'$pass'";?>' >> template.php
-echo 'config.dbserver = "'$IP'"; config.dbpass = "'$pass'";' >> template.js
-echo 'module.exports = config' >> template.js
+echo 'config.dbserver = "'$IP'"; config.dbpass = "'$pass'"; module.exports=config;' >> template.js
 /bin/cp template.php dist/api/secrets.php
-/bin/rm template.php
+/bin/cp template.js node_app/template.js
+/bin/rm template.php template.js
 /bin/mv template.php.tmp template.php
+/bin/mv template.js.tmp template.js
 /usr/bin/docker build -t php-server .
 /bin/mkdir -p $PWD/dist/api/uploads/
 /bin/mkdir -p $PWD/db_backup

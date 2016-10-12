@@ -54,7 +54,16 @@ var SwaggerWindow = function(target_URL, name) {
                         $("#button-rating").on("click", function() {
                             feedback_form(our_class.name,$(this).data('key'));
                         });
-                        $("#owners-box").append('<div><a target="_blank" href=" \' + config.discusspage \'"><button type="button" id="button-discuss" class="btn btn-success" style="margin-bottom: 20px"><span class="glyphicon glyphicon-comment"></span> Discuss this API</button></a></div>');
+			$.getScript("/config.js",function() {
+			    $("dialog").dialog ( {
+				autoOpen: false,
+				modal: true,
+				show: "blind",
+				hide: "blind",
+				"width": 750,
+			    });
+			});
+                        $("#owners-box").append('<div><a target="_blank" href=" ' + config.discusspage + '"><button type="button" id="button-discuss" class="btn btn-success" style="margin-bottom: 20px"><span class="glyphicon glyphicon-comment"></span> Discuss this API</button></a></div>');
                     }
                 });
 

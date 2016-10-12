@@ -102,7 +102,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 
-$service_url = 'https://blog.vanillaforums.com';
+$service_url = 'https://blog.vanillaforums.com/api/v1/categories/add/ext';
 $curl = curl_init($service_url);
 $curl_post_data = array(
        "Name" => $name,

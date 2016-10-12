@@ -3,6 +3,10 @@ var menuBar = function(){
 		spawn_cred: function(){
 			$("#owners-box").empty();
 			$("#swagger-ui-container").load('/views/options.php');
+		},
+		spawn_tools: function(){
+			$("#owners-box").empty();
+			$("#swagger-ui-container").load('/views/apitools.php');
 		}
 	};
 };
