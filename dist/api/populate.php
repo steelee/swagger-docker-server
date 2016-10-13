@@ -42,6 +42,5 @@ if(isset($count)){
 	}
 
 }
-
 echo json_encode($myArray);
 ?>
