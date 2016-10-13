@@ -22,6 +22,9 @@ if ($_POST['cmd'] == 'list'){
 	$sql ='SELECT name FROM api WHERE api_group = "'.$_POST['name']. '"';
 }else if ($_POST['cmd'] == 'owners'){
 	$sql ='SELECT DISTINCT owner, contact FROM api';
+}else if ($_POST['cmd'] == 'duplicate'){
+	$name = pathinfo($_POST['api'])['filename'];
+	$sql = 'SELECT name FROM api WHERE name LIKE "' . $name . '"';
 }else if ($_POST['cmd'] == 'metadata'){
 	$sql = "SELECT rating, status, owner, contact FROM api WHERE name LIKE '".$_POST['api']."'";
 	$count =  "SELECT rating FROM api WHERE name like '" . $_POST['api'] . "' UNION ALL SELECT count(*) AS sum FROM feedback WHERE api LIKE '" . $_POST['api'] . "'";

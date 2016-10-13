@@ -16,17 +16,17 @@
     <hr>
     <div class="form-group">
         <label class="control-label requiredField">
-         Group 
+         Domain 
          </label>
         <select id="dropdown_file" name="dropdown">
          </select>
-        <a href="#" id="create_group_file" <b>+</b> Create New Group</a>
+        <a href="#" id="create_group_file" <b>+</b> Create New Domain</a>
     </div>
     <div class="form-group hidden" id="add_group_file">
         <label class="control-label">
-         New Group Name 
+         New Domain Name 
          </label>
-        <input class="form-control" pattern="[^\s$]{0,}" title="No spaces allowed"  id="new_group" name="new_group" placeholder="Group" type="text" />
+        <input class="form-control" pattern="[^\s$]{0,}" title="No spaces allowed"  id="new_group" name="new_group" placeholder="Domain" type="text" />
     </div>
     <div class="form-group">
         <label class="control-label requiredField">
@@ -100,10 +100,48 @@
                         .text(response[k]["owner"] + " (" + response[k]["contact"] + ")"));
             }
             $("#url").change(function() {
-                $("#submit_link").slideDown();
+		$.ajax({
+		url: "/api/populate.php",
+		global: false,
+		type: "POST",
+		cache: "false",
+		dataType: "json",
+		data: {
+			'cmd' : 'duplicate',
+			'api' : $("#url").val()
+		},
+		success:function(duplicate){
+			$(".alert-warning").remove();
+			if ($.isEmptyObject(duplicate)){
+                		$("#submit_link").slideDown();
+			}else{
+                                $("#local_selector").append('<div class="alert alert-warning"><strong>Warning!</strong> Tried to add a duplicate API</div>');
+			}
+		}
+		});
             });
             $("#upfile").on('change', function() {
-                $("#submit_file").slideDown();
+                $.ajax({
+                url: "/api/populate.php",
+                global: false,
+                type: "POST",
+                cache: "false",
+                dataType: "json",
+                data: {
+                        'cmd' : 'duplicate',
+                        'api' : $("#upfile").val().split('\\').pop(),
+			'type' : 'file'
+                },
+                success:function(duplicate){
+			$(".alert-warning").remove();
+                        if ($.isEmptyObject(duplicate)){
+                		$("#submit_file").slideDown();
+                        }else{
+                                $("#local_selector").append('<div class="alert alert-warning"><strong>Warning!</strong> Tried to add a duplicate API</div>');
+                        }
+                }
+                });
+
             });
         }
     });

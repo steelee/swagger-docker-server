@@ -1,5 +1,15 @@
 <?php
 session_start();
+require_once "secrets.php";
+$myArray = array();
+
+// Create connection
+$conn = new mysqli($DB_SERVER, $DB_NAME, $DB_PASS, $DB_SELECT);
+
+// Check connection
+if ($conn->connect_error) {
+	die("Connection failed: " . $conn->connect_error);
+}
 $true_name = $_FILES['upfile']['name'];
 try {
 	// You should also check filesize here. 
@@ -59,18 +69,6 @@ try {
 }
 $_SESSION['status'] = "File " . $true_name . " uploaded!";
 
-require_once "secrets.php";
-
-$myArray = array();
-
-// Create connection
-$conn = new mysqli($DB_SERVER, $DB_NAME, $DB_PASS, $DB_SELECT);
-
-// Check connection
-if ($conn->connect_error) {
-	die("Connection failed: " . $conn->connect_error);
-}
-
 if ($_POST['new_group']!=""){
 	$group = $_POST['new_group'];
 }else{
@@ -101,22 +99,5 @@ if ($conn->query($sql) === TRUE) {
 	echo "Error: " . $sql . "<br>" . $conn->error;
 }
 
-
-$service_url = 'https://blog.vanillaforums.com/api/v1/categories/add/ext';
-$curl = curl_init($service_url);
-$curl_post_data = array(
-       "Name" => $name,
-       "ParentCategory" => $name,
-       );
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_post_data);
-$curl_response = curl_exec($curl);
-curl_close($curl);
-
-$xml = new SimpleXMLElement($curl_response);
-
-
 header('Location: /');
-
 ?>

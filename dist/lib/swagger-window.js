@@ -44,6 +44,11 @@ var SwaggerWindow = function(target_URL, name) {
                     cache: false,
                     dataType: "json",
                     success: function(response) {
+                        $.each(response, function(index) {
+                            if (response[index].api_group != "No_Group") {	
+			        console.log(response[index]);
+			    }
+			});
 			var rating = Math.round(response[1]["rating"] / response[2]['rating']);
                         $("#owners-box").append('<div class="panel panel-primary"><div class="panel-heading">Asset Information</div><div class="panel-body"><b>Status: ' + response[0]["status"] + '<br>Asset Owner: ' + response[0]['owner'] + '<br>Technical Owner: Aaron Shaver </div></div>');
                         $("#owners-box").append('<div class="panel panel-default"> <div class="panel-heading">Statistics</div> <div class="panel-body"><button type="button" id="button-stats" data="' + window.swaggerUi.api['host'] + '" class="btn btn-info">Average Response time: 35ms</button><button type="button-error" id="' + window.swaggerUi.api['url'] + '" class="btn btn-info">Average Error count: 12 errors per day</button><button type="button" id="button-rating" class="btn btn-info"> Rating: ' + "★".repeat(rating) + "☆".repeat(5 - rating) + ' ( ' + response[2]['rating'] + ' ratings)</button> </div>');
@@ -60,7 +65,7 @@ var SwaggerWindow = function(target_URL, name) {
 				modal: true,
 				show: "blind",
 				hide: "blind",
-				"width": 750,
+				width: 750
 			    });
 			});
                         $("#owners-box").append('<div><a target="_blank" href=" ' + config.discusspage + '"><button type="button" id="button-discuss" class="btn btn-success" style="margin-bottom: 20px"><span class="glyphicon glyphicon-comment"></span> Discuss this API</button></a></div>');

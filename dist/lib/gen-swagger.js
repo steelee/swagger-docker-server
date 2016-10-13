@@ -118,7 +118,7 @@ $(document).ready(function() {
             modal: true,
             show: "blind",
             hide: "blind",
-            "width": 750,
+            width: 750
         });
 	$("#top-menu").append('<li><a target="_blank" href="'+ config.learnpage  +'"><span class="glyphicon glyphicon-book"></span> API University</a></li>');
         var target_API = getParameterByName('api');
