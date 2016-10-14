@@ -6,6 +6,9 @@ GRY='\033[0;37m'
 MGT='\033[0;95m'
 NC='\033[0m' # No Color
 
+# Update if necessary
+VANILLA_PREBUILT='https://15254b2dcaab7f5478ab-24461f391e20b7336331d5789078af53.ssl.cf1.rackcdn.com/www.vanillaforums.org/addons/R0QQXUC94LFT.zip'
+
 FILE="/tmp/out.$$"
 GREP="/bin/grep"
 
@@ -134,7 +137,11 @@ printf "${CYN}-- Web server is running!${NC}"
 printf '\n'
 printf "${MGT}-- Now building Node API server${NC}"
 /usr/bin/npm install
-/bin/mv node_modules/ node_app/
+/usr/bin/rsync -a node_modules/ node_app/node_modules/
+/bin/cp package.json node_app/
+/bin/rm -rf node_modules/
+/usr/bin/docker build -t swagger/node-app node_app/
+/usr/bin/docker run -p 8080:8080 -d swagger/node-app
 printf '\n'
 printf "${MGT}-- Node API server running!${NC}"
 printf '\n'
