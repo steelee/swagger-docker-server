@@ -5,7 +5,8 @@ dist/config.js
 dist/vanilla
 db_backup/
 node_modules/
-
+node_app/package.json
+node_app/template.js
 *.patch
 *.jpg
 *.png
