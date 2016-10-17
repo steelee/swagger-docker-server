@@ -1,0 +1,13 @@
+{
+  "name": "swagger-docker-server-API",
+  "version": "0.0.1",
+  "main" : "api.js",
+  "scripts" : {
+	"start" : "node api.js"
+  },
+  "dependencies": {
+    "express": "*",
+    "mysql": "*",
+    "body-parser":"*"
+  }
+}

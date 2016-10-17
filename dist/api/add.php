@@ -48,6 +48,39 @@ try {
 	$sql = 'INSERT INTO api (url, name, api_group, contact, owner) VALUES ("' . $_POST['url'] . '", "' . $name . '", "' . $group . '", "' . $owner[0] . '", "' . $owner[1] . '");'; 
 	if ($conn->query($sql) === TRUE) {
 		$_SESSION['status'] = "File successfully added";
+		// Build request URL:
+		$timestamp = time();
+		$Request = [
+			'username'  => $VANILLA_ADMIN,
+			'timestamp' => $timestamp
+		];
+
+		// Sort the request data alphabetically
+		ksort($Request, SORT_STRING);
+
+		// Delimit the data values with a dash
+		$val = implode('-', $Request);
+		$Token = hash_hmac('sha256', strtolower($val), $VANILLA_TOKEN);
+
+		$path = "localhost/vanilla/api/discussions?username=".$VANILLA_ADMIN."&timestamp=".$timestamp."&token=".$Token;
+
+		// Set POST data
+		$data = [
+			"Name"  => $name,
+			'Body' => "API Discussion Page"
+		];
+		$data = json_encode($data);
+		// Set cURL params
+		$curl = curl_init($path);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_HTTPHEADER,
+				array("Content-type: application/json"));
+		curl_setopt($curl, CURLOPT_POST, true);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+		$json_response = curl_exec($curl);
+		curl_close($curl);
 	} else {
 		throw new RuntimeException('Database write error');
 	}

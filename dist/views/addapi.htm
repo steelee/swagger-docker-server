@@ -1,125 +1,158 @@
- <h4>Add an API through a remote link or upload a file from your computer</h4>
- <hr>
-   <form enctype="multipart/form-data" id= "local_selector" method="post" name="local_selector">
-      <div class="form-group">
-         <label class="control-label requiredField">
+<h4>Add an API through a remote link or upload a file from your computer</h4>
+<hr>
+<form enctype="multipart/form-data" id="local_selector" method="post" name="local_selector">
+    <div class="form-group">
+        <label class="control-label requiredField">
          File 
          </label>
-         <input id="upfile" name="upfile" type="file">
-      </div>
-	  <div class="form-group ">
-         <label class="control-label requiredField">
+        <input id="upfile" name="upfile" type="file">
+    </div>
+    <div class="form-group ">
+        <label class="control-label requiredField">
          URL
          </label>
-         <input class="form-control" id="url" name="url" placeholder="http://example.com/file.yaml" type="text"/>
-      </div>
-      <div class="form-group">
-         <label class="control-label requiredField">
-         Group 
+        <input class="form-control" id="url" name="url" placeholder="http://example.com/file.yaml" type="text" />
+    </div>
+    <hr>
+    <div class="form-group">
+        <label class="control-label requiredField">
+         Domain 
          </label>
-         <select id="dropdown_file" name="dropdown">
+        <select id="dropdown_file" name="dropdown">
          </select>
-	<a href="#" id="create_group_file"<b>+</b> Create New Group</a>
-      </div>   
-      <div class="form-group hidden" id="add_group_file">
-         <label class="control-label">
-         New Group Name 
+        <a href="#" id="create_group_file" <b>+</b> Create New Domain</a>
+    </div>
+    <div class="form-group hidden" id="add_group_file">
+        <label class="control-label">
+         New Domain Name 
          </label>
-         <input class="form-control" id="new_group" name="new_group" placeholder="Group" type="text"/>
-	</div>
-      <div class="form-group">
-         <label class="control-label requiredField">
+        <input class="form-control" pattern="[^\s$]{0,}" title="No spaces allowed"  id="new_group" name="new_group" placeholder="Domain" type="text" />
+    </div>
+    <div class="form-group">
+        <label class="control-label requiredField">
          Owner 
          </label>
-         <select id="dropdown_owner_file" name="dropdown_owner" required>
+        <select id="dropdown_owner_file" name="dropdown_owner" required>
             <option value="">Owner Required</option> 
          </select>
-	<a href="#" id="create_group_file_owner"<b>+</b> Create New Owner</a>
-      </div>   
-      <div class="form-group hidden" id="add_group_file_owner">
-         <label class="control-label">
+        <a href="#" id="create_group_file_owner" <b>+</b> Create New Owner</a>
+    </div>
+    <div class="form-group hidden" id="add_group_file_owner">
+        <label class="control-label">
          New Owner Name 
          </label>
-         <input class="form-control" id="new_owner_name" name="new_owner_name" placeholder="Owner name" type="text"/>
-         <label class="control-label">
+        <input class="form-control" id="new_owner_name" name="new_owner_name" placeholder="Owner name" type="text" />
+        <label class="control-label">
          New Owner Email 
          </label>
-         <input class="form-control" id="new_owner_email" name="new_owner_email" placeholder="Owner email" type="email"/>
-      </div>
-	<div class="form-group">
-            <button class="btn btn-primary" name="submit" type="submit" onclick="submitlink();return true">
+        <input class="form-control" id="new_owner_email" name="new_owner_email" placeholder="Owner email" type="email" />
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" id="submit_link" style="display:none" name="submit" type="submit" onclick="submitlink();return true">
             Submit Link
             </button>
-            <button class="btn btn-primary" name="submit" type="submit" onclick="submitfile();return true">
+        <button class="btn btn-primary" id="submit_file" style="display:none" name="submit" type="submit" onclick="submitfile();return true">
             Submit File
             </button>
-      </div>
-   </form>
+    </div>
+</form>
 </div>
 <script>
-function submitlink(){
-	document.local_selector.action = '/api/add.php';
-}
-function submitfile(){
-	document.local_selector.action = '/api/upload.php';
-}
-            $.ajax({
-            url: "/api/populate.php",
-            global: false,
-            type: "POST",
-            cache: false,
-            dataType: "json",
-            data: {'cmd':'unique_group'},
-            success: function(response){
-            for(var k in response){
-      $('#dropdown_url')
-      .append($("<option></option>")
-                .attr("value",response[k]["api_group"])
-                .text(response[k]["api_group"])); 
-      $('#dropdown_file')
-      .append($("<option></option>")
-                .attr("value",response[k]["api_group"])
-                .text(response[k]["api_group"])); 
+    function submitlink() {
+        document.local_selector.action = '/api/add.php';
+    }
+
+    function submitfile() {
+        document.local_selector.action = '/api/upload.php';
+    }
+    $.ajax({
+        url: "/api/populate.php",
+        global: false,
+        type: "POST",
+        cache: false,
+        dataType: "json",
+        data: {
+            'cmd': 'unique_group'
+        },
+        success: function(response) {
+            for (var k in response) {
+                $('#dropdown_file')
+                    .append($("<option></option>")
+                        .attr("value", response[k]["api_group"])
+                        .text(response[k]["api_group"]));
             }
-      }  
-      });
-        $.ajax({
-            url: "/api/populate.php",
-            global: false,
-            type: "POST",
-            cache: false,
-            dataType: "json",
-            data: {'cmd':'owners'},
-            success: function(response){
-            for(var k in response){
-      $('#dropdown_owner')
-      .append($("<option></option>")
-                .attr("value",response[k]["contact"]+":"+response[k]["owner"])
-                .text(response[k]["owner"]+ " (" +response[k]["contact"]+")")); 
-      $('#dropdown_owner_file')
-      .append($("<option></option>")
-                .attr("value",response[k]["contact"]+":"+response[k]["owner"])
-                .text(response[k]["owner"]+ " (" +response[k]["contact"]+")")); 
-                }
         }
-        });
-    $('#create_group_url').on("click", function() {
-        $('#add_group_url').removeClass("hidden");
+    });
+    $.ajax({
+        url: "/api/populate.php",
+        global: false,
+        type: "POST",
+        cache: false,
+        dataType: "json",
+        data: {
+            'cmd': 'owners'
+        },
+        success: function(response) {
+            for (var k in response) {
+                $('#dropdown_owner_file')
+                    .append($("<option></option>")
+                        .attr("value", response[k]["contact"] + ":" + response[k]["owner"])
+                        .text(response[k]["owner"] + " (" + response[k]["contact"] + ")"));
+            }
+            $("#url").change(function() {
+		$.ajax({
+		url: "/api/populate.php",
+		global: false,
+		type: "POST",
+		cache: "false",
+		dataType: "json",
+		data: {
+			'cmd' : 'duplicate',
+			'api' : $("#url").val()
+		},
+		success:function(duplicate){
+			$(".alert-warning").remove();
+			if ($.isEmptyObject(duplicate)){
+                		$("#submit_link").slideDown();
+			}else{
+                                $("#local_selector").append('<div class="alert alert-warning"><strong>Warning!</strong> Tried to add a duplicate API</div>');
+			}
+		}
+		});
+            });
+            $("#upfile").on('change', function() {
+                $.ajax({
+                url: "/api/populate.php",
+                global: false,
+                type: "POST",
+                cache: "false",
+                dataType: "json",
+                data: {
+                        'cmd' : 'duplicate',
+                        'api' : $("#upfile").val().split('\\').pop(),
+			'type' : 'file'
+                },
+                success:function(duplicate){
+			$(".alert-warning").remove();
+                        if ($.isEmptyObject(duplicate)){
+                		$("#submit_file").slideDown();
+                        }else{
+                                $("#local_selector").append('<div class="alert alert-warning"><strong>Warning!</strong> Tried to add a duplicate API</div>');
+                        }
+                }
+                });
+
+            });
+        }
     });
     $('#create_group_file').on("click", function() {
         $('#add_group_file').removeClass("hidden");
-    });
-    $('#create_group_url_owner').on("click", function() {
-        $('#add_group_url_owner').removeClass("hidden");
-        $('#dropdown_owner').removeAttr('required');
-        $('#new_owner_name').prop('required',true);
-        $('#new_owner_email').prop('required',true);
+        $('#new_group').prop('required', true);
     });
     $('#create_group_file_owner').on("click", function() {
         $('#add_group_file_owner').removeClass("hidden");
-        $('#dropdown_owner_file').removeAttr('required');
-        $('#new_owner_name').prop('required',true);
-        $('#new_owner_email').prop('required',true);
+        $('#new_owner_name').prop('required', true);
+        $('#new_owner_email').prop('required', true);
+        $('#dropdown_owner_file').prop('required', false);
     });
-
 </script>

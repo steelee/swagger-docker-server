@@ -1,29 +1,27 @@
- <form class="form-horizontal" id="feedback">
-	<h2></h2>
+ <form class="form-horizontal" id="feedback_form">
         <div class="form-group">
             <label class="control-label col-md-12 title" for="title" style=
-            "padding-top:4vh; padding-bottom: 4vh"></label>
+            "padding-top:1vh; padding-bottom: 1vh"></label>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2" for="name">Name:</label>
             <div class="col-md-9">
                 <input class="form-control" id="name" placeholder=
-                "Please enter your name." type="name" required> 
+                "Please enter your name." type="name" name="name" required> 
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2" for="email">Email:</label>
             <div class="col-md-9">
                 <input class="form-control" id="email" placeholder=
-                "Please enter your email address." required type="email"> 
+                "Please enter your email address." required type="email" name="email"> 
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-2" for=
             "comments">Comments:</label>
             <div class="col-md-9">
-                <textarea class="form-control" id="comments" placeholder=
-                "Please enter your comments." rows="10" required></textarea>
+                <textarea class="form-control" id="comments" placeholder="Please enter your comments." rows="10" name="comments" required></textarea>
             </div>
         </div>
         <div class="form-group">
@@ -32,32 +30,47 @@
             (click the stars):</label>
             <div class="col-md-9">
                 <div class="stars">
-                        <input class="star star-5" id="star-5" name="star"
-                        type="radio"> <label class="star star-5" for=
-                        "star-5"></label> <input class="star star-4" id=
-                        "star-4" name="star" type="radio"> <label class=
-                        "star star-4" for="star-4"></label> <input class=
-                        "star star-3" id="star-3" name="star" type="radio">
+                        <input class="star star-5" id="star-5" name="star" value=5 type="radio"> 
+			<label class="star star-5" for="star-5"></label> 
+			<input class="star star-4" id="star-4" name="star" value=4 type="radio"> 
+			<label class="star star-4" for="star-4"></label> 
+			<input class="star star-3" id="star-3" name="star" value=3 type="radio">
                         <label class="star star-3" for="star-3"></label>
-                        <input class="star star-2" id="star-2" name="star"
-                        type="radio"> <label class="star star-2" for=
-                        "star-2"></label> <input class="star star-1" id=
-                        "star-1" name="star" type="radio"> <label class=
-                        "star star-1" for="star-1"></label> 
+                        <input class="star star-2" id="star-2" name="star" value=2 type="radio"> 
+			<label class="star star-2" for="star-2"></label> 
+			<input class="star star-1" id="star-1" name="star" value=1 type="radio"> 
+			<label class="star star-1" for="star-1"></label> 
                 </div>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-9">
-                <button class="btn btn-success" style="margin-bottom: 5vh"
-                type="submit">Submit a Review</button>
+                <button class="btn btn-success" style="margin-bottom: 5vh; display:none" id="submit_feedback" type="submit"> Submit a Review</button>
             </div>
+	<script>
+	$(".star").unbind("click").bind("click", function() {
+		$("#submit_feedback").slideDown();	
+	});
+        $("#feedback_form").submit(function(event,data) {
+		var data = $("#feedback_form").serializeArray();
+                event.preventDefault();
+                $("#dialog").dialog("close");
+		$.ajax({
+		data: {
+		'cmd' : 'add_comment',
+		'form' :  data,
+		'api': $("#dialog").data('api_name'), 
+		},
+		url: "/api/feedback.php",
+		global: false,
+		cache: false,
+		type: "POST",
+		dataType: "json",
+		success: function(response){
+				console.log(response);
+			}
+		});
+        });
+</script>
         </div>
     </form>
-<script>
-$("#feedback").submit(function(event) {
-console.log("ready");
-event.preventDefault();
-$("#dialog").dialog("close");
- });
-</script>

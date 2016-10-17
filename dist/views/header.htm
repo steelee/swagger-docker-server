@@ -20,6 +20,10 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <script src='/lib/gen-swagger.js' type='text/javascript'></script>
+    <script>
+	var menu = menuBar();
+</script>
   </head>
   
   <body class ="swagger-section">
@@ -39,21 +43,27 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-left" id="top-menu">
-            <li><a href="/views/apitools.php"><span class="glyphicon glyphicon-tasks"></span> Domain Configuration</a></li>
+            <li><a onclick="menu.spawn_tools()"><span class="glyphicon glyphicon-tasks"></span> Domain Configuration</a></li>
 	     <script>
 		if (getCookie("swaggercookie_url")){
 			$("#top-menu").append('<li><a href="/views/swaggerhub.php"><span class="glyphicon glyphicon-comment"></span> SwaggerHub</a></li>');
 		}
              </script>
-	     <li><a href="#"><span class="glyphicon glyphicon-book"></span> API University</a></li>
-            <li><a href="/views/options.php"><span class="glyphicon glyphicon-briefcase"></span> Credentials</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-question-sign"></span>WHY IS THIS HAPPENING</a></li>
+            <li><a onclick="menu.spawn_cred()"><span class="glyphicon glyphicon-briefcase"></span> Credentials</a></li>
           </ul>
 	<ul class="nav navbar-nav navbar-right" id="menu-add-api">
 	<li id="add_api"><button type="button" style="height:3.3em" class="btn btn-success"><a href="#" style="color:#ffffff"><span class="glyphicon glyphicon-plus"></span> Add API</a></button></li>
+        <li id="api_forums"><button type="button" style="height:3.3em" class="btn btn-success"><a target="_blank" href="./discussion-forum/vanilla" style="color:#ffffff"><span class="glyphicon glyphicon-comment"></span> API Forums</a></button></li>
 	</ul>
         </div>
       </div>
     </nav>
     <div class="container-fluid">
       <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar" id="menu_bar">
+          <input type="search" value="" placeholder="  Search" class="form-control list-group" id="search"/>
+          <h3>API Marketplace</h3>
+   	  <ul class="nav nav-pills nav-stacked sidebar-text" id="listprime">
+   	  </ul>
+      </div>
+

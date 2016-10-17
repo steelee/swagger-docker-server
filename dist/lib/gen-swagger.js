@@ -1,3 +1,20 @@
+var menuBar = function(){
+	return {
+		spawn_cred: function(){
+			$("#dialog").dialog("close");
+			$("#owners-box").empty();
+			$(".alert-info").remove();
+			$("#swagger-ui-container").load('/views/options.php');
+		},
+		spawn_tools: function(){
+			$("#dialog").dialog("close");
+			$("#owners-box").empty();
+			$(".alert-info").remove();
+			$("#swagger-ui-container").load('/views/apitools.php');
+		}
+	};
+};
+
 function toggler(divId) {
     $("#" + divId).toggle();
 }
@@ -99,13 +116,15 @@ $('#swagger-ui-container').bind('DOMSubtreeModified', function() {
 
 $(document).ready(function() {
     $.getScript("/config.js", function() {
+	console.log(typeof(config));
         $("#dialog").dialog({
             autoOpen: false,
             modal: true,
             show: "blind",
             hide: "blind",
-            "width": 750,
+            width: 750
         });
+	$("#top-menu").append('<li><a target="_blank" href="'+ config.learnpage  +'"><span class="glyphicon glyphicon-book"></span> API University</a></li>');
         var target_API = getParameterByName('api');
         $("#search").keyup(function() {
             var filter = $(this).val(); // get the value of the input, which we filter on
@@ -133,11 +152,12 @@ $(document).ready(function() {
                 });
                 $("#menu_bar").append('<h3>Unassigned</h3><ul class="nav nav-pills nav-stacked" id="no_domain"></ul><button type="button" class="btn btn-secondary"><span class="glyphicon glyphicon-plus"></span> Add Domain</button>');
                 $.ajax({
-                    url: "https://api.github.com/repos/steelee/swagger-docker-server/tags",
+                    url: config.tags,
                     global: false,
                     type: "GET",
                     cache: false,
                     dataType: "json",
+		    beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Basic ' + config.github); },
                     success: function(git) {
                         for (var key in git) {
                             if (git.hasOwnProperty(key)) {
@@ -153,6 +173,7 @@ $(document).ready(function() {
                             type: "GET",
                             cache: false,
                             dataType: "json",
+			    beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Basic ' + config.github); },
                             success: function(tag) {
                                 $("#menu_bar").append('<div style="position:absolute;bottom:5%"><h3>' + config.env.toUpperCase() + '</h3><a target="_blank" href="' + tag.html_url + '">' + curr_key["name"] + '</a></div>');
                             }
@@ -169,6 +190,7 @@ $(document).ready(function() {
                     type: "POST",
                     cache: false,
                     dataType: "json",
+		    beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Basic ' + config.github); },
                     success: function(response) {
                         $.each(response, function(index) {
                             if (response[index].api_group != "No_Group") {
@@ -198,7 +220,7 @@ $(document).ready(function() {
 
             }
         });
-        $("#add_api").on("click", function() {
+        $("#add_api").unbind('click').bind("click", function() {
             var url = SwaggerWindow($(this).attr('id'), null);
             url.gen_swagger(url.target_URL);
         });

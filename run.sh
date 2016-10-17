@@ -3,17 +3,21 @@ GRN='\033[0;32m'
 ORG='\033[0;33m'
 CYN='\033[0;36m'
 GRY='\033[0;37m'
+MGT='\033[0;95m'
 NC='\033[0m' # No Color
+
+# Update if necessary
+VANILLA_PREBUILT='https://15254b2dcaab7f5478ab-24461f391e20b7336331d5789078af53.ssl.cf1.rackcdn.com/www.vanillaforums.org/addons/R0QQXUC94LFT.zip'
 
 FILE="/tmp/out.$$"
 GREP="/bin/grep"
 
 if [ "$1" == "-h" ]; then
-	echo -e "${GRN} Usage:\n Run script as root to build Docker containers for the Swagger server. \n Arguments:\n \t -k : Kill running containers and rebuild them. \n \t -b : Backup the database \n \t -i : Restore database from backup\n${NC}"
+	echo -e "${GRN} Usage:\n Run script as root to build Docker containers for the Swagger server. \n Arguments:\n \t -k : Kill running containers and rebuild them. \n \t -b : Backup the database \n \t -i : Restore database from backup\n \t -c : Clean up old containers to reclaim space${NC}"
 	exit 1
 fi 
 
-echo -e "${GRN}This script will build and run the SQL and Webserver docker containers\n"
+echo -e "${GRN}This script will build and run the SQL, Webserver, and portal API docker containers\n"
 echo -e "${GRN}Run with argument -h for full help text${NC}"
 # Make sure only root can run our script
 if [[ $EUID -ne 0 ]]; then
@@ -25,10 +29,23 @@ if [ ! -f /usr/bin/docker ]; then
     exit 1
 fi
 
+if [ ! -f /usr/bin/node ]; then
+    echo -e "${RED}NodeJS is not installed! Please install some variant of NodeJS to /usr/bin/node${NC}"
+    exit 1
+fi
+
 if [ "$1" == "-k" ]; then
    echo -e "${GRN}-- (-k) Rebuilding containers${NC}"
    /usr/bin/docker stop $(/usr/bin/docker ps -a -q)
    /usr/bin/docker rm $(/usr/bin/docker ps -a -q)
+fi
+
+if [ "$1" == "-c" ]; then
+   echo -e "${MGT}-- Removing unused containers${NC}"
+   /usr/bin/docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm
+   /usr/bin/docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
+   echo -e "${MGT}-- Unused containers removed!${NC}"
+   exit 1
 fi
 
 if [ "$1" == "-b" ]; then
@@ -97,11 +114,15 @@ printf '\n'
 printf "${CYN}-- Now building Web server${NC}"
 printf '\n'
 /bin/cp template.php template.php.tmp
+/bin/cp template.js template.js.tmp
 IP=$(/usr/bin/docker inspect $(/usr/bin/docker ps -aqf "name=sql-server") | grep IPAddress | tail -1 |  sed -e 's/^[ \t]*//' | cut -c 15- | sed 's/\,//g' | sed 's/\"//g')
 echo '$DB_SERVER = "'$IP'"; $DB_PASS = "'$pass'";?>' >> template.php
+echo 'config.dbserver = "'$IP'"; config.dbpass = "'$pass'"; module.exports=config;' >> template.js
 /bin/cp template.php dist/api/secrets.php
-/bin/rm template.php
+/bin/cp template.js node_app/template.js
+/bin/rm template.php template.js
 /bin/mv template.php.tmp template.php
+/bin/mv template.js.tmp template.js
 /usr/bin/docker build -t php-server .
 /bin/mkdir -p $PWD/dist/api/uploads/
 /bin/mkdir -p $PWD/db_backup
@@ -113,6 +134,16 @@ printf "${CYN}-- Running Web server${NC}"
 printf '\n'
 /usr/bin/docker run --name web-server -d -v $PWD/dist/:/app -p 80:80 php-server 
 printf "${CYN}-- Web server is running!${NC}"
+printf '\n'
+printf "${MGT}-- Now building Node API server${NC}"
+/usr/bin/npm install
+/usr/bin/rsync -a node_modules/ node_app/node_modules/
+/bin/cp package.json node_app/
+/bin/rm -rf node_modules/
+/usr/bin/docker build -t swagger/node-app node_app/
+/usr/bin/docker run -p 8080:8080 -d swagger/node-app
+printf '\n'
+printf "${MGT}-- Node API server running!${NC}"
 printf '\n'
 printf "${GRY}-- Importing database${NC}"
 printf '\n'

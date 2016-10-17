@@ -1,0 +1,98 @@
+<div id="domain_container" class="container" style="padding-top:50px">
+    <div class="row">
+        <div class="col-md-9">
+            <h2>Domain Management</h2>
+            <p>Create new domains, or delete or update existing domains</p>
+            <p>Click a domain name to edit it</p>
+            <table class="table table-condensed table-hover" id='group'>
+                <thead>
+                    <tr>
+                        <th>Domain Name</th>
+                        <th>Expand</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <h3>Reassign</h3>
+            <div id="reassign">
+                <select id="fuzzOptionsList">
+                        <option id="default" value="default">Select a domain name to be reassigned ▼</option>
+                        </select>
+                <div id="fuzzSearch">
+                    <div id="fuzzNameContainer">
+                        <span class="fuzzName"></span>
+                    </div>
+                    <div id="fuzzDropdownContainer">
+                        <input class="fuzzMagicBox" placeholder="search.." type="text" value=""> <span class="fuzzSearchIcon"></span>
+                        <ul id="fuzzResults"></ul>
+                    </div>
+                    <h3>To Domain:</h3>
+                    <div id="new_target">
+                        <select id="fuzzOptionsTarget">
+                                <option id="default" value="default">Select a new, replacement domain name ▼</option>
+                                </select>
+                        <div id="fuzzSearchTarget">
+                            <div id="fuzzNameContainer">
+                                <span class="fuzzName"></span>
+                            </div>
+                            <div id="fuzzDropdownContainer">
+                                <input class="fuzzMagicBox" placeholder="search.." type="text" value="">
+                                <span class="fuzzSearchIcon"></span>
+                                <ul id="fuzzResults"></ul><button class="btn btn-info" id="new_group_button" type="button">Create New Group</button>
+                                <script>
+                                    $("#new_group_button").unbind("click").bind("click", function() {
+                                        $('#new_target').slideUp();
+                                        $("#change").removeClass("disabled");
+                                        $('#new_entry').append('<input type="text" id="new_group_entry" class="fuzzMagicBox" placeholder="New Domain Name" />');
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="new_entry"></div><br>
+                    <button class="btn btn-success disabled" id="change" type="button">Confirm</button>
+                    <script>
+                        $("#fuzzOptionsTarget").change(function() {
+                            $('#change').removeClass('disabled');
+                        });
+                        $("#change").unbind("click").bind("click", function() {
+                            var api = $("#fuzzOptionsList").val();
+                            if ($("#new_group_entry").val() != undefined) {
+                                var group = $("#new_group_entry").val();
+                            } else if ($("#fuzzOptionsTarget").val() == undefined) {
+                                $("#supplement").empty();
+                                $("#supplement").append('<div class="alert alert-warning"><strong>Complete!</strong></div>');
+                                return;
+                            } else {
+                                var group = $("#fuzzOptionsTarget").val();
+                            }
+                            $.ajax({
+                                url: "/api/update.php",
+                                global: false,
+                                type: "POST",
+                                dataType: "json",
+                                data: {
+                                    'name': 'update_group_member',
+                                    'api': api,
+                                    'group': group
+                                },
+                                success: function(values) {
+                                    $("#supplement").empty();
+                                    $("#supplement").append('<div class="alert alert-warning"><strong>Complete! </strong> API ' + values + '</div>');
+
+
+                                    $("#management").load("/views/domain.htm", function() {
+                                        var domain = DomainTools();
+                                        domain.populate_window();
+                                    });
+                                }
+                            });
+
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

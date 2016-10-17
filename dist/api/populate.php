@@ -22,13 +22,25 @@ if ($_POST['cmd'] == 'list'){
 	$sql ='SELECT name FROM api WHERE api_group = "'.$_POST['name']. '"';
 }else if ($_POST['cmd'] == 'owners'){
 	$sql ='SELECT DISTINCT owner, contact FROM api';
+}else if ($_POST['cmd'] == 'duplicate'){
+	$name = pathinfo($_POST['api'])['filename'];
+	$sql = 'SELECT name FROM api WHERE name LIKE "' . $name . '"';
 }else if ($_POST['cmd'] == 'metadata'){
-	$sql = "SELECT rating, num_rating, status, owner, contact FROM api WHERE name LIKE '%".$_POST['api']."%'";
+	$sql = "SELECT rating, status, owner, contact FROM api WHERE name LIKE '".$_POST['api']."'";
+	$count =  "SELECT rating FROM api WHERE name like '" . $_POST['api'] . "' UNION ALL SELECT count(*) AS sum FROM feedback WHERE api LIKE '" . $_POST['api'] . "'";
 }
 
 $result = $conn->query($sql);
 while($row = $result->fetch_array(MYSQL_ASSOC)) {
 	$myArray[] = $row;
+}
+
+if(isset($count)){
+	$result = $conn->query($count);
+	while($row = $result->fetch_array(MYSQL_ASSOC)) {
+		$myArray[] = $row;
+	}
+
 }
 echo json_encode($myArray);
 ?>
