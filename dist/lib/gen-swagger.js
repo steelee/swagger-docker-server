@@ -1,11 +1,13 @@
 var menuBar = function(){
 	return {
 		spawn_cred: function(){
+			$("#dialog").dialog("close");
 			$("#owners-box").empty();
 			$(".alert-info").remove();
 			$("#swagger-ui-container").load('/views/options.php');
 		},
 		spawn_tools: function(){
+			$("#dialog").dialog("close");
 			$("#owners-box").empty();
 			$(".alert-info").remove();
 			$("#swagger-ui-container").load('/views/apitools.php');
