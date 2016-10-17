@@ -48,7 +48,7 @@ try {
 	$sql = 'INSERT INTO api (url, name, api_group, contact, owner) VALUES ("' . $_POST['url'] . '", "' . $name . '", "' . $group . '", "' . $owner[0] . '", "' . $owner[1] . '");'; 
 	if ($conn->query($sql) === TRUE) {
 		$_SESSION['status'] = "File successfully added";
-#Build request URL:
+		// Build request URL:
 		$timestamp = time();
 		$Request = [
 			'username'  => $VANILLA_ADMIN,
@@ -64,13 +64,13 @@ try {
 
 		$path = "localhost/vanilla/api/discussions?username=".$VANILLA_ADMIN."&timestamp=".$timestamp."&token=".$Token;
 
-#Set POST data
+		// Set POST data
 		$data = [
 			"Name"  => $name,
 			'Body' => "API Discussion Page"
 		];
 		$data = json_encode($data);
-# Set cURL params
+		// Set cURL params
 		$curl = curl_init($path);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_HEADER, false);
